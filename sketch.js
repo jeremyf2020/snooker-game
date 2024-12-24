@@ -26,6 +26,7 @@ function draw() {
     // Start drawing from the left side of the screen
     const startX = window.innerWidth * 0.1;
     translate(startX, 0);
+    strokeWeight(0)
 
     // Draw areas above the table
     drawAreas(0, window.innerWidth * 0.8);
@@ -91,4 +92,12 @@ function drawAreas(startX, totalWidth) {
     textAlign(CENTER, CENTER);
     text('Game Status: Player 1 Turn', startX + totalWidth / 2, messageYPosition + messageHeight / 2);
 
+    // Game Rules Area
+    const rulesYPosition = messageYPosition + messageHeight + margin;
+    textAlign(LEFT, LEFT);
+    textSize(20);
+    text('Game Rules:', startX, rulesYPosition + 20);
+    text('Press 1️⃣ to start with tranditional positions.', startX, rulesYPosition + 50);
+    text('Press 2️⃣ to start with random red posiitons.', startX, rulesYPosition + 80);
+    text('Press 3️⃣ to start with random red and color posiitons.', startX, rulesYPosition + 110);
 }
