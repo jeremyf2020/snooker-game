@@ -88,13 +88,13 @@ class Table {
         this.drawPlaySurface(this.surfaceStartPoint, this.surfaceSize);
         translate(this.surfaceStartPoint, this.surfaceStartPoint);
         this.drawDZone(this.baulkLinePoisition, this.dRadius, this.surfaceSize);
-        this.cueBall.draw();
         this.colorBalls.forEach(colorBall => {
             colorBall.draw();
         });
         this.redBalls.forEach(redBall => {
             redBall.draw();
         });
+        this.cueBall.draw();
 
     }
 }

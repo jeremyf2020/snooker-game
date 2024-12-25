@@ -34,3 +34,8 @@ also, it's faster and simplier
 to match the engine world and drawing becuase used translate function
 option 1: dont use translate, everything calculating from sketch, this cause the code compliaed although push and pop can help
 option 2: store the translated value and apply it when everytime drawing
+final: only control cue and cueball using helper function in toolbox
+
+task 6 and aspect 1
+place the cue ball by human intereaction
+init with isPotted = true

@@ -20,3 +20,21 @@ function checkBallsStopped() {
     const stopThreshold = 0.1; // Adjust as needed
     return speed < stopThreshold;
 }
+
+function drawNoSign(x, y, size) {
+    // Draw the outer circle (red)
+    noFill();
+    stroke(255, 0, 0);
+    strokeWeight(size * 0.15); // Thickness of the red border
+    ellipse(x, y, size);
+
+    // Draw the diagonal line (red)
+    noStroke();
+    fill(255, 0, 0);
+    push();
+    translate(x, y);
+    rotate(radians(-45)); // Rotate to make the line diagonal
+    rectMode(CENTER);
+    rect(0, 0, size * 0.8, size * 0.15); // Draw a red rectangle as the diagonal line
+    pop();
+}

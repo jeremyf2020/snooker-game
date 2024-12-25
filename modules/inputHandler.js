@@ -16,11 +16,17 @@ function mousePressed() {
     }
 
     if (mouseButton === LEFT) {
+        if (table.cueBall.onHand) {
+            table.cueBall.placeBall()
+            return;
+        }
         // check if the cue ball is being dragged
         const draggingCueBall = table.cueBall.checkMouseHovering();
+
+
         // control the cue ball
         if (draggingCueBall) {
-            table.cueBall.isDragging = true;
+            table.cueBall.onHand = true;
             cue.hide = true;
         }
         // control the cue
@@ -31,10 +37,6 @@ function mousePressed() {
 }
 
 function mouseReleased() {
-    if (table.cueBall.isDragging) {
-        table.cueBall.isDragging = false; // Stop dragging the cue ball
-        cue.hide = false;
-    }
     if (cue.isDragging) {
         cue.isDragging = false; // Stop dragging the cue
     }

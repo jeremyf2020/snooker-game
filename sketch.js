@@ -9,6 +9,14 @@ let table;
 let tableStartY;
 let isDragging = false;
 
+let handIcon;
+
+function preload() {
+    // Load the SVG file
+    handIcon = loadImage('./assets/hand.png');
+}
+
+
 function setup() {
     // create a window size canvas
     createCanvas(window.innerWidth, window.innerHeight);
@@ -24,6 +32,7 @@ function setup() {
     table = new Table(window.innerWidth * 0.8);
     tableStartY = window.innerHeight / 2 - table.tableWidth / 2;
     cue = new Cue();
+    // if (table.cueBall.isPotted) noCursor();
 
 }
 
@@ -42,6 +51,8 @@ function draw() {
     translate(0, tableStartY);
     table.draw();
     cue.draw();
+
+
 }
 
 function drawAreas(startX, totalWidth) {
