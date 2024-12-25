@@ -4,27 +4,34 @@ const Engine = Matter.Engine,
     Bodies = Matter.Bodies,
     Body = Matter.Body;
 
-
+let startX;
 let table;
+let tableStartY;
+let isDragging = false;
 
 function setup() {
-    // create a window size canvas with background color
+    // create a window size canvas
     createCanvas(window.innerWidth, window.innerHeight);
-    background(233, 227, 206);
 
     // create an 2D engine with 0 gravity
     engine = Engine.create();
     engine.world.gravity.y = 0;
+    // engine.world.gravity.scale = 0;
+    // drawer = new Drawer(createVector(0, 0));
 
+    game = new Game();
+    startX = window.innerWidth * 0.1;
     table = new Table(window.innerWidth * 0.8);
+    tableStartY = window.innerHeight / 2 - table.tableWidth / 2;
+    cue = new Cue();
 
 }
 
 function draw() {
     Engine.update(engine);
+    background(233, 227, 206);
 
     // Start drawing from the left side of the screen
-    const startX = window.innerWidth * 0.1;
     translate(startX, 0);
     strokeWeight(0)
 
@@ -32,8 +39,9 @@ function draw() {
     drawAreas(0, window.innerWidth * 0.8);
 
     // Draw the table
-    translate(0, 400);
+    translate(0, tableStartY);
     table.draw();
+    cue.draw();
 }
 
 function drawAreas(startX, totalWidth) {
@@ -101,3 +109,4 @@ function drawAreas(startX, totalWidth) {
     text('Press 2️⃣ to start with random red posiitons.', startX, rulesYPosition + 80);
     text('Press 3️⃣ to start with random red and color posiitons.', startX, rulesYPosition + 110);
 }
+
