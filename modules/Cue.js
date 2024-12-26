@@ -36,6 +36,10 @@ class Cue {
         strokeWeight(5);
         line(this.cueStartX, this.cueStartY, this.cueEndX, this.cueEndY);
         pop();
+
+        keyIsDownHandler();
+
+
     }
 
     shoot() {

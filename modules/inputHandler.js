@@ -7,6 +7,22 @@ function keyPressed() {
     if (key === ' ') {
         cue.shoot();
     }
+    console.log(key);
+    if (key === 'ArrowUp') {
+        cue.cueAngle += 0.01;
+    }
+    if (key === 'ArrowDown') {
+        cue.cueAngle -= 0.01;
+    }
+}
+
+function keyIsDownHandler() {
+    if (keyIsDown(LEFT_ARROW)) {
+        cue.cueAngle += 0.02;
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+        cue.cueAngle -= 0.02;
+    }
 }
 
 function mousePressed() {
@@ -41,6 +57,8 @@ function mouseReleased() {
         cue.isDragging = false; // Stop dragging the cue
     }
 }
+
+
 
 
 
