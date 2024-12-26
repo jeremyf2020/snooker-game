@@ -11,8 +11,8 @@ class Cue {
 
     updateCuePosition() {
         // Always calculate the cue's position relative to the cue ball
-        this.cueStartX = table.cueBall.body.position.x + this.gap * Math.cos(this.cueAngle);
-        this.cueStartY = table.cueBall.body.position.y + this.gap * Math.sin(this.cueAngle);
+        this.cueStartX = ballPool.cueBall.body.position.x + this.gap * Math.cos(this.cueAngle);
+        this.cueStartY = ballPool.cueBall.body.position.y + this.gap * Math.sin(this.cueAngle);
         this.cueEndX = this.cueStartX + this.length * Math.cos(this.cueAngle);
         this.cueEndY = this.cueStartY + this.length * Math.sin(this.cueAngle);
     }
@@ -28,7 +28,7 @@ class Cue {
         const adjustedMouse = getAdjustMousePos();
 
         if (this.isDragging) {
-            this.cueAngle = Math.atan2(adjustedMouse.y - table.cueBall.body.position.y, adjustedMouse.x - table.cueBall.body.position.x);
+            this.cueAngle = Math.atan2(adjustedMouse.y - ballPool.cueBall.body.position.y, adjustedMouse.x - ballPool.cueBall.body.position.x);
         }
 
         push();
@@ -44,10 +44,10 @@ class Cue {
 
     shoot() {
         // Define the base force
-        const baseForce = (table.cueBall.body.bounds.max.x - table.cueBall.body.bounds.min.x) * 2.5;
+        const baseForce = (ballPool.cueBall.body.bounds.max.x - ballPool.cueBall.body.bounds.min.x) * 2.5;
 
         // Calculate the actual force based on mass and gravity scale
-        const mass = table.cueBall.body.mass;
+        const mass = ballPool.cueBall.body.mass;
         const gravityScale = engine.world.gravity.scale;
         const forceMagnitude = baseForce * mass * gravityScale;
 
@@ -58,7 +58,7 @@ class Cue {
         };
 
         // Apply the force to the cue ball
-        Body.applyForce(table.cueBall.body, table.cueBall.body.position, force);
+        Body.applyForce(ballPool.cueBall.body, ballPool.cueBall.body.position, force);
 
         // Hide the cue after shooting
         this.hide = true;

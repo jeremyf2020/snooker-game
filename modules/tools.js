@@ -13,7 +13,7 @@ function getAdjustMousePos() {
 }
 
 function checkBallsStopped() {
-    const velocity = table.cueBall.body.velocity;
+    const velocity = ballPool.cueBall.body.velocity;
     const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
 
     // Threshold to determine if the ball has stopped moving

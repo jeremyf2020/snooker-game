@@ -2,14 +2,13 @@
 class Ball {
     constructor(color, x, y, diameter) {
         this.color = color;
-        this.body = Bodies.circle(x, y, diameter / 2, { restitution: .8, friction: 0.001 });
+        this.body = Bodies.circle(x, y, diameter / 2, { restitution: .8, friction: 0.001, label: 'SnookerBall' });
         this.addToWorld();
     }
 
     addToWorld() {
         World.add(engine.world, this.body);
     }
-
     draw() {
         push();
         fill(this.color)
@@ -41,20 +40,12 @@ class CueBall extends Ball {
             this.readyToPlace = false;
             return false;
         }
-        if (this.isCollidingWithOtherBalls(mouseVector)) {
+        if (ballPool.isCollidingWithOtherBalls(mouseVector)) {
             this.readyToPlace = false;
             return false;
         }
         this.readyToPlace = true;
         return true;
-    }
-    isCollidingWithOtherBalls(mouseVector) {
-        for (const ball of [...table.colorBalls, ...table.redBalls]) {
-            const ballPos = ball.body.position;
-            const overlapDistance = dist(mouseVector.x, mouseVector.y, ballPos.x, ballPos.y);
-            if (overlapDistance < table.ballDiameter) return true;
-        }
-        return false;
     }
     isInsideDZone(mouseVector) {
         // Define the D zone (e.g., rectangle or semicircle at the top)

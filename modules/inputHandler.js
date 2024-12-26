@@ -6,7 +6,7 @@ document.addEventListener('contextmenu', function (e) {
 function keyPressed() {
     // game controller
     if (key === '1' || key === '2' || key === '3') {
-        game.mode = parseInt(key);
+        game.start(parseInt(key));
     }
     // cue controller
     if (key === ' ') {
@@ -37,17 +37,17 @@ function mousePressed() {
     }
 
     if (mouseButton === LEFT) {
-        if (table.cueBall.onHand) {
-            table.cueBall.placeBall()
+        if (ballPool.cueBall.onHand) {
+            ballPool.cueBall.placeBall()
             return;
         }
         // check if the cue ball is being dragged
-        const draggingCueBall = table.cueBall.checkMouseHovering();
+        const draggingCueBall = ballPool.cueBall.checkMouseHovering();
 
 
         // control the cue ball
         if (draggingCueBall) {
-            table.cueBall.onHand = true;
+            ballPool.cueBall.onHand = true;
             cue.hide = true;
         }
         // control the cue

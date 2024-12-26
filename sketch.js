@@ -8,6 +8,8 @@ let startX;
 let table;
 let tableStartY;
 let isDragging = false;
+let ballPool;
+let cue;
 
 let handIcon;
 
@@ -31,6 +33,7 @@ function setup() {
     startX = window.innerWidth * 0.1;
     table = new Table(window.innerWidth * 0.8);
     tableStartY = window.innerHeight / 2 - table.tableWidth / 2;
+    ballPool = new BallPool();
     cue = new Cue();
     // if (table.cueBall.isPotted) noCursor();
 

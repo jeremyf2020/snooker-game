@@ -39,3 +39,7 @@ final: only control cue and cueball using helper function in toolbox
 task 6 and aspect 1
 place the cue ball by human intereaction
 init with isPotted = true
+
+random balls->
+option1: gen, remove, gen
+option2: gen, changepos (but old ball is obstucle. will cause not actually random)

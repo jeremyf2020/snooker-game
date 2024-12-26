@@ -18,36 +18,6 @@ class Table {
         this.baulkLinePoisition = this.tableLength * baulkLineRatio;
         this.dRadius = this.tableLength * dRadiusRatio;
 
-        /* define the balls */
-        this.cueBall = new CueBall(this.baulkLinePoisition - this.dRadius, this.surfaceSize.y / 2, this.ballDiameter);
-
-        this.colorBalls = [
-            new Ball('lightgreen', this.baulkLinePoisition, this.surfaceSize.y / 2 - this.dRadius, this.ballDiameter),
-            new Ball('brown', this.baulkLinePoisition, this.surfaceSize.y / 2, this.ballDiameter),
-            new Ball('yellow', this.baulkLinePoisition, this.surfaceSize.y / 2 + this.dRadius, this.ballDiameter),
-            new Ball('blue', this.surfaceSize.x / 2, this.surfaceSize.y / 2, this.ballDiameter),
-            new Ball('pink', this.surfaceSize.x * 0.75, this.surfaceSize.y / 2, this.ballDiameter),
-            new Ball('black', this.surfaceSize.x * ((370 - 32.5) / 370), this.surfaceSize.y / 2, this.ballDiameter),
-        ];
-
-        this.redBalls = [];
-        let rowOffset = 0; // Offset for centering rows
-        const startX = this.surfaceSize.x * 0.75 + this.ballDiameter + 5; // Assuming red balls start near the pink ball
-        const startY = this.surfaceSize.y / 2;   // Center vertically around the table
-
-        for (let row = 1; row <= 5; row++) {
-            for (let col = 0; col < row; col++) {
-                this.redBalls.push(
-                    new Ball(
-                        'red',
-                        startX + rowOffset, // X position shifts for each row
-                        startY + (col - (row - 1) / 2) * this.ballDiameter, // Center rows around the pink ball
-                        this.ballDiameter
-                    )
-                );
-            }
-            rowOffset += this.ballDiameter; // Increment row offset for the next row
-        }
 
         this.cushions = [
             new Cushion(this.tableLength / 4 - this.edgeWidth * 0.75, -this.edgeWidth * 0.25, [
@@ -158,13 +128,7 @@ class Table {
         this.drawCushions();
         this.drawPockets();
         this.drawDZone(this.baulkLinePoisition, this.dRadius, this.surfaceSize);
-        this.colorBalls.forEach(colorBall => {
-            colorBall.draw();
-        });
-        this.redBalls.forEach(redBall => {
-            redBall.draw();
-        });
-        this.cueBall.draw();
+        ballPool.draw();
     }
 }
 
