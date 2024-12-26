@@ -8,6 +8,7 @@ class Game {
     */
 
     constructor() {
+        this.mode = 0;
         this.turn = 1;
         this.moving = false;
 

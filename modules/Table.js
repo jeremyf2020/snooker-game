@@ -88,15 +88,6 @@ class Table {
             ]),
         ];
 
-        // this.pocketPositions = [
-        //     { x: this.edgeWidth * 0.75, y: this.edgeWidth * 0.75 }, // Top-Left Corner
-        //     { x: this.tableLength / 2, y: this.edgeWidth / 2 }, // Top-Mid Corner
-        //     { x: this.tableLength - this.edgeWidth * 0.75, y: this.edgeWidth * 0.75 }, // Top-Right Corner
-        //     { x: this.edgeWidth * 0.75, y: this.tableWidth - this.edgeWidth * 0.75 }, // Bottom-Left Corner
-        //     { x: this.tableLength / 2, y: this.tableWidth - this.edgeWidth / 2 }, // Bottom-Mid Corner
-        //     { x: this.tableLength - this.edgeWidth * 0.75, y: this.tableWidth - this.edgeWidth * 0.75 } // Bottom-Right Corner
-        // ];
-
         this.pockets = [
             new Pocket(-this.edgeWidth * 0.25, -this.edgeWidth * 0.25, this.pocketSize), // Top-Left
             new Pocket(this.tableLength / 2 - this.edgeWidth, -this.edgeWidth * 0.5, this.pocketSize), // Top-Mid

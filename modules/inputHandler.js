@@ -4,10 +4,14 @@ document.addEventListener('contextmenu', function (e) {
 });
 
 function keyPressed() {
+    // game controller
+    if (key === '1' || key === '2' || key === '3') {
+        game.mode = parseInt(key);
+    }
+    // cue controller
     if (key === ' ') {
         cue.shoot();
     }
-    console.log(key);
     if (key === 'ArrowUp') {
         cue.cueAngle += 0.01;
     }
@@ -16,6 +20,7 @@ function keyPressed() {
     }
 }
 
+// keyIsDown handler (cue angle control)
 function keyIsDownHandler() {
     if (keyIsDown(LEFT_ARROW)) {
         cue.cueAngle += 0.02;
@@ -51,14 +56,6 @@ function mousePressed() {
         }
     }
 }
-
-function mouseReleased() {
-    if (cue.isDragging) {
-        cue.isDragging = false; // Stop dragging the cue
-    }
-}
-
-
 
 
 
