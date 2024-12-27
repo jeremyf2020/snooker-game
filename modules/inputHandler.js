@@ -44,7 +44,6 @@ function mousePressed() {
         // check if the cue ball is being dragged
         const draggingCueBall = ballPool.cueBall.checkMouseHovering();
 
-
         // control the cue ball
         if (draggingCueBall) {
             ballPool.cueBall.onHand = true;
@@ -57,5 +56,8 @@ function mousePressed() {
     }
 }
 
+function mouseReleased() {
+    cue.isDragging = false
+}
 
 

@@ -6,6 +6,7 @@ class Cue {
         this.isDragging = false;
         this.cueAngle = Math.PI;
 
+
         this.updateCuePosition();
     }
 
@@ -13,12 +14,24 @@ class Cue {
         // Always calculate the cue's position relative to the cue ball
         this.cueStartX = ballPool.cueBall.body.position.x + this.gap * Math.cos(this.cueAngle);
         this.cueStartY = ballPool.cueBall.body.position.y + this.gap * Math.sin(this.cueAngle);
+
         this.cueEndX = this.cueStartX + this.length * Math.cos(this.cueAngle);
         this.cueEndY = this.cueStartY + this.length * Math.sin(this.cueAngle);
+
+    }
+
+    drawPredictiveLine() {
+        const predictiveLineEndX = this.cueStartX + table.tableLength * -Math.cos(this.cueAngle);
+        const predictiveLineEndY = this.cueStartY + table.tableLength * -Math.sin(this.cueAngle);
+
+        stroke(0, 255, 0, 150); // Semi-transparent green for the line
+        strokeWeight(2);
+        line(this.cueStartX, this.cueStartY, predictiveLineEndX, predictiveLineEndY);
     }
 
     draw() {
         if (this.hide) return;
+        if (!ballPool.cueBall) return;
         // if (game.moving && checkBallsStopped()) {
         //     cue.hide = false;
         // }
@@ -36,15 +49,14 @@ class Cue {
         strokeWeight(5);
         line(this.cueStartX, this.cueStartY, this.cueEndX, this.cueEndY);
         pop();
-
+        this.drawPredictiveLine();
         keyIsDownHandler();
-
 
     }
 
     shoot() {
         // Define the base force
-        const baseForce = (ballPool.cueBall.body.bounds.max.x - ballPool.cueBall.body.bounds.min.x) * 2.5;
+        const baseForce = (ballPool.cueBall.body.bounds.max.x - ballPool.cueBall.body.bounds.min.x) * 5;
 
         // Calculate the actual force based on mass and gravity scale
         const mass = ballPool.cueBall.body.mass;
@@ -64,5 +76,8 @@ class Cue {
         this.hide = true;
         game.moving = true;
     }
+
+
+
 
 }

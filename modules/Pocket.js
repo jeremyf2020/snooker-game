@@ -14,7 +14,7 @@ class Pocket {
             if (distance < this.radius) {
                 Matter.World.remove(engine.world, cueBall.body);
                 ballPool.cueBall = null; // Mark cue ball as potted
-                console.log("Cue ball potted!");
+                game.potted('white');
                 return;
             }
         }
@@ -24,7 +24,7 @@ class Pocket {
             const distance = dist(this.position.x, this.position.y, ball.body.position.x, ball.body.position.y);
             if (distance < this.radius) {
                 Matter.World.remove(engine.world, ball.body);
-                console.log(`${ball.color} ball potted!`);
+                game.potted(ball.color);
                 return false; // Remove this ball from the array
             }
             return true; // Keep this ball in the array
@@ -35,7 +35,7 @@ class Pocket {
             const distance = dist(this.position.x, this.position.y, ball.body.position.x, ball.body.position.y);
             if (distance < this.radius) {
                 Matter.World.remove(engine.world, ball.body);
-                console.log("Red ball potted!");
+                game.potted('red');
                 return false; // Remove this ball from the array
             }
             return true; // Keep this ball in the array

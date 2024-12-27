@@ -55,6 +55,9 @@ function draw() {
     table.draw();
     cue.draw();
 
+    if (game.moving && game.checkAllBallsStopped()) {
+        game.nextShoot();
+    }
 
 }
 

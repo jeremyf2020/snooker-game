@@ -15,6 +15,10 @@ class Ball {
         drawVertices(this.body.vertices);
         pop();
     }
+
+    reSpott() {
+
+    }
 }
 
 class CueBall extends Ball {
@@ -102,10 +106,10 @@ class CueBall extends Ball {
         //     cursor(HAND);
         //     World.add(engine.world, this.body);
         // }
-        if (game.moving && checkBallsStopped()) {
-            game.moving = false;
-            cue.hide = false; // Show the cue after all balls have stopped moving
-        }
+        // if (game.moving && game.checkBallsStopped()) {
+        //     game.moving = false;
+        //     cue.hide = false; // Show the cue after all balls have stopped moving
+        // }
         push();
         fill(this.color)
         drawVertices(this.body.vertices);

@@ -12,14 +12,6 @@ function getAdjustMousePos() {
     return createVector(mouseX - startX - table.surfaceStartPoint.x, mouseY - tableStartY - table.surfaceStartPoint.y);
 }
 
-function checkBallsStopped() {
-    const velocity = ballPool.cueBall.body.velocity;
-    const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
-
-    // Threshold to determine if the ball has stopped moving
-    const stopThreshold = 0.1; // Adjust as needed
-    return speed < stopThreshold;
-}
 
 function drawNoSign(x, y, size) {
     // Draw the outer circle (red)
