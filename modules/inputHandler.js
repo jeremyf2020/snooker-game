@@ -41,6 +41,18 @@ function mousePressed() {
             ballPool.cueBall.placeBall()
             return;
         }
+
+        let ballSelected = false;
+        // Check if the mouse is over any ball (selection)
+        ballPool.colorBalls.forEach(ball => {
+            if (ball.checkMouseHovering()) {
+                game.validBall = ball.color
+                ballSelected = true;
+                return;
+            }
+        });
+        if (ballSelected) return; // If a ball is selected, stop further actions
+
         // check if the cue ball is being dragged
         const draggingCueBall = ballPool.cueBall.checkMouseHovering();
 

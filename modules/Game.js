@@ -3,11 +3,12 @@ class Game {
         this.mode = 0;
         this.players = [new Player("1"), new Player("2")];
         this.player = this.players[0];
+        // for every round
         this.validBall = 'red';
         this.penalyPoint = 0;
         this.moving = false;
         this.toRespotted = [];
-
+        this.lastPoted = null;
     }
     start(num) {
         this.mode = num;
@@ -16,34 +17,24 @@ class Game {
 
     potted(ball) {
         // check the color of current round
-        if (ball.color === this.validBall) {
+        if (ball.color === this.validBall) { // valid potted
+            this.validBall = this.lastPoted === null ? 'red' : null; // reset validBall before selection
+            this.lastPoted = ball.color;
             this.player.addScore(ball.score);
+            if (ballPool.redBalls.length > 0) {
+                ballPool.colorBalls.forEach(ball => {
+                    ball.availableToSel = true;
+                });
+            }
+            else {
+                this.validBall = nextColorBall();
+            }
         } else {
-            if (ball.score > this.penalyPoint) {
+            if (ball.score > this.penalyPoint) { //invalid potted
                 this.penalyPoint = ball.score;
             }
             this.toRespotted.push(ball);
         }
-    }
-
-    // isValidPotted(color) {
-    //     if (color === "white") return false;
-    //     return color === this.validBall;
-    // }
-
-    nextPlayer() {
-        this.toRespotted.forEach(b => {
-            ballPool.reSpotted(b.id)
-        })
-        this.player = this.player.name === "1" ? this.players[1] : this.players[0];
-
-
-
-        // this.nextBall = ballPool.redBalls.length > 0 ? 'red' : this.nextColorBall();
-        // if (!this.nextBall) {
-        //     // console.log("Game over!");
-        //     // [TODO] end the game
-        // }
     }
 
     nextShot() {
@@ -55,14 +46,17 @@ class Game {
         if (!ballPool.cueBall) {
             ballPool.genCueBall();
         }
-        if (ballPool.redBalls.length > 0) {
-            //refill the color balls
-        }
         this.nextPlayer();
         cue.hide = false;
         this.moving = false;
     }
 
+    nextPlayer() {
+        this.toRespotted.forEach(b => {
+            ballPool.reSpot(b.id)
+        })
+        this.player = this.player.name === "1" ? this.players[1] : this.players[0];
+    }
 
     nextColorBall() {
         const colorOrder = ['yellow', 'green', 'brown', 'blue', 'pink', 'black']; // Snooker color order
@@ -75,19 +69,6 @@ class Game {
         }
 
         return null; // No color balls remain
-    }
-
-    getBallValue(ballColor) {
-        // the order of the balls helps penalize when foul
-        if (ballColor === 'black') return 7;
-        if (ballColor === 'pink') return 6;
-        if (ballColor === 'blue') return 5;
-        if (ballColor === 'brown') return 4;
-        // cue ball is worth 4 points 
-        if (ballColor === 'white') return 4;
-        if (ballColor === 'lightgreen') return 3;
-        if (ballColor === 'yellow') return 2;
-        if (ballColor === 'red') return 1;
     }
 
     checkAllBallsStopped() {

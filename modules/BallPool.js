@@ -114,7 +114,7 @@ class BallPool {
         }
     }
 
-    reSpotted(id) {
+    reSpot(id) {
         this.colorDefaultSetting.forEach(cb => {
             if (cb.id === id) this.colorBalls.push(new Ball(cb.color, cb.x, cb.y, table.ballDiameter, cb.id, cb.score));
         })
