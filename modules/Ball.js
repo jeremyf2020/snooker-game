@@ -1,7 +1,9 @@
 
 class Ball {
-    constructor(color, x, y, diameter) {
+    constructor(color, x, y, diameter, id, score) {
+        this.id = id;
         this.color = color;
+        this.score = score;
         this.body = Bodies.circle(x, y, diameter / 2, { restitution: .8, friction: 0.001, label: 'SnookerBall' });
         this.addToWorld();
     }
@@ -16,14 +18,11 @@ class Ball {
         pop();
     }
 
-    reSpott() {
-
-    }
 }
 
 class CueBall extends Ball {
     constructor(x, y, diameter) {
-        super('white', x, y, diameter);
+        super('white', x, y, diameter, 1, 4);
         this.onHand = true;
         this.isPotted = true;
         this.readyToPlace = false;

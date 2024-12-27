@@ -10,36 +10,23 @@ class Pocket {
         const cueBall = ballPool.cueBall;
         if (cueBall) {
             if (cueBall.onHand) return; // Skip if the cue ball is on hand
-            const distance = dist(this.position.x, this.position.y, cueBall.body.position.x, cueBall.body.position.y);
-            if (distance < this.radius) {
-                Matter.World.remove(engine.world, cueBall.body);
-                ballPool.cueBall = null; // Mark cue ball as potted
-                game.potted('white');
-                return;
+            if (this.isClosedToPot(cueBall)) {
+                ballPool.removeFromPool(cueBall)
             }
         }
 
-        // Check and remove balls from the colorBalls array
-        ballPool.colorBalls = ballPool.colorBalls.filter(ball => {
-            const distance = dist(this.position.x, this.position.y, ball.body.position.x, ball.body.position.y);
-            if (distance < this.radius) {
-                Matter.World.remove(engine.world, ball.body);
-                game.potted(ball.color);
-                return false; // Remove this ball from the array
+        [...ballPool.colorBalls, ...ballPool.redBalls].forEach(b => {
+            if (this.isClosedToPot(b)) {
+                ballPool.removeFromPool(b)
             }
-            return true; // Keep this ball in the array
-        });
+        })
+    }
 
-        // Check and remove balls from the redBalls array
-        ballPool.redBalls = ballPool.redBalls.filter(ball => {
-            const distance = dist(this.position.x, this.position.y, ball.body.position.x, ball.body.position.y);
-            if (distance < this.radius) {
-                Matter.World.remove(engine.world, ball.body);
-                game.potted('red');
-                return false; // Remove this ball from the array
-            }
-            return true; // Keep this ball in the array
-        });
+    isClosedToPot(ball) {
+        const distance = dist(this.position.x, this.position.y, ball.body.position.x, ball.body.position.y);
+        if (distance < this.radius) {
+            return true;
+        }
     }
 
     // Draw the pocket

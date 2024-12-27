@@ -1,10 +1,12 @@
 class Game {
     constructor() {
         this.mode = 0;
-        this.players = [new Player(), new Player()];
+        this.players = [new Player("1"), new Player("2")];
         this.player = this.players[0];
+        this.validBall = 'red';
+        this.penalyPoint = 0;
         this.moving = false;
-        this.nextBall = 'red';
+        this.toRespotted = [];
 
     }
     start(num) {
@@ -12,32 +14,53 @@ class Game {
         ballPool.genAllballs(this.mode);
     }
 
-    potted(color) {
-        const ballValue = this.getBallValue(color);
-        if (this.isValidPotted(color)) {
-            this.player.addScore(ballValue);
+    potted(ball) {
+        // check the color of current round
+        if (ball.color === this.validBall) {
+            this.player.addScore(ball.score);
         } else {
-            this.player.penalize(ballValue);
+            if (ball.score > this.penalyPoint) {
+                this.penalyPoint = ball.score;
+            }
+            this.toRespotted.push(ball);
         }
     }
 
-    isValidPotted(color) {
-        if (color === "white") return false;
-        return color === this.nextBall;
-    }
+    // isValidPotted(color) {
+    //     if (color === "white") return false;
+    //     return color === this.validBall;
+    // }
 
     nextPlayer() {
-        this.player = this.players[0] === this.player ? this.player[1] : this.player[0];
-        this.nextBall = ballPool.redBalls.length > 0 ? 'red' : this.nextColorBall();
-        if (!this.nextBall) {
-            // console.log("Game over!");
-            // [TODO] end the game
-        }
+        this.toRespotted.forEach(b => {
+            ballPool.reSpotted(b.id)
+        })
+        this.player = this.player.name === "1" ? this.players[1] : this.players[0];
+
+
+
+        // this.nextBall = ballPool.redBalls.length > 0 ? 'red' : this.nextColorBall();
+        // if (!this.nextBall) {
+        //     // console.log("Game over!");
+        //     // [TODO] end the game
+        // }
     }
 
-    nextShoot() {
-        this.moving = false;
+    nextShot() {
+        // calculate scores
+        if (this.penalyPoint != 0) {
+            this.player.penalize(this.penalyPoint)
+        }
+        // respot all the balls
+        if (!ballPool.cueBall) {
+            ballPool.genCueBall();
+        }
+        if (ballPool.redBalls.length > 0) {
+            //refill the color balls
+        }
+        this.nextPlayer();
         cue.hide = false;
+        this.moving = false;
     }
 
 

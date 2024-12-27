@@ -1,36 +1,39 @@
 class BallPool {
     constructor() {
-        this.colorDefaultPos = [
-            { color: 'lightgreen', x: table.baulkLinePoisition, y: table.surfaceSize.y / 2 - table.dRadius },
-            { color: 'brown', x: table.baulkLinePoisition, y: table.surfaceSize.y / 2 },
-            { color: 'yellow', x: table.baulkLinePoisition, y: table.surfaceSize.y / 2 + table.dRadius },
-            { color: 'blue', x: table.surfaceSize.x / 2, y: table.surfaceSize.y / 2 },
-            { color: 'pink', x: table.surfaceSize.x * 0.75, y: table.surfaceSize.y / 2 },
-            { color: 'black', x: table.surfaceSize.x * ((370 - 32.5) / 370), y: table.surfaceSize.y / 2 },
+        this.colorDefaultSetting = [
+            { color: 'yellow', x: table.baulkLinePoisition, y: table.surfaceSize.y / 2 + table.dRadius, id: 2, score: 2 },
+            { color: 'lightgreen', x: table.baulkLinePoisition, y: table.surfaceSize.y / 2 - table.dRadius, id: 3, score: 3 },
+            { color: 'brown', x: table.baulkLinePoisition, y: table.surfaceSize.y / 2, id: 4, score: 4 },
+            { color: 'blue', x: table.surfaceSize.x / 2, y: table.surfaceSize.y / 2, id: 5, score: 5 },
+            { color: 'pink', x: table.surfaceSize.x * 0.75, y: table.surfaceSize.y / 2, id: 6, score: 6 },
+            { color: 'black', x: table.surfaceSize.x * ((370 - 32.5) / 370), y: table.surfaceSize.y / 2, id: 7, score: 7 },
         ];
-        this.redDefaultPos = this.genDefaultRedPos();
+        this.redDefaultSetting = this.calDefaultRedSetting();
         this.cueBall = this.genCueBall();
         this.colorBalls = this.genColorBalls();
         this.redBalls = this.genRedBalls();
     }
 
-    genDefaultRedPos() {
-        const redDefaultPos = [];
+    calDefaultRedSetting() {
+        const redDefaultSetting = [];
         let rowOffset = 0; // Offset for centering rows
         const startX = table.surfaceSize.x * 0.75 + table.ballDiameter + 5; // Start near the pink ball
         const startY = table.surfaceSize.y / 2; // Center vertically
 
+        let nextID = 8;
         for (let row = 1; row <= 5; row++) {
             for (let col = 0; col < row; col++) {
-                redDefaultPos.push({
+                redDefaultSetting.push({
                     x: startX + rowOffset,
                     y: startY + (col - (row - 1) / 2) * table.ballDiameter,
+                    id: nextID,
                 });
+                nextID++;
             }
             rowOffset += table.ballDiameter; // Increment row offset for the next row
         }
 
-        return redDefaultPos;
+        return redDefaultSetting;
     }
 
     genCueBall() {
@@ -38,7 +41,7 @@ class BallPool {
     }
 
     genColorBalls(isRandom = false) {
-        return this.colorDefaultPos.map(cBall => {
+        return this.colorDefaultSetting.map(cBall => {
             let x = cBall.x;
             let y = cBall.y;
             if (isRandom) {
@@ -46,12 +49,12 @@ class BallPool {
                 x = randomVector.x;
                 y = randomVector.y;
             }
-            return new Ball(cBall.color, x, y, table.ballDiameter);
+            return new Ball(cBall.color, x, y, table.ballDiameter, cBall.id, cBall.score);
         });
     }
 
     genRedBalls(isRandom = false) {
-        return this.redDefaultPos.map(rBall => {
+        return this.redDefaultSetting.map(rBall => {
             let x = rBall.x;
             let y = rBall.y;
             if (isRandom) {
@@ -59,7 +62,7 @@ class BallPool {
                 x = randomVector.x;
                 y = randomVector.y;
             }
-            return new Ball('red', x, y, table.ballDiameter);
+            return new Ball('red', x, y, table.ballDiameter, rBall.id, 1);
         });
     }
 
@@ -97,6 +100,26 @@ class BallPool {
         this.redBalls = [];
     }
 
+    removeFromPool(ball) {
+        Matter.World.remove(engine.world, ball.body);
+        game.potted(ball);
+        if (ball.id === 1) {
+            this.cueBall = null;
+        }
+        if (ball.id > 1 && ball.id < 8) {
+            this.colorBalls = this.colorBalls.filter(cb => cb.id !== ball.id)
+        }
+        if (ball.id > 7) {
+            this.redBalls = this.redBalls.filter(rb => rb.id !== ball.id)
+        }
+    }
+
+    reSpotted(id) {
+        this.colorDefaultSetting.forEach(cb => {
+            if (cb.id === id) this.colorBalls.push(new Ball(cb.color, cb.x, cb.y, table.ballDiameter, cb.id, cb.score));
+        })
+    }
+
     draw() {
         if (this.colorBalls.length > 0) {
             this.colorBalls.forEach(colorBall => {
@@ -111,5 +134,7 @@ class BallPool {
         if (this.cueBall != null)
             this.cueBall.draw();
     }
+
+
 }
 
