@@ -40,8 +40,6 @@ class Ball {
                 cursor(HAND);
             }
 
-
-
         }
 
 

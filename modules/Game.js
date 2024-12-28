@@ -3,7 +3,7 @@ class Game {
         this.mode = 0;
         this.players = [new Player("1"), new Player("2")];
         this.player = this.players[0];
-        this.board = [];
+        this.board = ["sample messages", "sample messages", "sample messages", "sample messages"];
         // for every round
         this.validBall = 'red';
         this.penalyPoint = 0;
@@ -60,6 +60,7 @@ class Game {
         this.toRespotted.forEach(b => {
             ballPool.reSpot(b.id)
         })
+        this.toRespotted = [];
         this.player = this.player.name === "1" ? this.players[1] : this.players[0];
     }
 
