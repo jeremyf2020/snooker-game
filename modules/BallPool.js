@@ -120,6 +120,10 @@ class BallPool {
         })
     }
 
+    stopSelection() {
+        this.colorBalls.forEach(cb => cb.availableToSel = false)
+    }
+
     draw() {
         if (this.colorBalls.length > 0) {
             this.colorBalls.forEach(colorBall => {

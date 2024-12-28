@@ -3,9 +3,53 @@ class UI {
         this.coreWidth = window.innerWidth * 0.6;
         this.coreX = (window.innerWidth - this.coreWidth) / 2;
         this.tableStartY = window.innerHeight / 2 - this.coreWidth / 4;
+        this.gap = 20;
+        this.topAreaHeight = 100;
+        this.topY = this.tableStartY - this.topAreaHeight;
     }
 
+    drawPlayer(player, areaWidth, areaHeight, posX) {
+
+        fill(game.player === player ? 'lightblue' : 'lightgrey')
+        // fill(200, 100, 100);
+        rect(posX, this.topY, areaWidth, areaHeight);
+        fill(0);
+        // textFont(dragonBallFont);
+        textSize(16);
+        textAlign(CENTER, CENTER);
+
+        // Draw "Player 1" text
+        text(`Player ${player.name}`, posX + areaWidth / 2, this.topY + 20);
+
+        // Draw "Score: "
+        text(`Score: ${player.score}`, posX + areaWidth / 2, this.topY + 50);
+
+        // Draw "Dragon Balls" as circles
+        const ballRadius = 10; // Radius of each circle
+        const balls = 3; // Number of dragon balls
+        const ballsStartX = posX + areaWidth / 2 - (balls * ballRadius * 2) / 2; // Center balls
+        const ballsY = this.topY + 80;
+
+        for (let i = 0; i < player.pottedBalls.length; i++) {
+            fill(255, 204, 0); // Yellow for dragon balls
+            ellipse(ballsStartX + i * ballRadius * 2, this.gap, ballRadius * 2, ballRadius * 2);
+        }
+    }
+    draw() {
+        // almond color bg
+        background(233, 227, 206);
+        noStroke();
+        // change the starting position, leave left (and right) have enough spacing
+        translate(this.coreX, 0);
+
+        /* areas above the table */
+        // draw player areas
+        this.drawPlayer(game.players[0], (this.coreWidth - this.gap * 2) / 3, 100, 0);
+        this.drawPlayer(game.players[1], (this.coreWidth - this.gap * 2) / 3, 100, this.coreWidth - (this.coreWidth - this.gap * 2) / 3);
+    }
 }
+
+
 
 function drawAreas(startX, totalWidth) {
     const margin = 20;
@@ -13,29 +57,7 @@ function drawAreas(startX, totalWidth) {
     const areaHeight = 100; // Height of the areas
     const yPosition = margin; // Vertical position of the areas
 
-    // Player 1 Area
-    fill(200, 100, 100);
-    rect(startX, yPosition, areaWidth, areaHeight);
-    fill(0);
-    textSize(20);
-    textAlign(CENTER, CENTER);
 
-    // Draw "Player 1" text
-    text('Player 1', startX + areaWidth / 2, yPosition + 20);
-
-    // Draw "Score: "
-    text('Score: 0', startX + areaWidth / 2, yPosition + 50);
-
-    // Draw "Dragon Balls" as circles
-    const ballRadius = 10; // Radius of each circle
-    const balls = 3; // Number of dragon balls
-    const ballsStartX = startX + areaWidth / 2 - (balls * ballRadius * 2) / 2; // Center balls
-    const ballsY = yPosition + 80;
-
-    for (let i = 0; i < balls; i++) {
-        fill(255, 204, 0); // Yellow for dragon balls
-        ellipse(ballsStartX + i * ballRadius * 2, ballsY, ballRadius * 2, ballRadius * 2);
-    }
 
     // Force Area
     fill(100, 200, 100);

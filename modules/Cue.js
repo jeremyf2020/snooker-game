@@ -75,6 +75,8 @@ class Cue {
         // Hide the cue after shooting
         this.hide = true;
         game.moving = true;
+        ballPool.stopSelection();
+        game.freeBall = false;
     }
 
 

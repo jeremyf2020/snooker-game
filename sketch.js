@@ -4,21 +4,13 @@ const Engine = Matter.Engine,
     Bodies = Matter.Bodies,
     Body = Matter.Body;
 
-// let startX;
-let table;
-let ui;
-// let tableStartY;
-// let isDragging = false;
-let ballPool;
-let cue;
-
-let handIcon;
-
-// const width = window.innerWidth * 0.6;
+let game, table, ballPool, cue,
+    ui, dragonBallFont, handIcon;
 
 function preload() {
-    // Load the SVG file
+    // Load the png file
     handIcon = loadImage('./assets/hand.png');
+    dragonBallFont = loadFont('./assets/Saiyan-Sans.ttf');
 }
 
 
@@ -30,36 +22,27 @@ function setup() {
     engine = Engine.create();
     engine.world.gravity.y = 0;
 
+    // init all the class
     game = new Game();
     ui = new UI();
-    startX = (window.innerWidth - width) / 2;
     table = new Table(ui.coreWidth);
-    // tableStartY = window.innerHeight / 2 - table.tableWidth / 2;
     ballPool = new BallPool();
     cue = new Cue();
-    // if (table.cueBall.isPotted) noCursor();
-
 }
 
 function draw() {
     Engine.update(engine);
-    background(233, 227, 206);
+    // drawing the user interface
+    ui.draw();
 
-    // Start drawing from the left side of the screen
-    translate(ui.coreX, 0);
-    strokeWeight(0)
-
-    // Draw areas above the table
-    drawAreas(0, ui.coreWidth);
-
-    // Draw the table
+    // Draw the table & cue
     translate(0, ui.tableStartY);
     table.draw();
     cue.draw();
 
+    // check if the ball is moving in every scence
     if (game.moving && game.checkAllBallsStopped()) {
         game.nextShot();
     }
-
 }
 

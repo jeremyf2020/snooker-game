@@ -10,6 +10,7 @@ class Game {
         this.moving = false;
         this.toRespotted = [];
         this.lastPoted = null;
+        this.freeBall = true;
     }
     start(num) {
         this.mode = num;
@@ -31,6 +32,9 @@ class Game {
                 this.validBall = nextColorBall();
             }
         } else {
+            if (ball.color === 'white') {
+                this.freeBall = true;
+            }
             if (ball.score > this.penalyPoint) { //invalid potted
                 this.penalyPoint = ball.score;
             }

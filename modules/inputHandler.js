@@ -57,7 +57,7 @@ function mousePressed() {
         const draggingCueBall = ballPool.cueBall.checkMouseHovering();
 
         // control the cue ball
-        if (draggingCueBall) {
+        if (draggingCueBall && game.freeBall) {
             ballPool.cueBall.onHand = true;
             cue.hide = true;
         }
