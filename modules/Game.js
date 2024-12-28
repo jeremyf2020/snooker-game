@@ -3,6 +3,7 @@ class Game {
         this.mode = 0;
         this.players = [new Player("1"), new Player("2")];
         this.player = this.players[0];
+        this.board = [];
         // for every round
         this.validBall = 'red';
         this.penalyPoint = 0;

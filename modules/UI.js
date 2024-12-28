@@ -1,4 +1,9 @@
 class UI {
+    constructor() {
+        this.coreWidth = window.innerWidth * 0.6;
+        this.coreX = (window.innerWidth - this.coreWidth) / 2;
+        this.tableStartY = window.innerHeight / 2 - this.coreWidth / 4;
+    }
 
 }
 

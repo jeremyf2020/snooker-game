@@ -9,7 +9,7 @@ function drawVertices(vertices) {
 }
 
 function getAdjustMousePos() {
-    return createVector(mouseX - startX - table.surfaceStartPoint.x, mouseY - tableStartY - table.surfaceStartPoint.y);
+    return createVector(mouseX - ui.coreX - table.surfaceStartPoint.x, mouseY - ui.tableStartY - table.surfaceStartPoint.y);
 }
 
 
