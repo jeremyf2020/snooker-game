@@ -91,7 +91,7 @@ class BallPool {
     }
 
     reset() {
-        const snookerBalls = engine.world.bodies.filter(body => body.label === 'SnookerBall');
+        const snookerBalls = engine.world.bodies.filter(body => body.label.match(/Ball$/));
         snookerBalls.forEach(ball => {
             Matter.World.remove(engine.world, ball);
         });

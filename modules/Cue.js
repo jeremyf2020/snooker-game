@@ -55,6 +55,7 @@ class Cue {
     }
 
     shoot() {
+        ballPool.cueBall.monitorCueBallCollisions();
         // Define the base force
         const baseForce = (ballPool.cueBall.body.bounds.max.x - ballPool.cueBall.body.bounds.min.x) * 5;
 
@@ -62,6 +63,9 @@ class Cue {
         const mass = ballPool.cueBall.body.mass;
         const gravityScale = engine.world.gravity.scale;
         const forceMagnitude = baseForce * mass * gravityScale;
+        // const forceMagnitude = 0.0022;
+
+        // console.log(0.0025923863765697523)
 
         // Create the force vector
         const force = {

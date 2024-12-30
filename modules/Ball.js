@@ -1,4 +1,3 @@
-
 class Ball {
     constructor(color, x, y, diameter, id, score) {
         this.id = id;
@@ -6,8 +5,7 @@ class Ball {
         this.score = score;
         this.diameter = diameter;
         this.availableToSel = false;
-
-        this.body = Bodies.circle(x, y, diameter / 2, { restitution: .8, friction: 0.001, label: 'SnookerBall' });
+        this.body = Bodies.circle(x, y, diameter / 2, { restitution: .8, friction: 0.001, label: `${color}Ball` });
         this.addToWorld();
     }
 
@@ -42,8 +40,6 @@ class Ball {
 
         }
 
-
-
         fill(this.color)
         drawVertices(this.body.vertices);
         pop();
@@ -57,6 +53,7 @@ class CueBall extends Ball {
         this.onHand = true;
         this.isPotted = true;
         this.readyToPlace = false;
+        this.collision = null;
     }
 
     isValidMove(mouseVector) {
@@ -113,7 +110,24 @@ class CueBall extends Ball {
             this.onHand = false;
             this.isPotted = false;
             cue.hide = false;
+            game.addMessage("Control Cue by keyboard/dragging mouse");
         }
+    }
+
+    monitorCueBallCollisions() {
+        Matter.Events.on(engine, 'collisionStart', event => {
+            const pairs = event.pairs;
+
+            pairs.forEach(pair => {
+                const { bodyA, bodyB } = pair;
+
+                // Check if the cue ball is involved
+                if (bodyA.label === 'whiteBall' || bodyB.label === 'whiteBall') {
+                    const otherBody = bodyA.label === 'whiteBall' ? bodyB : bodyA;
+                    this.collision = otherBody.label.replace(/(.+?)Ball$/, '$1');
+                }
+            });
+        });
     }
 
     // Draw the cue ball

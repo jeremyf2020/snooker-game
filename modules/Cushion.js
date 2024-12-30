@@ -1,7 +1,10 @@
 class Cushion {
     constructor(x, y, vertexSets) {
         this.color = 'darkgreen';
-        this.body = Bodies.fromVertices(x, y, vertexSets, { isStatic: true });
+        this.body = Bodies.fromVertices(x, y, vertexSets, {
+            restitution: .6, friction: 0.3,
+            isStatic: true, label: `${this.color}`
+        });
         this.addToWorld();
     }
 

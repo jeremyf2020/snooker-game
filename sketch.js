@@ -5,11 +5,12 @@ const Engine = Matter.Engine,
     Body = Matter.Body;
 
 let game, table, ballPool, cue,
-    ui, dragonBallFont, handIcon;
+    ui, dragonBallFont, handIcon, dragon;
 
 function preload() {
     // Load the png file
     handIcon = loadImage('./assets/hand.png');
+    dragonImage = loadImage('./assets/dragon.png');
     dragonBallFont = loadFont('./assets/Saiyan-Sans.ttf');
 }
 
@@ -28,6 +29,7 @@ function setup() {
     table = new Table(ui.coreWidth);
     ballPool = new BallPool();
     cue = new Cue();
+    dragon = new Dragon();
 }
 
 function draw() {
@@ -44,5 +46,6 @@ function draw() {
     if (game.moving && game.checkAllBallsStopped()) {
         game.nextShot();
     }
+    // dragon.summon();
 }
 

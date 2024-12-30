@@ -18,6 +18,7 @@ class Table {
         this.baulkLinePoisition = this.tableLength * baulkLineRatio;
         this.dRadius = this.tableLength * dRadiusRatio;
 
+        this.baizeTexture = createBaizeTexture(this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth)
 
         this.cushions = [
             new Cushion(this.tableLength / 4 - this.edgeWidth * 0.75, -this.edgeWidth * 0.25, [
@@ -72,7 +73,7 @@ class Table {
     drawNonPhyObj() {
         push();
         // draw the wooden edge of the table
-        fill('brown')
+        fill(155, 50, 50)
         /* Left and Right */
         rect(0, this.edgeWidth / 2, this.edgeWidth / 2, this.tableWidth - this.edgeWidth);
         rect(this.tableLength - this.edgeWidth / 2, this.edgeWidth, this.edgeWidth / 2, this.tableWidth - this.edgeWidth * 2);
@@ -104,6 +105,7 @@ class Table {
 
     drawPlaySurface() {
         push();
+        // image(this.baizeTexture, this.edgeWidth / 2, this.edgeWidth / 2);
         fill('green');
         rect(this.edgeWidth / 2, this.edgeWidth / 2, this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth);
         pop();
@@ -122,8 +124,9 @@ class Table {
     }
 
     draw() {
-        this.drawNonPhyObj();
         this.drawPlaySurface(this.surfaceStartPoint, this.surfaceSize);
+        this.drawNonPhyObj();
+        // this.drawPlaySurface(this.surfaceStartPoint, this.surfaceSize);
         translate(this.surfaceStartPoint, this.surfaceStartPoint);
         this.drawCushions();
         this.drawPockets();

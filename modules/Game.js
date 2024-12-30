@@ -3,7 +3,7 @@ class Game {
         this.mode = 0;
         this.players = [new Player("1"), new Player("2")];
         this.player = this.players[0];
-        this.board = ["sample messages", "sample messages", "sample messages", "sample messages"];
+        this.board = ["Please place your cue ball in D-zone"];
         // for every round
         this.validBall = 'red';
         this.penalyPoint = 0;
@@ -18,7 +18,10 @@ class Game {
     }
 
     potted(ball) {
+        this.addMessage(`${ball.color} ball has been potted`)
         // check the color of current round
+        console.log(this.validBall)
+        console.log(ball.color)
         if (ball.color === this.validBall) { // valid potted
             this.validBall = this.lastPoted === null ? 'red' : null; // reset validBall before selection
             this.lastPoted = ball.color;
@@ -35,17 +38,29 @@ class Game {
             if (ball.color === 'white') {
                 this.freeBall = true;
             }
-            if (ball.score > this.penalyPoint) { //invalid potted
+            if (ball.score > this.penalyPoint) { // invalid potted
+                /* from wiki: If multiple fouls are committed in one shot,
+                    only the penalty for the highest-valued foul is scored */
                 this.penalyPoint = ball.score;
             }
             this.toRespotted.push(ball);
         }
     }
 
+    addMessage(str) {
+        this.board.unshift(str)
+    }
+
     nextShot() {
+        // ballPool.stopSelection();
+
         // calculate scores
         if (this.penalyPoint != 0) {
-            this.player.penalize(this.penalyPoint)
+            this.player.penalize(this.penalyPoint);
+            if (this.toRespotted.length > 1) {
+                this.addMessage(`FOUL: two consecutive colored balls!`)
+                this.addMessage(`Player ${this.player.name} score -${this.penalyPoint}`)
+            }
         }
         // respot all the balls
         if (!ballPool.cueBall) {
@@ -54,9 +69,11 @@ class Game {
         this.nextPlayer();
         cue.hide = false;
         this.moving = false;
+        ballPool.cueBall.collision = null;
     }
 
     nextPlayer() {
+        this.validBall = 'red';
         this.toRespotted.forEach(b => {
             ballPool.reSpot(b.id)
         })
