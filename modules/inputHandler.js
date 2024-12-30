@@ -31,6 +31,10 @@ function keyIsDownHandler() {
 }
 
 function mousePressed() {
+    if (dragon.isSummoned && !dragon.isMoving) {
+        dragon.handleWishSelection();
+        return
+    }
     if (mouseButton === RIGHT) {
         cue.shoot();
         return;

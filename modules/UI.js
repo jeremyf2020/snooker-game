@@ -6,8 +6,8 @@ class UI {
         this.margin = 15;
         this.maxAreaHeight = window.innerHeight / 2 - this.coreWidth / 4 - this.margin * 2;
         this.areaHeight = this.maxAreaHeight > 90 ? 90 : this.maxAreaHeight;
-        this.topAreaHeight = 100;
-        this.topY = this.tableStartY - this.topAreaHeight;
+        // this.topAreaHeight = 100;
+        this.topY = this.tableStartY - this.areaHeight;
 
         this.bottomStartY = window.innerHeight / 2 + this.coreWidth / 4 + this.margin; // 20px margin from bottom
     }
@@ -175,6 +175,7 @@ class UI {
         this.drawInstuctions();
 
         this.drawBottomAreas();
+
     }
 }
 

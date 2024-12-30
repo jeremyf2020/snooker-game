@@ -5,7 +5,7 @@ const Engine = Matter.Engine,
     Body = Matter.Body;
 
 let game, table, ballPool, cue,
-    ui, dragonBallFont, handIcon, dragon;
+    ui, dragonBallFont, handIcon, dragon, defaultFrameRate;
 
 function preload() {
     // Load the png file
@@ -18,11 +18,11 @@ function preload() {
 function setup() {
     // create a window size canvas
     createCanvas(window.innerWidth, window.innerHeight);
+    defaultFrameRate = 30;
 
     // create an 2D engine with 0 gravity
     engine = Engine.create();
     engine.world.gravity.y = 0;
-
     // init all the class
     game = new Game();
     ui = new UI();
@@ -46,6 +46,14 @@ function draw() {
     if (game.moving && game.checkAllBallsStopped()) {
         game.nextShot();
     }
-    // dragon.summon();
+    // put the dragon summoning at the end of the function 
+    // to make sure it is the top layer
+    if (dragon.isSummoned) {
+        frameRate(15);
+        dragon.summon();
+    } else {
+        frameRate(defaultFrameRate);
+    }
+
 }
 
