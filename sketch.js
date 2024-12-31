@@ -54,6 +54,5 @@ function draw() {
     } else {
         frameRate(defaultFrameRate);
     }
-
 }
 
