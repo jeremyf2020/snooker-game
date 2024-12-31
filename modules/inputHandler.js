@@ -19,7 +19,6 @@ function keyPressed() {
         cue.cueAngle -= 0.01;
     }
     if (key === 'w' || key === 'W') {
-        console.log(key)
         mouseY -= 5;
     }
     if (key === 's' || key === 'S') {
@@ -37,15 +36,40 @@ function keyPressed() {
             return;
         }
     }
+    if (key === 'z' || key === 'Z') {
+        moveMousePosinDZone();
+        return;
+    }
 }
 
 // keyIsDown handler (cue angle control)
-function keyIsDownHandler() {
+function cueKeyIsDownHandler() {
     if (keyIsDown(LEFT_ARROW)) {
         cue.cueAngle += 0.02;
     }
     if (keyIsDown(RIGHT_ARROW)) {
         cue.cueAngle -= 0.02;
+    }
+}
+function cueBallKeyIsDownHandler() {
+    if (keyIsDown(87)) {
+        mouseY -= 1;
+    }
+    if (keyIsDown(83)) {
+        mouseY += 1;
+    }
+    if (keyIsDown(65)) {
+        mouseX -= 1;
+    }
+    if (keyIsDown(68)) {
+        mouseX += 1;
+    }
+}
+
+function moveMousePosinDZone() {
+    if (!ballPool.cueBall.isInsideDZone(createVector(mouseX, mouseY))) {
+        mouseX = table.baulkLinePoisition + ui.coreX + table.surfaceStartPoint.x - table.dRadius;
+        mouseY = table.tableWidth / 2 + ui.tableStartY;
     }
 }
 

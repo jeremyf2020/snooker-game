@@ -49,7 +49,7 @@ class Cue {
         line(this.cueStartX, this.cueStartY, this.cueEndX, this.cueEndY);
         pop();
         this.drawPredictiveLine();
-        keyIsDownHandler();
+        cueKeyIsDownHandler();
 
     }
 

@@ -61,17 +61,24 @@ class UI {
         text('2️⃣ Random red 🔴', startingX + 20, this.tableStartY + 40);
         text('3️⃣ Random all 🟡🟢🔵', startingX + 20, this.tableStartY + 60);
         text('4️⃣', startingX + 20, this.tableStartY + 80);
+
         push();
         textFont(dragonBallFont);
         fill('red')
         text('Dragon Ball Mode', startingX + 45, this.tableStartY + 80);
         pop();
+
         text('⬆️⬇️ Control cue 🦯', startingX + 20, this.tableStartY + 100);
         text('⬅️➡️ Adjust cue Position', startingX + 20, this.tableStartY + 120);
-        text('🖱️Mouse Cnotrol', startingX, this.tableStartY + 160);
-        text('Move: Move cue ball ⚪', startingX + 20, this.tableStartY + 180);
-        text('Left: Control cue🦯', startingX + 20, this.tableStartY + 200);
-        text('Right: Shoot 💥', startingX + 20, this.tableStartY + 220);
+        text('WASD: Move cue ball ⚪', startingX + 20, this.tableStartY + 140);
+        text('Z: Move ⚪ to D-zone', startingX + 20, this.tableStartY + 160);
+        text('X: Place cue ball ⚪', startingX + 20, this.tableStartY + 180);
+
+        text('🖱️ Mouse Control', startingX, this.tableStartY + 220);
+        text('Move: Move cue ball ⚪', startingX + 20, this.tableStartY + 240);
+        text('Left: Control cue 🦯', startingX + 20, this.tableStartY + 260);
+        text('Right: Shoot 💥', startingX + 20, this.tableStartY + 280);
+
         pop();
 
     }

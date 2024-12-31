@@ -175,5 +175,6 @@ class CueBall extends Ball {
         fill(this.color)
         drawVertices(this.body.vertices);
         pop();
+        cueBallKeyIsDownHandler();
     }
 }

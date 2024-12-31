@@ -8,7 +8,7 @@ let game, table, ballPool, cue,
     ui, dragonBallFont, handIcon, dragon, defaultFrameRate;
 
 function preload() {
-    // Load the png file
+    // preload the image files and fonts
     handIcon = loadImage('./assets/hand.png');
     dragonImage = loadImage('./assets/dragon.png');
     dragonBallFont = loadFont('./assets/Saiyan-Sans.ttf');
