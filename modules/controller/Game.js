@@ -19,7 +19,7 @@ class Game {
     }
     shooted() {
         // change game status, monitor by this.checkAllBallsStopped
-        // running in sketch.js draw, becuase check in every frame
+        // running in sketch.js draw, becuase of checking in every frame
         // (Cue ball Collision and pockect sensor will be implement by themselves)
         game.moving = true;
 
@@ -43,11 +43,12 @@ class Game {
         // apply different actions by valid status 
         if (isValid) {
             // add score immediately if valid move
-            this.currentPlayer.addScore(ball.score);
+            this.currentPlayer.changeScore(ball.score);
         }
         if (!isValid) {
             if (ball.color === 'white') {
                 this.freeBall = true;
+                cue.hide = true;
             }
             // from wiki: If multiple fouls are committed in one shot,
             // only the penalty for the highest-valued foul is scored 
@@ -80,8 +81,8 @@ class Game {
                     this.addMessage("cue ball has been respotted")
                     continue;
                 }
-                ballPool.reSpot(b.id);
-                this.addMessage(`${b.color} ball has been respotted`);
+                ballPool.reSpot(ball.id);
+                this.addMessage(`${ball.color} ball has been respotted`);
                 pottedColorBalls++;
             }
             if (pottedColorBalls > 1) {
@@ -94,30 +95,39 @@ class Game {
         ballPool.cueBall.collision = null;
         ballPool.stopSelection();
         this.moving = false;
-        cue.hide = false;
+        if (!ballPool.cueBall.onHand) {
+            cue.hide = false;
+        }
         this.toRespotted = [];
 
         if (this.validBall !== this.lastPoted) {
             // penality if invalid potted
             if (this.penalyPoint != 0) {
-                this.currentPlayer.penalize(this.penalyPoint);
+                this.currentPlayer.changeScore(-this.penalyPoint);
                 this.penalyPoint = 0;
             }
             this.nextPlayer();
             return;
         }
-        // if valid potted
+        // if valid potted, then last
         // potted red, next should be color
-        if (this.validBall === 'red') {
+        if (this.lastPoted === 'red') {
             ballPool.colorBalls.forEach(ball => {
                 ball.availableToSel = true;
             });
         }
-        // if all red potted and finished next color, 
-        // then should start color by order, yellow->green...->black.
-        if (ballPool.redBalls.length == 0 && ball.color !== 'red') {
-            this.validBall = nextColorBall();
+        if (this.lastPoted !== 'red') {
+            // that means it must be color, white ball wouldnt be valid potted
+            if (ballPool.redBalls.length == 0) {
+                // if all red potted and finished last color, 
+                // then should start color by order, yellow->green...->black.
+                this.validBall = nextColorBall();
+                return;
+            }
+            // if red remainngi, next should be red
+            this.validBall = 'red';
         }
+
         this.freeBall = false;
         this.lastPoted = null;
     }
@@ -152,5 +162,13 @@ class Game {
         return true;
     }
 
+    changeScore(num, player = this.currentPlayer) {
+        let targetPlayer = player;
+        if (player === "opponent") {
+            targetPlayer = game.players.find(player => player !== game.currentPlayer);
+        }
+        targetPlayer.changeScore(num);
+        this.addMessage(`Player ${targetPlayer.name} score increased by ${num}`);
+    }
 
 }

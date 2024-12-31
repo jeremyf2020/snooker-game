@@ -35,7 +35,7 @@ class CueBall extends Ball {
     updatePos() {
         const adjustedMousePos = getAdjustMousePos();
         // Hide the cue while moving the cue ball
-        cue.hide = true;
+        // cue.hide = true;
 
         // Draw the hand icon
         const imgSize = table.ballDiameter * 4;

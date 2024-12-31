@@ -178,7 +178,6 @@ class Dragon {
 
     handleWishSelection() {
         if (this.currentWish) {
-            // console.log(`Executing wish: ${this.currentWish}`);
             this.finishSummoning = true; // Mark summoning as complete
             this.isSummoned = false; // Disable summoning
 
@@ -186,8 +185,7 @@ class Dragon {
             const scoreIncreaseMatch = this.currentWish.match(/Score \+(\d+)/);
             if (scoreIncreaseMatch) {
                 const increaseAmount = parseInt(scoreIncreaseMatch[1]);
-                game.currentPlayer.score += increaseAmount; // Increase the player's score
-                game.addMessage(`Player's score increased by ${increaseAmount}`);
+                game.changeScore(increaseAmount);
                 return;
             }
 
@@ -195,10 +193,7 @@ class Dragon {
             const scoreDecreaseMatch = this.currentWish.match(/opponent's score -(\d+)/);
             if (scoreDecreaseMatch) {
                 const decreaseAmount = parseInt(scoreDecreaseMatch[1]);
-                const opponent = game.players.find(player => player !== game.currentPlayer);
-
-                opponent.score -= decreaseAmount; // Decrease the opponent's score
-                game.addMessage(`Opponent's score decreased by ${decreaseAmount}`);
+                game.changeScore(-decreaseAmount, 'opponent');
                 return;
             }
 
@@ -223,6 +218,8 @@ class Dragon {
             //     // Implement the logic here
             // }
         }
+        //refresh the wishes
+        this.generateWishes();
     }
 
     drawCloud() {

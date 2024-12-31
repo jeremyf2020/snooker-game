@@ -2,7 +2,7 @@ class Cue {
     constructor() {
         this.gap = 30;
         this.length = 200;
-        this.hide = false;
+        this.hide = true;
         this.isDragging = false;
         this.cueAngle = Math.PI;
         this.updateCuePosition();
@@ -27,11 +27,11 @@ class Cue {
     }
 
     draw() {
+        if (game.moving && ballPool.cueBall && ballPool.cueBall.onHand) {
+            cue.hide = false;
+        }
         if (this.hide) return;
         if (!ballPool.cueBall) return;
-        // if (game.moving && checkBallsStopped()) {
-        //     cue.hide = false;
-        // }
 
         // Update cue position dynamically
         this.updateCuePosition();

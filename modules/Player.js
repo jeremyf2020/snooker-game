@@ -7,17 +7,12 @@ class Player {
     }
     dragonBallCollected() {
         this.pottedBalls++;
-        console.log(this.pottedBalls)
         if (this.pottedBalls === 7) {
-            console.log(this.pottedBalls)
-
             dragon.isSummoned = true;
+            this.pottedBalls = 0;
         }
     }
-    addScore(score) {
+    changeScore(score) {
         this.score += score;
-    }
-    penalize(score) {
-        this.score -= score;
     }
 }
