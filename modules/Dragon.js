@@ -1,7 +1,7 @@
 
 class Dragon {
     constructor() {
-        this.isSummoned = true;
+        this.isSummoned = false;
         this.imageWidth = 1150;
         this.imageHeight = 778;
         this.x = window.innerWidth / 2; // Initial x-coordinate (centered)

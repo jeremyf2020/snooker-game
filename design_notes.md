@@ -43,3 +43,14 @@ init with isPotted = true
 random balls->
 option1: gen, remove, gen
 option2: gen, changepos (but old ball is obstucle. will cause not actually random)
+
+dragon summoning:
+if user summon dragon, the cloud and dragon will come up, user have 3 options random from different wish level,
+higher level will have lower change, but more impactfuly wish. user can stratgily choose the choice.
+Additionly, 7 balls to sumoon dragon, which include the cueball, which is also become a statgey for players!
+
+cloud:
+i try to use prelin noise to do it, but it's too lag, i tried to change seed or detail of the noise but it's unrealted,
+and i look at the sample from p5js, i belive the problem is it changes every pixel. so i try to change not every pixel,
+however, if i skip 1 pixel in loop, the cloud become 間條, if i skip in frame, the cloud flashes.
+Finally i come up with another idea: making a circle to replace pixel, then the object to be rendered will be hugly reduced

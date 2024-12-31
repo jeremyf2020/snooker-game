@@ -102,7 +102,6 @@ class BallPool {
 
     removeFromPool(ball) {
         Matter.World.remove(engine.world, ball.body);
-        game.potted(ball);
         if (ball.id === 1) {
             this.cueBall = null;
         }
@@ -137,6 +136,10 @@ class BallPool {
         }
         if (this.cueBall != null)
             this.cueBall.draw();
+        // const testBall = new Ball('red', 0, 0, table.ballDiameter, 0, 1);
+        // testBall.draw()
+
+
     }
 
 

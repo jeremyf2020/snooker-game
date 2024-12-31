@@ -17,7 +17,6 @@ class Cue {
 
         this.cueEndX = this.cueStartX + this.length * Math.cos(this.cueAngle);
         this.cueEndY = this.cueStartY + this.length * Math.sin(this.cueAngle);
-
     }
 
     drawPredictiveLine() {

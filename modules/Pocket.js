@@ -11,12 +11,14 @@ class Pocket {
         if (cueBall) {
             if (cueBall.onHand) return; // Skip if the cue ball is on hand
             if (this.isClosedToPot(cueBall)) {
+                game.potted(cueBall);
                 ballPool.removeFromPool(cueBall)
             }
         }
 
         [...ballPool.colorBalls, ...ballPool.redBalls].forEach(b => {
             if (this.isClosedToPot(b)) {
+                game.potted(b);
                 ballPool.removeFromPool(b)
             }
         })

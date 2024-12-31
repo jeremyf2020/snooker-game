@@ -21,7 +21,29 @@ class Ball {
     addToWorld() {
         World.add(engine.world, this.body);
     }
+
+    isInsideTable(ballVector) {
+        const leftBound = table.surfaceStartPoint.x;
+        const rightBound = table.surfaceStartPoint.x + table.surfaceSize.x;
+        const topBound = table.surfaceStartPoint.y;
+        const bottomBound = table.surfaceStartPoint.y + table.surfaceSize.y;
+
+        return (
+            ballVector.x > leftBound &&
+            ballVector.x < rightBound &&
+            ballVector.y > topBound &&
+            ballVector.y < bottomBound
+        );
+    }
+
     draw() {
+        // if (!this.isInsideTable(createVector(this.body.x, this.body.y))) {
+        //     ballPool.removeFromPool(this)
+        //     if (this.id > 1 && this.id < 8) {
+        //         ballPool.reSpot(this.id)
+        //     }
+        // }
+
         push();
         if (this.availableToSel) {
             fill(this.color === game.validBall ? 'purple' : 'orange');
@@ -132,6 +154,11 @@ class CueBall extends Ball {
 
     // Draw the cue ball
     draw() {
+        // if (!this.isInsideTable(createVector(this.body.x, this.body.y))) {
+        //     ballPool.removeFromPool(this);
+        //     this.onHand = true;
+        //     ballBall.CueBall = null;
+        // }
 
         if (this.onHand) {
             this.updatePos();
