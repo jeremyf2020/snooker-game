@@ -51,17 +51,12 @@ class Cue {
     }
 
     shoot() {
-        ballPool.cueBall.monitorCueBallCollisions();
         // Define the base force
         const baseForce = (ballPool.cueBall.body.bounds.max.x - ballPool.cueBall.body.bounds.min.x) * 5;
-
-        // Calculate the actual force based on mass and gravity scale
+        // Calculate the "actual" force based on mass and gravity scale
         const mass = ballPool.cueBall.body.mass;
         const gravityScale = engine.world.gravity.scale;
         const forceMagnitude = baseForce * mass * gravityScale;
-        // const forceMagnitude = 0.0022;
-
-        // console.log(0.0025923863765697523)
 
         // Create the force vector
         const force = {
@@ -72,14 +67,8 @@ class Cue {
         // Apply the force to the cue ball
         Body.applyForce(ballPool.cueBall.body, ballPool.cueBall.body.position, force);
 
-        // Hide the cue after shooting
-        this.hide = true;
-        game.moving = true;
-        ballPool.stopSelection();
-        game.freeBall = false;
+        // tell controller shooted
+        game.shooted();
     }
-
-
-
 
 }

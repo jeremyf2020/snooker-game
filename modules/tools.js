@@ -66,3 +66,17 @@ function createBaizeTexture(w, h) {
 
     return graphics;
 }
+
+
+function nextColorBall() {
+    const colorOrder = ['yellow', 'green', 'brown', 'blue', 'pink', 'black']; // Snooker color order
+    const remainingColors = ballPool.colorBalls.map(ball => ball.color); // Get remaining colors on the table
+
+    for (let color of colorOrder) {
+        if (remainingColors.includes(color)) {
+            return color; // Return the next available color
+        }
+    }
+
+    return null; // No color balls remain
+}

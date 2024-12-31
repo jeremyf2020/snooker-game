@@ -16,11 +16,8 @@ class Player {
     }
     addScore(score) {
         this.score += score;
-        this.dragonBallCollected();
     }
     penalize(score) {
         this.score -= score;
-        // player can startgily to penalize to summor dragon 
-        this.dragonBallCollected();
     }
 }

@@ -2,102 +2,143 @@ class Game {
     constructor() {
         this.mode = 0;
         this.players = [new Player("1"), new Player("2")];
-        this.player = this.players[0];
+        this.currentPlayer = this.players[0];
         this.board = ["Please place your cue ball in D-zone"];
-        // for every round
+        // for each shot (and each round)
         this.validBall = 'red';
         this.penalyPoint = 0;
         this.moving = false;
         this.toRespotted = [];
         this.lastPoted = null;
+        // for each round
         this.freeBall = true;
     }
     start(num) {
         this.mode = num;
         ballPool.genAllballs(this.mode);
     }
+    shooted() {
+        // change game status, monitor by this.checkAllBallsStopped
+        // running in sketch.js draw, becuase check in every frame
+        // (Cue ball Collision and pockect sensor will be implement by themselves)
+        game.moving = true;
+
+        // Hide the cue after shooting
+        cue.hide = true;
+        // turn off the selection for color balls
+        ballPool.stopSelection();
+        // turn off the freeball for next shot
+        game.freeBall = false;
+    }
 
     potted(ball) {
-        this.addMessage(`${ball.color} ball has been potted`)
-        // check the color of current round
-        console.log(this.validBall)
-        console.log(ball.color)
-        if (ball.color === this.validBall) { // valid potted
-            this.validBall = this.lastPoted === null ? 'red' : null; // reset validBall before selection
-            this.lastPoted = ball.color;
-            this.player.addScore(ball.score);
-            if (ballPool.redBalls.length > 0) {
-                ballPool.colorBalls.forEach(ball => {
-                    ball.availableToSel = true;
-                });
-            }
-            else {
-                this.validBall = nextColorBall();
-            }
-        } else {
+        // remove the potted ball from the ballPool
+        ballPool.removeFromPool(ball);
+        // check the potted ball is valid potted
+        const isValid = ball.color === this.validBall ? true : false;
+
+        if (ballPool.colorBalls.length === 0 && ballPool.redBalls.length === 0) {
+            this.gameEnded()
+        }
+        // apply different actions by valid status 
+        if (isValid) {
+            // add score immediately if valid move
+            this.currentPlayer.addScore(ball.score);
+        }
+        if (!isValid) {
             if (ball.color === 'white') {
                 this.freeBall = true;
             }
-            if (ball.score > this.penalyPoint) { // invalid potted
-                /* from wiki: If multiple fouls are committed in one shot,
-                    only the penalty for the highest-valued foul is scored */
+            // from wiki: If multiple fouls are committed in one shot,
+            // only the penalty for the highest-valued foul is scored 
+            // the penaly will be execute when ball stopped, will invoke nextShot function
+            if (ball.score > this.penalyPoint) {
                 this.penalyPoint = ball.score;
             }
+            // store the potential respoted ball in array, will be respoted in nextShot function
             this.toRespotted.push(ball);
+            // if potted invalid ball, then the rest potted ball will be invalid
+            this.validBall = null;
         }
+        // no matter the ball is valid or not,
+        // player collect 1 ball, this could be player's stratgy
+        this.currentPlayer.dragonBallCollected();
+        // update last potted ball waiting for nextShot function
+        this.lastPoted = ball.color;
     }
 
+    nextShot() {
+        // check the toRespotted balls
+        if (this.toRespotted.length > 0) {
+            let pottedColorBalls = 0;
+            for (const ball of this.toRespotted) {
+                if (ball.color === 'red') {
+                    continue; // red is not needed to repot, then the remaining will be color and white
+                }
+                if (ball.color === 'white') {
+                    ballPool.genCueBall();
+                    this.addMessage("cue ball has been respotted")
+                    continue;
+                }
+                ballPool.reSpot(b.id);
+                this.addMessage(`${b.color} ball has been respotted`);
+                pottedColorBalls++;
+            }
+            if (pottedColorBalls > 1) {
+                this.addMessage(`FOUL: two consecutive colored balls!`)
+                this.addMessage(`Player ${this.currentPlayer.name} score -${this.penalyPoint}`)
+            }
+        }
+
+        // reset the status when the ball stopped, some of them needed to wait for the resborn
+        ballPool.cueBall.collision = null;
+        ballPool.stopSelection();
+        this.moving = false;
+        cue.hide = false;
+        this.toRespotted = [];
+
+        if (this.validBall !== this.lastPoted) {
+            // penality if invalid potted
+            if (this.penalyPoint != 0) {
+                this.currentPlayer.penalize(this.penalyPoint);
+                this.penalyPoint = 0;
+            }
+            this.nextPlayer();
+            return;
+        }
+        // if valid potted
+        // potted red, next should be color
+        if (this.validBall === 'red') {
+            ballPool.colorBalls.forEach(ball => {
+                ball.availableToSel = true;
+            });
+        }
+        // if all red potted and finished next color, 
+        // then should start color by order, yellow->green...->black.
+        if (ballPool.redBalls.length == 0 && ball.color !== 'red') {
+            this.validBall = nextColorBall();
+        }
+        this.freeBall = false;
+        this.lastPoted = null;
+    }
+
+    nextPlayer() {
+        // reset the status and array
+        this.validBall = 'red';
+        // other player's turn
+        this.currentPlayer = this.currentPlayer.name === "1" ? this.players[1] : this.players[0];
+    }
+
+    gameEnded() {
+
+    }
     addMessage(str) {
         this.board.unshift(str)
     }
 
-    nextShot() {
-        // ballPool.stopSelection();
-
-        // calculate scores
-        if (this.penalyPoint != 0) {
-            this.player.penalize(this.penalyPoint);
-            if (this.toRespotted.length > 1) {
-                this.addMessage(`FOUL: two consecutive colored balls!`)
-                this.addMessage(`Player ${this.player.name} score -${this.penalyPoint}`)
-            }
-        }
-        // respot all the balls
-        if (!ballPool.cueBall) {
-            ballPool.genCueBall();
-        }
-        this.nextPlayer();
-        cue.hide = false;
-        this.moving = false;
-        ballPool.cueBall.collision = null;
-    }
-
-    nextPlayer() {
-        this.validBall = 'red';
-        this.toRespotted.forEach(b => {
-            ballPool.reSpot(b.id)
-        })
-        this.toRespotted = [];
-        this.player = this.player.name === "1" ? this.players[1] : this.players[0];
-    }
-
-    nextColorBall() {
-        const colorOrder = ['yellow', 'green', 'brown', 'blue', 'pink', 'black']; // Snooker color order
-        const remainingColors = ballPool.colorBalls.map(ball => ball.color); // Get remaining colors on the table
-
-        for (let color of colorOrder) {
-            if (remainingColors.includes(color)) {
-                return color; // Return the next available color
-            }
-        }
-
-        return null; // No color balls remain
-    }
-
     checkAllBallsStopped() {
-        const stopThreshold = 0.01; // Threshold for stopping
-
-        // Check all red balls
+        const stopThreshold = 0.1; // Threshold for stopping
+        // Check all balls
         for (const ball of [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls]) {
             if (!ball) {
                 continue;
@@ -110,5 +151,6 @@ class Game {
         }
         return true;
     }
+
 
 }

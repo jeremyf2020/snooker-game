@@ -68,13 +68,11 @@ class CueBall extends Ball {
     monitorCueBallCollisions() {
         Matter.Events.on(engine, 'collisionStart', event => {
             const pairs = event.pairs;
-
             pairs.forEach(pair => {
                 const { bodyA, bodyB } = pair;
-
                 // Check if the cue ball is involved
-                if (bodyA.label === 'whiteBall' || bodyB.label === 'whiteBall') {
-                    const otherBody = bodyA.label === 'whiteBall' ? bodyB : bodyA;
+                if (bodyA.label === this.body.label || bodyB.label === this.body.label) {
+                    const otherBody = bodyA.label === this.body.label ? bodyB : bodyA;
                     this.collision = otherBody.label.replace(/(.+?)Ball$/, '$1');
                 }
             });
@@ -105,5 +103,6 @@ class CueBall extends Ball {
         drawVertices(this.body.vertices);
         pop();
         cueBallKeyIsDownHandler();
+        this.monitorCueBallCollisions();
     }
 }

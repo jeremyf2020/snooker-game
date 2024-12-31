@@ -37,11 +37,11 @@ class UI {
     drawPlayer(player, areaWidth, areaHeight, posX) {
         /* draw player areas */
         // show sharper color to tell user which player is in ctrl
-        if (game.player === player) {
+        if (game.currentPlayer === player) {
             strokeWeight(5);
             stroke(255, 215, 0); // Gold stroke
         }
-        fill(game.player === player ? 'orange' : 'grey');
+        fill(game.currentPlayer === player ? 'orange' : 'grey');
         rect(posX, this.topY, areaWidth, areaHeight);
         noStroke();
         fill(255);

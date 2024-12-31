@@ -18,7 +18,7 @@ function preload() {
 function setup() {
     // create a window size canvas
     createCanvas(window.innerWidth, window.innerHeight);
-    defaultFrameRate = 30;
+    defaultFrameRate = 60;
 
     // create an 2D engine with 0 gravity
     engine = Engine.create();
@@ -36,7 +36,6 @@ function draw() {
     Engine.update(engine);
     // drawing the user interface
     ui.draw();
-
     // Draw the table & cue
     translate(0, ui.tableStartY);
     table.draw();
