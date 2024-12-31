@@ -7,16 +7,13 @@ class Cushion {
         });
         this.addToWorld();
     }
-
     addToWorld() {
         World.add(engine.world, this.body);
     }
-
     draw() {
         push();
         fill(this.color)
         drawVertices(this.body.vertices);
         pop();
     }
-
 }

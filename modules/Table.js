@@ -68,7 +68,6 @@ class Table {
             new Pocket(this.tableLength - this.edgeWidth * 1.75, this.tableWidth - this.edgeWidth * 1.75, this.pocketSize), // Bottom-Right
         ];
 
-
     }
     drawNonPhyObj() {
         push();
@@ -81,7 +80,7 @@ class Table {
         rect(this.edgeWidth, 0, this.tableLength - this.edgeWidth * 2, this.edgeWidth / 2);
         rect(this.edgeWidth, this.tableWidth - this.edgeWidth / 2, this.tableLength - this.edgeWidth * 2, this.edgeWidth / 2);
 
-        // draw the protective edge (corner?) of the table
+        // draw the pocket edge
         fill('yellow')
         rect(0, 0, this.edgeWidth, this.edgeWidth, this.edgeWidth, 0, 0, 0); // Top-Left Corner
         rect(this.tableLength / 2 - this.pocketSize / 2, 0, this.pocketSize, this.edgeWidth / 2, 0, 0, 0, 0); // Top-Mid Corner
@@ -101,8 +100,6 @@ class Table {
             pocket.draw(this)
         );
     }
-
-
     drawPlaySurface() {
         push();
         // image(this.baizeTexture, this.edgeWidth / 2, this.edgeWidth / 2);
@@ -117,7 +114,7 @@ class Table {
         strokeWeight(1);
         line(baulkLinePoisition, 0, baulkLinePoisition, surfaceSize.y);
 
-        // // Draw D zone (semicircle)
+        // Draw D zone
         noFill();
         arc(baulkLinePoisition, surfaceSize.y / 2, dRadius * 2, dRadius * 2, HALF_PI, -HALF_PI);
         pop();
@@ -126,7 +123,6 @@ class Table {
     draw() {
         this.drawPlaySurface(this.surfaceStartPoint, this.surfaceSize);
         this.drawNonPhyObj();
-        // this.drawPlaySurface(this.surfaceStartPoint, this.surfaceSize);
         translate(this.surfaceStartPoint, this.surfaceStartPoint);
         this.drawCushions();
         this.drawPockets();

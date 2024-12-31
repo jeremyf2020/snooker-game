@@ -5,8 +5,6 @@ class Cue {
         this.hide = false;
         this.isDragging = false;
         this.cueAngle = Math.PI;
-
-
         this.updateCuePosition();
     }
 
@@ -42,7 +40,6 @@ class Cue {
         if (this.isDragging) {
             this.cueAngle = Math.atan2(adjustedMouse.y - ballPool.cueBall.body.position.y, adjustedMouse.x - ballPool.cueBall.body.position.x);
         }
-
         push();
         stroke(126);
         strokeWeight(5);

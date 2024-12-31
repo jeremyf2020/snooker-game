@@ -18,17 +18,17 @@ function keyPressed() {
     if (key === 'ArrowDown') {
         cue.cueAngle -= 0.01;
     }
-    if (key === 'w' || key === 'W') {
-        mouseY -= 5;
+    if (key === 'w' || key === 'W') { // keyIsDown will also invoke, +4 -> +5
+        mouseY -= 4;
     }
     if (key === 's' || key === 'S') {
-        mouseY += 5;
+        mouseY += 4;
     }
     if (key === 'a' || key === 'A') {
-        mouseX -= 5;
+        mouseX -= 4;
     }
     if (key === 'd' || key === 'D') {
-        mouseX += 5;
+        mouseX += 4;
     }
     if (key === 'x' || key === 'X') {
         if (ballPool.cueBall.onHand) {

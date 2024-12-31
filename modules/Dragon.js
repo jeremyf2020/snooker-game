@@ -167,8 +167,6 @@ class Dragon {
             // Draw the rectangle
             rect(x, y, rectWidth, rectHeight, 10); // Rounded rectangle
 
-
-
             // Draw the text
             fill(255); // White text
             noStroke();
