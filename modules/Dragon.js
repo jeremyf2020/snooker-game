@@ -70,8 +70,9 @@ class Dragon {
         );
 
         this.moveUp(6);
-        if (!dragon.isMoving && !this.finishSummoning) {
-            dragon.drawWishes();
+        if (!this.isMoving && this.isSummoned) {
+            this.finishSummoning = false;
+            this.drawWishes();
         }
 
         pop();

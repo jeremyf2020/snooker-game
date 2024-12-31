@@ -35,10 +35,11 @@ class Game {
         // remove the potted ball from the ballPool
         ballPool.removeFromPool(ball);
         // check the potted ball is valid potted
-        const isValid = ball.color === this.validBall ? true : false;
+        const isValid = ball.color === this.validBall;
 
         if (ballPool.colorBalls.length === 0 && ballPool.redBalls.length === 0) {
-            this.gameEnded()
+            this.gameEnded();
+            return;
         }
         // apply different actions by valid status 
         if (isValid) {
@@ -69,6 +70,8 @@ class Game {
     }
 
     nextShot() {
+        // reset the status when the ball stopped
+        this.moving = false;
         // check the toRespotted balls
         if (this.toRespotted.length > 0) {
             let pottedColorBalls = 0;
@@ -91,13 +94,10 @@ class Game {
             }
         }
 
-        // reset the status when the ball stopped, some of them needed to wait for the resborn
+        // reset the status after every ball has been respotted
         ballPool.cueBall.collision = null;
         ballPool.stopSelection();
-        this.moving = false;
-        if (!ballPool.cueBall.onHand) {
-            cue.hide = false;
-        }
+        cue.hide = ballPool.cueBall.onHand;
         this.toRespotted = [];
 
         if (this.validBall !== this.lastPoted) {
@@ -115,6 +115,7 @@ class Game {
             ballPool.colorBalls.forEach(ball => {
                 ball.availableToSel = true;
             });
+            this.validBall = null;
         }
         if (this.lastPoted !== 'red') {
             // that means it must be color, white ball wouldnt be valid potted
