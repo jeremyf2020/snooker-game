@@ -18,6 +18,25 @@ function keyPressed() {
     if (key === 'ArrowDown') {
         cue.cueAngle -= 0.01;
     }
+    if (key === 'w' || key === 'W') {
+        console.log(key)
+        mouseY -= 5;
+    }
+    if (key === 's' || key === 'S') {
+        mouseY += 5;
+    }
+    if (key === 'a' || key === 'A') {
+        mouseX -= 5;
+    }
+    if (key === 'd' || key === 'D') {
+        mouseX += 5;
+    }
+    if (key === 'x' || key === 'X') {
+        if (ballPool.cueBall.onHand) {
+            ballPool.cueBall.placeBall()
+            return;
+        }
+    }
 }
 
 // keyIsDown handler (cue angle control)
