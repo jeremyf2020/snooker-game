@@ -80,3 +80,4 @@ function nextColorBall() {
 
     return null; // No color balls remain
 }
+

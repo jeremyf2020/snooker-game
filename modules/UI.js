@@ -15,6 +15,10 @@ class UI {
         this.topY = this.tableStartY - this.areaHeight - this.margin;
         /* bot area pos Y */
         this.bottomStartY = window.innerHeight / 2 + this.coreWidth / 4 + this.margin;
+
+        // force area
+        this.force = 0.5; // Half the width of the table
+        this.forceIsRunning = false;
     }
     draw() {
         // almond color bg
@@ -27,12 +31,62 @@ class UI {
         // draw player areas (player, areaWidth, areaHeight, posX)
         this.drawPlayer(game.players[0], (this.coreWidth - this.margin * 2) / 3, this.areaHeight, 0);
         this.drawPlayer(game.players[1], (this.coreWidth - this.margin * 2) / 3, this.areaHeight, this.coreWidth - (this.coreWidth - this.margin * 2) / 3);
+        // Draw the force area 
+        this.drawForceArea();
 
         // draw instuction on the right side
         this.drawInstuctions();
         // draw message board and reaction board (target & collision) on the bottom
         this.drawBottomAreas();
     }
+
+    drawForceArea() {
+        push();
+        // create a linear gradient for the force area
+        let gradientBg = drawingContext.createLinearGradient(this.coreX, this.topY, this.coreX + this.coreWidth / 3, this.topY);
+        // Add gradient color stops: yellow, orangered, red (from p5js turtorial)
+        gradientBg.addColorStop(0, 'yellow');
+        gradientBg.addColorStop(0.8, 'orangered');
+        gradientBg.addColorStop(1, 'red');
+        // Apply the gradient as the fill style
+        drawingContext.fillStyle = gradientBg;
+        noStroke();
+        // Draw the rectangle using the gradient
+        const width = this.coreWidth / 3 * 0.8;
+        const margin = this.coreWidth / 3 * 0.1;
+        const oscillationHeight = this.areaHeight * 0.1;
+        rect(this.coreX + margin, this.topY + this.areaHeight * 0.8, width, oscillationHeight);
+
+        push();
+        textSize(25);
+        textFont(dragonBallFont);
+        text('FORCE', this.coreX + margin + width / 2, this.topY + this.areaHeight * 0.6);
+        pop();
+
+
+        if (this.forceIsRunning) {
+            // Draw the force indicator
+            let oscillationSpeed = 0.08; // Speed of oscillation 
+            let oscillationRange = 85;  // Range of oscillation 
+            this.force = 0.5 + cos(frameCount * oscillationSpeed) * (oscillationRange / width);
+        }
+        // Calculate dX based on force
+        this.dX = this.force * width; // Translate force to x-coordinate
+        // Draw the force indicator
+        fill(255);
+        ellipse(
+            this.coreX + margin + this.dX,
+            this.topY + this.areaHeight * 0.8 + oscillationHeight / 2,
+            15, 15
+        );
+
+
+        pop();
+
+
+
+    }
+
 
     drawPlayer(player, areaWidth, areaHeight, posX) {
         /* draw player areas */

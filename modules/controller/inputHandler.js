@@ -10,7 +10,8 @@ function keyPressed() {
     }
     // cue controller
     if (key === ' ' && !ballPool.cueBall.onHand) {
-        cue.shoot();
+        shootController();
+        return;
     }
     if (key === 'ArrowUp') {
         cue.cueAngle += 0.01;
@@ -73,16 +74,27 @@ function moveMousePosinDZone() {
     }
 }
 
+function shootController() {
+    if (ui.forceIsSelected) {
+        ui.forceIsRunning = false;
+        ui.forceIsSelected = false;
+        cue.shoot();
+        return;
+    }
+    ui.forceIsRunning = true;
+    ui.forceIsSelected = true;
+    return;
+}
+
 function mousePressed() {
     if (dragon.isSummoned && !dragon.isMoving) {
         dragon.handleWishSelection();
         return
     }
     if (mouseButton === RIGHT) {
-        cue.shoot();
+        shootController();
         return;
     }
-
     if (mouseButton === LEFT) {
         if (ballPool.cueBall && ballPool.cueBall.onHand) {
             ballPool.cueBall.placeBall()
