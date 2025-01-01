@@ -5,7 +5,8 @@ const Engine = Matter.Engine,
     Body = Matter.Body;
 
 let game, table, ballPool, cue,
-    ui, dragonBallFont, handIcon, dragon, defaultFrameRate;
+    ui, handIcon, defaultFrameRate,
+    dragonBallFont, dragon, dragonBall;
 
 function preload() {
     // preload the image files and fonts
@@ -31,6 +32,7 @@ function setup() {
     ballPool = new BallPool();
     cue = new Cue();
     dragon = new Dragon();
+    dragonBall = new DragonBall();
 }
 
 function draw() {

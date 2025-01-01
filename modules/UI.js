@@ -15,7 +15,6 @@ class UI {
         this.topY = this.tableStartY - this.areaHeight - this.margin;
         /* bot area pos Y */
         this.bottomStartY = window.innerHeight / 2 + this.coreWidth / 4 + this.margin;
-        this.dragonBall = new DragonBall();
     }
     draw() {
         // almond color bg
@@ -84,7 +83,7 @@ class UI {
             const posY = startY;
 
             // Draw the dragon ball using the DragonBall class
-            this.dragonBall.getStarBallImage(star, ballSize, posX, posY);
+            dragonBall.getStarBallImage(star, ballSize, posX, posY);
         }
     }
 

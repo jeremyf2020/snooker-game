@@ -119,6 +119,7 @@ class Dragon {
         const startX = this.x - rectWidth / 2; // Center horizontally
         const startY = this.y; // Position on the middle of the dragon
         const glowSize = 15; // Glow size for aura
+        const ballSize = 30; // Size of the dragon ball image
 
         push();
         textFont(dragonBallFont);
@@ -131,14 +132,20 @@ class Dragon {
         pop();
 
         push();
-        textAlign(CENTER, CENTER);
+        textAlign(LEFT, CENTER);
         textSize(18);
         strokeWeight(2);
 
-        // Draw the wishes in glowing boxes
         this.selectedWishes.forEach((wish, index) => {
             const x = startX;
             const y = startY + index * (rectHeight + 20);
+
+            // Determine level and corresponding dragon ball star
+            const levels = { "E": 1, "D": 2, "C": 3, "B": 4, "A": 5, "S": 6, "S+": 7 };
+            const level = Object.keys(this.wishes).find(lvl =>
+                this.wishes[lvl].some(w => w === wish)
+            );
+            const star = levels[level] || 1; // Default to 1 star if level is undefined
 
             // Check for mouse hover
             const isHovered =
@@ -147,7 +154,7 @@ class Dragon {
                 mouseY > y &&
                 mouseY < y + rectHeight;
 
-
+            // Draw glowing aura
             for (let i = glowSize; i > 0; i -= 5) {
                 fill(255, 204, 0, 100 - i * 6); // Semi-transparent golden glow
                 noStroke();
@@ -158,8 +165,7 @@ class Dragon {
             // Highlight the hovered wish
             if (isHovered) {
                 this.currentWish = wish; // Set the hovered wish
-                // fill(7, 148, 215);
-                fill(201, 18, 39);
+                fill(201, 18, 39); // Highlighted red
                 cursor(HAND);
             } else {
                 fill(255, 140, 0); // Bright orange
@@ -168,10 +174,19 @@ class Dragon {
             // Draw the rectangle
             rect(x, y, rectWidth, rectHeight, 10); // Rounded rectangle
 
-            // Draw the text
+            // Draw the dragon ball image on the left
+            const imageX = x + 10; // Left padding for the image
+            const imageY = y + (rectHeight - ballSize) / 2; // Center vertically
+
+            dragonBall.getStarBallImage(star, ballSize, imageX, imageY);
+
+            // Draw the text in the middle of the rectangle
+            const textX = imageX + ballSize + 10; // Start text after the dragon ball
+            const textY = y + rectHeight / 2; // Center vertically within the rectangle
             fill(255); // White text
             noStroke();
-            text(wish, x + rectWidth / 2, y + rectHeight / 2);
+            textAlign(LEFT, CENTER);
+            text(wish, textX, textY);
         });
 
         pop();
