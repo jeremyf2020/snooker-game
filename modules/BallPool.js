@@ -136,8 +136,6 @@ class BallPool {
         }
         if (this.cueBall != null)
             this.cueBall.draw();
-        // const testBall = new Ball('red', 0, 0, table.ballDiameter, 0, 1);
-        // testBall.draw()
     }
 
 

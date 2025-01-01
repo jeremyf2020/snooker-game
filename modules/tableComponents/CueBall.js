@@ -81,22 +81,16 @@ class CueBall extends Ball {
 
     // Draw the cue ball
     draw() {
-        // if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
-        //     game.outBound(this);
-        //     // return;
-        // }
-
         if (this.onHand) {
             this.updatePos();
         }
-        // else {
-        //     cursor(HAND);
-        //     World.add(engine.world, this.body);
-        // }
-        // if (game.moving && game.checkBallsStopped()) {
-        //     game.moving = false;
-        //     cue.hide = false; // Show the cue after all balls have stopped moving
-        // }
+        if (!this.onHand && !this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
+            if (!this.isOutOfBounds) {
+                game.outBound(this);
+                this.isOutOfBounds = true;
+            }
+            return; // Skip drawing if the ball is out of bounds
+        }
         push();
         fill(this.color)
         drawVertices(this.body.vertices);

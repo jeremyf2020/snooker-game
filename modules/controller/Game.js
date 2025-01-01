@@ -22,7 +22,7 @@ class Game {
         // change game status, monitor by this.checkAllBallsStopped
         // running in sketch.js draw, becuase of checking in every frame
         // (Cue ball Collision and pockect sensor will be implement by themselves)
-        game.moving = true;
+        this.moving = true;
 
         // Hide the cue after shooting
         cue.hide = true;
@@ -99,6 +99,7 @@ class Game {
         ballPool.cueBall.collision = null;
         ballPool.stopSelection();
         cue.hide = ballPool.cueBall.onHand;
+
         this.toRespotted = [];
 
         if (this.validBall !== this.lastPoted) {
@@ -153,12 +154,6 @@ class Game {
     }
 
     checkAllBallsStopped() {
-        // [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls].forEach(ball => {
-        //     if (!ball.isInsideTable(createVector(ball.body.position.x, ball.body.position.y))) {
-        //         ball.outBound(ball);
-        //     }
-        // });
-
         const stopThreshold = 0.1; // Threshold for stopping
         // Check all balls
         for (const ball of [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls]) {
@@ -179,15 +174,15 @@ class Game {
         this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
 
         this.penalyPoint = -ball.score;
-        // ballPool.removeFromPool(ball);
+        ballPool.removeFromPool(ball);
         if (ball.color === 'white') {
-            // this.toRespotted.push(ball);
+            this.toRespotted.push(ball);
             // ballPool.genCueBall();
-            // this.addMessage(`Place cue ball back on table`)
+            this.addMessage(`Place cue ball back on table`)
         } else if (ball.color !== 'red') {
-            // this.toRespotted.push(ball);
+            this.toRespotted.push(ball);
             // ballPool.reSpot(ball.id);
-            // this.addMessage(`Place ${ball.color} back on table`);
+            this.addMessage(`Place ${ball.color} back on table`);
         }
         this.freeBall = true;
         this.lastPoted = null;

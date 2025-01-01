@@ -38,19 +38,14 @@ class Ball {
     }
 
     draw() {
-        // if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
-        //     game.outBound(this);
-        //     return;
-        // }
-
         // Check if the ball is out of bounds
-        // if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
-        //     if (!this.isOutOfBounds) {
-        //         game.outBound(this);
-        //         this.isOutOfBounds = true;
-        //     }
-        //     return; // Skip drawing if the ball is out of bounds
-        // }
+        if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
+            if (!this.isOutOfBounds) {
+                game.outBound(this);
+                this.isOutOfBounds = true;
+            }
+            return; // Skip drawing if the ball is out of bounds
+        }
 
 
         push();

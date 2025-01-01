@@ -35,11 +35,11 @@ class Cue {
     }
 
     draw() {
-        if (game.moving && ballPool.cueBall && ballPool.cueBall.onHand) {
+        if (!ballPool.cueBall) return;
+        if (game.moving && ballPool.cueBall.onHand) {
             cue.hide = false;
         }
         if (this.hide) return;
-        if (!ballPool.cueBall) return;
 
         // Update cue position dynamically
         this.updateCuePosition();
