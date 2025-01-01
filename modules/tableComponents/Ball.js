@@ -5,6 +5,7 @@ class Ball {
         this.score = score;
         this.diameter = diameter;
         this.availableToSel = false;
+        this.isOutOfBounds = false;
         this.body = Bodies.circle(x, y, diameter / 2, { restitution: .8, friction: 0.001, label: `${color}Ball` });
         this.addToWorld();
     }
@@ -23,10 +24,10 @@ class Ball {
     }
 
     isInsideTable(ballVector) {
-        const leftBound = table.surfaceStartPoint.x;
-        const rightBound = table.surfaceStartPoint.x + table.surfaceSize.x;
-        const topBound = table.surfaceStartPoint.y;
-        const bottomBound = table.surfaceStartPoint.y + table.surfaceSize.y;
+        const leftBound = 0;
+        const rightBound = table.tableLength;
+        const topBound = 0;
+        const bottomBound = table.tableWidth;
 
         return (
             ballVector.x > leftBound &&
@@ -37,12 +38,20 @@ class Ball {
     }
 
     draw() {
-        // if (!this.isInsideTable(createVector(this.body.x, this.body.y))) {
-        //     ballPool.removeFromPool(this)
-        //     if (this.id > 1 && this.id < 8) {
-        //         ballPool.reSpot(this.id)
-        //     }
+        // if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
+        //     game.outBound(this);
+        //     return;
         // }
+
+        // Check if the ball is out of bounds
+        // if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
+        //     if (!this.isOutOfBounds) {
+        //         game.outBound(this);
+        //         this.isOutOfBounds = true;
+        //     }
+        //     return; // Skip drawing if the ball is out of bounds
+        // }
+
 
         push();
         if (this.availableToSel) {

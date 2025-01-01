@@ -182,20 +182,20 @@ class Dragon {
             this.finishSummoning = true; // Mark summoning as complete
             this.isSummoned = false; // Disable summoning
 
+            const summoringPlayer = game.players.find(player => player.dragonSummoring === true);
+
             // Handle "Score +" wishes
             const scoreIncreaseMatch = this.currentWish.match(/Score \+(\d+)/);
             if (scoreIncreaseMatch) {
                 const increaseAmount = parseInt(scoreIncreaseMatch[1]);
-                game.changeScore(increaseAmount);
-                return;
+                game.changeScore(increaseAmount, summoringPlayer);
             }
-
             // Handle "opponent's score -" wishes
             const scoreDecreaseMatch = this.currentWish.match(/opponent's score -(\d+)/);
             if (scoreDecreaseMatch) {
                 const decreaseAmount = parseInt(scoreDecreaseMatch[1]);
-                game.changeScore(-decreaseAmount, 'opponent');
-                return;
+                const targetPlayer = game.players.find(player => player.dragonSummoring === false)
+                game.changeScore(-decreaseAmount, targetPlayer);
             }
 
             // Handle other wishes (to be implemented individually)
@@ -218,9 +218,13 @@ class Dragon {
             //     game.addMessage("Randomizing red balls!");
             //     // Implement the logic here
             // }
+            summoringPlayer.dragonSummoring = false;
         }
         //refresh the wishes
         this.generateWishes();
+        if (game.nextPlayerIsWaitingDragon) {
+            game.nextPlayer();
+        }
     }
 
     drawCloud() {

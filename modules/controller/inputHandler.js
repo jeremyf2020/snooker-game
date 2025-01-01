@@ -84,7 +84,7 @@ function mousePressed() {
     }
 
     if (mouseButton === LEFT) {
-        if (ballPool.cueBall.onHand) {
+        if (ballPool.cueBall && ballPool.cueBall.onHand) {
             ballPool.cueBall.placeBall()
             return;
         }

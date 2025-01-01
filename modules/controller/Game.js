@@ -12,6 +12,7 @@ class Game {
         this.lastPoted = null;
         // for each round
         this.freeBall = true;
+        this.nextPlayerIsWaitingDragon = false;
     }
     start(num) {
         this.mode = num;
@@ -134,6 +135,10 @@ class Game {
     }
 
     nextPlayer() {
+        if (dragon.isSummoned) {
+            this.nextPlayerIsWaitingDragon = true;
+            return;
+        }
         // reset the status and array
         this.validBall = 'red';
         // other player's turn
@@ -148,6 +153,12 @@ class Game {
     }
 
     checkAllBallsStopped() {
+        // [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls].forEach(ball => {
+        //     if (!ball.isInsideTable(createVector(ball.body.position.x, ball.body.position.y))) {
+        //         ball.outBound(ball);
+        //     }
+        // });
+
         const stopThreshold = 0.1; // Threshold for stopping
         // Check all balls
         for (const ball of [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls]) {
@@ -163,11 +174,26 @@ class Game {
         return true;
     }
 
-    changeScore(num, player = this.currentPlayer) {
-        let targetPlayer = player;
-        if (player === "opponent") {
-            targetPlayer = game.players.find(player => player !== game.currentPlayer);
+    outBound(ball) {
+        this.addMessage(`${ball.color} out bound!`)
+        this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
+
+        this.penalyPoint = -ball.score;
+        // ballPool.removeFromPool(ball);
+        if (ball.color === 'white') {
+            // this.toRespotted.push(ball);
+            // ballPool.genCueBall();
+            // this.addMessage(`Place cue ball back on table`)
+        } else if (ball.color !== 'red') {
+            // this.toRespotted.push(ball);
+            // ballPool.reSpot(ball.id);
+            // this.addMessage(`Place ${ball.color} back on table`);
         }
+        this.freeBall = true;
+        this.lastPoted = null;
+    }
+
+    changeScore(num, targetPlayer = this.currentPlayer) {
         targetPlayer.changeScore(num);
         this.addMessage(`Player ${targetPlayer.name} score increased by ${num}`);
     }

@@ -81,10 +81,9 @@ class CueBall extends Ball {
 
     // Draw the cue ball
     draw() {
-        // if (!this.isInsideTable(createVector(this.body.x, this.body.y))) {
-        //     ballPool.removeFromPool(this);
-        //     this.onHand = true;
-        //     ballBall.CueBall = null;
+        // if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
+        //     game.outBound(this);
+        //     // return;
         // }
 
         if (this.onHand) {
