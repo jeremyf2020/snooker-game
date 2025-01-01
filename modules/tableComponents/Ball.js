@@ -47,7 +47,6 @@ class Ball {
             return; // Skip drawing if the ball is out of bounds
         }
 
-
         push();
         if (this.availableToSel) {
             fill(this.color === game.validBall ? 'purple' : 'orange');

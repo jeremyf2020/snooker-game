@@ -70,7 +70,7 @@ class BallPool {
         for (const ball of [...ballPool.colorBalls, ...ballPool.redBalls]) {
             const ballPos = ball.body.position;
             const overlapDistance = dist(vector.x, vector.y, ballPos.x, ballPos.y);
-            if (overlapDistance < ballPool.ballDiameter) return true;
+            if (overlapDistance < table.ballDiameter) return true;
         }
         return false;
     }

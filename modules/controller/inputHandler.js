@@ -9,7 +9,7 @@ function keyPressed() {
         game.start(parseInt(key));
     }
     // cue controller
-    if (key === ' ') {
+    if (key === ' ' && !ballPool.cueBall.onHand) {
         cue.shoot();
     }
     if (key === 'ArrowUp') {
