@@ -96,7 +96,6 @@ class UI {
         // show sharper color to tell user which player is in ctrl
         if (game.currentPlayer === player) {
             const glowSize = 15; // Glow size for the aura
-
             // Draw glowing aura around the player area
             push();
             for (let i = glowSize; i > 0; i -= 3) {
@@ -116,17 +115,31 @@ class UI {
             strokeWeight(1);
             stroke(255, 215, 0); // Gold stroke
         }
-        fill(game.currentPlayer === player ? "orange" : 'grey');
+        fill(game.currentPlayer === player ? "orange" : '#A8A6A7');
         rect(posX, this.topY, areaWidth, areaHeight, 10);
         noStroke();
-        fill(255);
+        fill('#1c4595');
         textSize(20);
         textAlign(CENTER, CENTER);
         // Draw "Player 1" text
-        textFont('Verdana');
+        push();
+        textFont(dragonBallFont);
+        // Draw "Player" text
         text(`Player ${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
+
         // Draw "Score: "
-        text(`Score: ${player.score}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4 * 2);
+        let scoreText = `Score: `;
+        let scoreTextWidth = textWidth(scoreText); // Calculate width of "Score: "
+        textFont(dragonBallFont);
+        text(scoreText, posX + areaWidth / 2, this.topY + this.areaHeight / 4 * 2);
+
+        // Switch to a font that supports numbers for the score
+        textFont('Roboto');
+        textStyle(BOLD);
+
+        fill(255)
+        text(player.score, posX + areaWidth / 2 + scoreTextWidth / 2, this.topY + this.areaHeight / 4 * 2 + this.margin / 5);
+        pop();
 
         // Draw collected dragon balls
         const ballSize = 20; // Size of each dragon ball icon

@@ -100,6 +100,24 @@ class BallPool {
         this.redBalls = [];
     }
 
+    rebornBalls(option) {
+        if (option === "color" || option === "all") {
+            this.colorBalls.forEach(cb => {
+                Matter.World.remove(engine.world, cb.body);
+            });
+            this.colorBalls = [];
+            this.colorBalls = this.genColorBalls(true);
+        }
+        if (option === "red" || option === "all") {
+            this.redBalls.forEach(cb => {
+                Matter.World.remove(engine.world, cb.body);
+            });
+            this.redBalls = [];
+            this.redBalls = this.genRedBalls(true);
+        }
+    }
+
+
     removeFromPool(ball) {
         Matter.World.remove(engine.world, ball.body);
         if (ball.id === 1) {
@@ -122,6 +140,8 @@ class BallPool {
     stopSelection() {
         this.colorBalls.forEach(cb => cb.availableToSel = false)
     }
+
+
 
     draw() {
         if (this.colorBalls.length > 0) {

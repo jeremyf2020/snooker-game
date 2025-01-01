@@ -22,33 +22,33 @@ class Dragon {
             "S": [
                 "Score +50",
                 "opponent's score -40"
+                // "free ball in every turn"
             ],
             "A": [
                 "Score +30",
                 "opponent's score -25",
-                // "free ball in every turn"
+                // "control the force manually"
             ],
             "B": [
                 "Score +25",
                 "opponent's score -20",
-                // "control the force manually"
+                // "free ball in every round"
             ],
             "C": [
                 "Score +20",
                 "opponent's score -15",
-                // "free ball in every round"
+                // "blind your opponent"
+                "reborn all balls randomly",
             ],
             "D": [
                 "Score +15",
                 "opponent's score -10",
-                // "random all balls",
-                // "blind your opponent"
+                "reborn red balls randomly"
             ],
             "E": [
                 "Score +10",
                 "opponent's score -5",
-                // "random color balls",
-                // "random red balls"
+                "reborn color balls randomly",
             ],
         };
         this.generateWishes(); // Generate wishes during initialization
@@ -212,7 +212,10 @@ class Dragon {
                 const targetPlayer = game.players.find(player => player.dragonSummoring === false)
                 game.changeScore(-decreaseAmount, targetPlayer);
             }
-
+            const rebornMatch = this.currentWish.match(/reborn (.+?) balls/);
+            if (rebornMatch) {
+                ballPool.rebornBalls(rebornMatch[1]);
+            }
             // Handle other wishes (to be implemented individually)
             // if (this.currentWish === "free ball in every turn") {
             //     game.addMessage("Free ball in every turn activated!");

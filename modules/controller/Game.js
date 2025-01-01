@@ -1,7 +1,7 @@
 class Game {
     constructor() {
         this.mode = 0;
-        this.players = [new Player("1"), new Player("2")];
+        this.players = [new Player("One"), new Player("Two")];
         this.currentPlayer = this.players[0];
         this.board = ["Please place your cue ball in D-zone"];
         // for each shot (and each round)
@@ -73,7 +73,7 @@ class Game {
     nextShot() {
         // reset the status when the ball stopped
         this.moving = false;
-        ui.force = 0.5
+        ui.force = 0.5;
         // check the toRespotted balls
         if (this.toRespotted.length > 0) {
             let pottedColorBalls = 0;
@@ -144,7 +144,7 @@ class Game {
         // reset the status and array
         this.validBall = 'red';
         // other player's turn
-        this.currentPlayer = this.currentPlayer.name === "1" ? this.players[1] : this.players[0];
+        this.currentPlayer = this.currentPlayer.name === "One" ? this.players[1] : this.players[0];
     }
 
     gameEnded() {
@@ -155,16 +155,14 @@ class Game {
     }
 
     checkAllBallsStopped() {
-        const stopThreshold = 0.1; // Threshold for stopping
         // Check all balls
         for (const ball of [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls]) {
             if (!ball) {
                 continue;
             }
-            const velocity = ball.body.velocity;
-            const speed = Math.sqrt(velocity.x ** 2 + velocity.y ** 2);
-            if (speed > stopThreshold) {
-                return false; // If any red ball is moving, return false
+            const speed = ball.body.speed;
+            if (speed > 0.001) {
+                return false;
             }
         }
         return true;
