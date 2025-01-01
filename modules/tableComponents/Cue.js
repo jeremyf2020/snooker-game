@@ -15,6 +15,14 @@ class Cue {
 
         this.cueEndX = this.cueStartX + this.length * Math.cos(this.cueAngle);
         this.cueEndY = this.cueStartY + this.length * Math.sin(this.cueAngle);
+
+        this.halfCueEndX = this.cueStartX + this.length / 2 * Math.cos(this.cueAngle);
+        this.halfCueEndY = this.cueStartY + this.length / 2 * Math.sin(this.cueAngle);
+
+        this.rubberEndX = this.cueStartX + 2 * Math.cos(this.cueAngle);
+        this.rubberEndY = this.cueStartY + 2 * Math.sin(this.cueAngle);
+
+
     }
 
     drawPredictiveLine() {
@@ -41,9 +49,13 @@ class Cue {
             this.cueAngle = Math.atan2(adjustedMouse.y - ballPool.cueBall.body.position.y, adjustedMouse.x - ballPool.cueBall.body.position.x);
         }
         push();
-        stroke(126);
+        stroke(0);
         strokeWeight(5);
         line(this.cueStartX, this.cueStartY, this.cueEndX, this.cueEndY);
+        stroke(219, 197, 146)
+        line(this.cueStartX, this.cueStartY, this.halfCueEndX, this.halfCueEndY);
+        stroke('lightblue')
+        line(this.cueStartX, this.cueStartY, this.rubberEndX, this.rubberEndY);
         pop();
         this.drawPredictiveLine();
         cueKeyIsDownHandler();

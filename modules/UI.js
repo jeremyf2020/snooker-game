@@ -15,6 +15,7 @@ class UI {
         this.topY = this.tableStartY - this.areaHeight - this.margin;
         /* bot area pos Y */
         this.bottomStartY = window.innerHeight / 2 + this.coreWidth / 4 + this.margin;
+        this.dragonBall = new DragonBall();
     }
     draw() {
         // almond color bg
@@ -38,29 +39,52 @@ class UI {
         /* draw player areas */
         // show sharper color to tell user which player is in ctrl
         if (game.currentPlayer === player) {
-            strokeWeight(5);
+            const glowSize = 15; // Glow size for the aura
+
+            // Draw glowing aura around the player area
+            push();
+            for (let i = glowSize; i > 0; i -= 3) {
+                noStroke();
+                fill(255, 215, 0, 50 - i * 3); // Semi-transparent golden glow
+                rect(
+                    posX - i / 2,
+                    this.topY - i / 2,
+                    areaWidth + i,
+                    areaHeight + i,
+                    10 // Rounded corners
+                );
+            }
+            pop();
+
+            // Draw gold stroke around the player area
+            strokeWeight(1);
             stroke(255, 215, 0); // Gold stroke
         }
-        fill(game.currentPlayer === player ? 'orange' : 'grey');
-        rect(posX, this.topY, areaWidth, areaHeight);
+        fill(game.currentPlayer === player ? "orange" : 'grey');
+        rect(posX, this.topY, areaWidth, areaHeight, 10);
         noStroke();
         fill(255);
         textSize(20);
         textAlign(CENTER, CENTER);
         // Draw "Player 1" text
-        text(`Player ${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 3);
+        textFont('Verdana');
+        text(`Player ${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
         // Draw "Score: "
-        text(`Score: ${player.score}`, posX + areaWidth / 2, this.topY + this.areaHeight / 3 * 2);
+        text(`Score: ${player.score}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4 * 2);
 
-        // Draw "Dragon Balls" [TODO]
-        const ballRadius = 10; // Radius of each circle
-        const balls = 3; // Number of dragon balls
-        const ballsStartX = posX + areaWidth / 2 - (balls * ballRadius * 2) / 2; // Center balls
-        const ballsY = this.topY + 80;
+        // Draw collected dragon balls
+        const ballSize = 20; // Size of each dragon ball icon
+        const startX = posX - 5; // Starting x-position for the balls
+        const startY = this.topY + this.areaHeight - ballSize - 10; // y-position for the balls
+        const spacing = ballSize + 5; // Spacing between balls
 
-        for (let i = 0; i < player.pottedBalls.length; i++) {
-            fill(255, 204, 0); // Yellow for dragon balls
-            ellipse(ballsStartX + i * ballRadius * 2, this.margin, ballRadius * 2, ballRadius * 2);
+        for (let i = 1; i < player.pottedBalls + 1; i++) {
+            const star = i; // Assume this array contains star numbers (1-7)
+            const posX = startX + i * spacing;
+            const posY = startY;
+
+            // Draw the dragon ball using the DragonBall class
+            this.dragonBall.getStarBallImage(star, ballSize, posX, posY);
         }
     }
 

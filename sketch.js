@@ -11,6 +11,7 @@ function preload() {
     // preload the image files and fonts
     handIcon = loadImage('./assets/hand.png');
     dragonImage = loadImage('./assets/dragon.png');
+    dragonBallsImage = loadImage('./assets/dragonBallsSheet.png');
     dragonBallFont = loadFont('./assets/Saiyan-Sans.ttf');
 }
 
@@ -53,5 +54,6 @@ function draw() {
     } else {
         frameRate(defaultFrameRate);
     }
+
 }
 
