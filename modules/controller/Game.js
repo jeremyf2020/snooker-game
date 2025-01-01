@@ -73,6 +73,7 @@ class Game {
     nextShot() {
         // reset the status when the ball stopped
         this.moving = false;
+        ui.force = 0.5
         // check the toRespotted balls
         if (this.toRespotted.length > 0) {
             let pottedColorBalls = 0;

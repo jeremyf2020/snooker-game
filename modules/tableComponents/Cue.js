@@ -63,8 +63,7 @@ class Cue {
     }
 
     shoot() {
-        ui.forceIsSelected = false;
-        ui.forceIsRunning = false;
+        ui.resetForce();
         // Define the base force
         const baseForce = (ballPool.cueBall.body.bounds.max.x - ballPool.cueBall.body.bounds.min.x) * 5 * ui.force;
         // Calculate the "actual" force based on mass and gravity scale

@@ -86,7 +86,10 @@ class UI {
 
 
     }
-
+    resetForce() {
+        ui.forceIsSelected = false;
+        ui.forceIsRunning = false;
+    }
 
     drawPlayer(player, areaWidth, areaHeight, posX) {
         /* draw player areas */
