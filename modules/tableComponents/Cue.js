@@ -36,7 +36,7 @@ class Cue {
 
     draw() {
         if (!ballPool.cueBall) return;
-        if (game.moving && ballPool.cueBall.onHand) {
+        if (!game.moving && !ballPool.cueBall.onHand) {
             cue.hide = false;
         }
         if (this.hide) return;
@@ -77,7 +77,7 @@ class Cue {
             y: -forceMagnitude * Math.sin(this.cueAngle),
         };
 
-        // Apply the force to the cue ball
+        // **matterjs implement**: Apply the force to the cue ball
         Body.applyForce(ballPool.cueBall.body, ballPool.cueBall.body.position, force);
 
         // tell controller shooted
