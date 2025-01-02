@@ -192,4 +192,13 @@ class Game {
         this.addMessage(`Player ${targetPlayer.name} score increased by ${num}`);
     }
 
+    stealBalls(summoingPlayer) {
+        //summoingPlayer steal targetPlayer's balls
+        const targetPlayer = game.players.find(player => player.dragonSummoring === false);
+        const targetBalls = targetPlayer.pottedBalls;
+        summoingPlayer.pottedBalls = targetBalls;
+        targetPlayer.pottedBalls = 0;
+
+    }
+
 }

@@ -63,12 +63,10 @@ class UI {
         text('FORCE', this.coreX + margin + width / 2, this.topY + this.areaHeight * 0.6);
         pop();
 
-
         if (this.forceIsRunning) {
             // Draw the force indicator
             let oscillationSpeed = 0.08; // Speed of oscillation 
-            let oscillationRange = 85;  // Range of oscillation 
-            this.force = 0.5 + cos(frameCount * oscillationSpeed) * (oscillationRange / width);
+            this.force = 0.5 + cos(frameCount * oscillationSpeed) * 0.5;
         }
         // Calculate dX based on force
         this.dX = this.force * width; // Translate force to x-coordinate

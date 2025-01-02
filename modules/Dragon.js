@@ -32,6 +32,7 @@ class Dragon {
             "B": [
                 "Score +25",
                 "opponent's score -20",
+                "take opponent's dragon ball"
                 // "free ball in every round"
             ],
             "C": [
@@ -216,6 +217,10 @@ class Dragon {
             if (rebornMatch) {
                 ballPool.rebornBalls(rebornMatch[1]);
             }
+            if (this.currentWish === "take opponent's dragon ball") {
+                game.stealBalls(summoringPlayer);
+            }
+
             // Handle other wishes (to be implemented individually)
             // if (this.currentWish === "free ball in every turn") {
             //     game.addMessage("Free ball in every turn activated!");
