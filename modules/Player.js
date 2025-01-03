@@ -5,6 +5,8 @@ class Player {
         this.pottedBalls = 0;
         this.anotherShot = false; // if player have score successfuly, play can get another shot in the same round
         this.dragonSummoring = false;
+        this.everyShotFreeBall = false;
+        this.everyRoundFreeBall = false;
     }
     dragonBallCollected() {
         this.pottedBalls++;

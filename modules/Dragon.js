@@ -21,8 +21,8 @@ class Dragon {
             ],
             "S": [
                 "Score +50",
-                "opponent's score -40"
-                // "free ball in every turn"
+                "opponent's score -40",
+                "free ball in every turn"
             ],
             "A": [
                 "Score +30",
@@ -32,8 +32,8 @@ class Dragon {
             "B": [
                 "Score +25",
                 "opponent's score -20",
-                "take opponent's dragon ball"
-                // "free ball in every round"
+                "take opponent's dragon ball",
+                "free ball in every round"
             ],
             "C": [
                 "Score +20",
@@ -220,27 +220,17 @@ class Dragon {
             if (this.currentWish === "take opponent's dragon ball") {
                 game.stealBalls(summoringPlayer);
             }
+            const freeBallMatch = this.currentWish.match(/free ball in every ([a-z]+)/);
+            if (freeBallMatch) {
+                if (freeBallMatch[1] === "turn") {
+                    summoringPlayer.everyRoundFreeBall = true;
+                    summoringPlayer.everyShotFreeBall = true;
+                }
+                if (freeBallMatch[1] === "round") {
+                    summoringPlayer.everyRoundFreeBall = true;
+                }
+            }
 
-            // Handle other wishes (to be implemented individually)
-            // if (this.currentWish === "free ball in every turn") {
-            //     game.addMessage("Free ball in every turn activated!");
-            //     // Implement the logic here
-            // } else if (this.currentWish === "control the force manually") {
-            //     game.addMessage("Player can control the force manually!");
-            //     // Implement the logic here
-            // } else if (this.currentWish === "random all balls") {
-            //     game.addMessage("Randomizing all balls!");
-            //     // Implement the logic here
-            // } else if (this.currentWish === "blind your opponent") {
-            //     game.addMessage("Opponent is blinded!");
-            //     // Implement the logic here
-            // } else if (this.currentWish === "random color balls") {
-            //     game.addMessage("Randomizing color balls!");
-            //     // Implement the logic here
-            // } else if (this.currentWish === "random red balls") {
-            //     game.addMessage("Randomizing red balls!");
-            //     // Implement the logic here
-            // }
             summoringPlayer.dragonSummoring = false;
         }
         //refresh the wishes

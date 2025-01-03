@@ -135,7 +135,7 @@ class Game {
             this.validBall = 'red';
         }
 
-        this.freeBall = false;
+        this.freeBall = this.currentPlayer.everyShotFreeBall;
         this.lastPoted = null;
     }
 
@@ -148,6 +148,7 @@ class Game {
         this.validBall = 'red';
         // other player's turn
         this.currentPlayer = this.currentPlayer.name === "One" ? this.players[1] : this.players[0];
+        this.freeBall = game.currentPlayer.everyRoundFreeBall;
     }
 
     gameEnded() {
