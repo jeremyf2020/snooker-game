@@ -97,5 +97,7 @@ class CueBall extends Ball {
         pop();
         cueBallKeyIsDownHandler();
         this.monitorCueBallCollisions();
+
+
     }
 }

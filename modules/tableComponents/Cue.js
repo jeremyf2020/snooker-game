@@ -47,6 +47,7 @@ class Cue {
 
         if (this.isDragging) {
             this.cueAngle = Math.atan2(adjustedMouse.y - ballPool.cueBall.body.position.y, adjustedMouse.x - ballPool.cueBall.body.position.x);
+            console.log(this.cueAngle);
         }
         push();
         stroke(0);

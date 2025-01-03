@@ -144,6 +144,8 @@ class BallPool {
 
 
     draw() {
+        if (this.cueBall != null)
+            this.cueBall.draw();
         if (this.colorBalls.length > 0) {
             this.colorBalls.forEach(colorBall => {
                 colorBall.draw();
@@ -154,8 +156,6 @@ class BallPool {
                 redBall.draw();
             });
         }
-        if (this.cueBall != null)
-            this.cueBall.draw();
     }
 
 

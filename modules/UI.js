@@ -38,6 +38,7 @@ class UI {
         this.drawInstuctions();
         // draw message board and reaction board (target & collision) on the bottom
         this.drawBottomAreas();
+
     }
 
     drawForceArea() {
