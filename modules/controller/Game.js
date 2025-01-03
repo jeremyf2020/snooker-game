@@ -46,6 +46,7 @@ class Game {
         if (isValid) {
             // add score immediately if valid move
             this.currentPlayer.changeScore(ball.score);
+            this.toRespotted.push(ball);
         }
         if (!isValid) {
             if (ball.color === 'white') {
@@ -68,9 +69,11 @@ class Game {
         this.currentPlayer.dragonBallCollected();
         // update last potted ball waiting for nextShot function
         this.lastPoted = ball.color;
+
     }
 
     nextShot() {
+        // [TODO] if cueball potted, then we dont have next shot
         // reset the status when the ball stopped
         this.moving = false;
         ui.force = 0.5;
@@ -98,7 +101,7 @@ class Game {
 
         // reset the status after every ball has been respotted
         ballPool.cueBall.collision = null;
-        ballPool.stopSelection();
+        // ballPool.stopSelection();
         cue.hide = ballPool.cueBall.onHand;
 
         this.toRespotted = [];
