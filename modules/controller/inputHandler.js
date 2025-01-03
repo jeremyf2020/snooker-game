@@ -5,7 +5,7 @@ document.addEventListener('contextmenu', function (e) {
 
 function keyPressed() {
     // game controller
-    if (key === '1' || key === '2' || key === '3') {
+    if (key === '0' || key === '1' || key === '2' || key === '3') {
         game.start(parseInt(key));
     }
     // cue controller

@@ -13,16 +13,22 @@ class Game {
         // for each round
         this.freeBall = true;
         this.nextPlayerIsWaitingDragon = false;
+        // for dragon ball character mode only
+        this.characters = [new Character("Goku"), new Character("Guhan")];
+        this.currentCharacter = this.characters[0];
     }
     start(num) {
         this.mode = num;
         ballPool.genAllballs(this.mode);
+        this.players[0].name = num === 0 ? "Goku" : "One";
+        this.players[1].name = num === 0 ? "Gohan" : "Two";
     }
     shooted() {
         // change game status, monitor by this.checkAllBallsStopped
         // running in sketch.js draw, becuase of checking in every frame
         // (Cue ball Collision and pockect sensor will be implement by themselves)
         this.moving = true;
+        this.currentCharacter.rolling = true;
 
         // Hide the cue after shooting
         cue.hide = true;
@@ -74,9 +80,13 @@ class Game {
     }
 
     nextShot() {
-        // [TODO] if cueball potted, then we dont have next shot
         // reset the status when the ball stopped
         this.moving = false;
+
+        // game.currentCharacter.lastPos = createVector(this.body.position.x, this.body.position.y);
+
+        // console.log(ballPool.cueBall.body.position)
+        this.currentCharacter.stopRolling();
         ui.force = 0.5;
         // check the toRespotted balls
         if (this.toRespotted.length > 0) {
@@ -146,10 +156,22 @@ class Game {
             this.nextPlayerIsWaitingDragon = true;
             return;
         }
+        // this.currentCharacter.lastPos = createVector(ballPool.cueBall.body.position.x, ballPool.cueBall.body.position.y);
         // reset the status and array
         this.validBall = 'red';
         // other player's turn
-        this.currentPlayer = this.currentPlayer.name === "One" ? this.players[1] : this.players[0];
+        this.currentPlayer = this.currentPlayer.name === this.players[0].name ? this.players[1] : this.players[0];
+        this.currentCharacter = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
+        if (game.mode === 0) {
+            if (!this.currentCharacter.lastPos || !ballPool.cueBall.isInsideTable(this.currentCharacter.lastPos)) {
+                ballPool.cueBall.onHand = true;
+            } else {
+
+                Matter.Body.setPosition(ballPool.cueBall.body, game.currentCharacter.lastPos);
+
+                // ballPool.cueBall.body.position = createVector(this.currentCharacter.lastPos.x, this.currentCharacter.lastPos.y);
+            }
+        }
         this.freeBall = this.currentPlayer.everyShotFreeBall ? true : this.freeBall;
         this.addMessage(`Player ${this.currentPlayer.name}'s turn`);
     }
@@ -177,7 +199,7 @@ class Game {
     }
 
     outBound(ball) {
-        this.addMessage(`${ball.colorball.color === "white" ? "cue" : ball.color} out of bound!`)
+        this.addMessage(`${ball.color === "white" ? "cue" : ball.color} out of bound!`)
         this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
 
         this.penalyPoint = -ball.score;

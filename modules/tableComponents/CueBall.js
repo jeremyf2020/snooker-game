@@ -5,6 +5,7 @@ class CueBall extends Ball {
         this.isPotted = true;
         this.readyToPlace = false;
         this.collision = null;
+        this.lastPos = null;
     }
 
     isValidMove(mouseVector) {
@@ -36,6 +37,10 @@ class CueBall extends Ball {
         const adjustedMousePos = getAdjustMousePos();
         // Hide the cue while moving the cue ball
         // cue.hide = true;
+
+        if (game.mode === 0) {
+            game.currentCharacter.currentPos = createVector(adjustedMousePos.x, adjustedMousePos.y)
+        }
 
         // Draw the hand icon
         const imgSize = table.ballDiameter * 4;
@@ -92,8 +97,21 @@ class CueBall extends Ball {
             return; // Skip drawing if the ball is out of bounds
         }
         push();
-        fill(this.color)
-        drawVertices(this.body.vertices);
+        if (game.mode === 0) {
+            // if (game.currentCharacter.currentPos === null) {
+            game.currentCharacter.currentPos = createVector(this.body.position.x, this.body.position.y);
+            this.lastPos = createVector(this.body.position.x, this.body.position.y);
+            // }
+            game.currentCharacter.lastPos = createVector(this.body.position.x, this.body.position.y);
+            // else {
+            //     this.body.position = game.currentCharacter.last;
+            // }
+            // game.currentCharacter.draw();
+        }
+        else {
+            fill(this.color)
+            drawVertices(this.body.vertices);
+        }
         pop();
         cueBallKeyIsDownHandler();
         this.monitorCueBallCollisions();

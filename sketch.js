@@ -6,7 +6,8 @@ const Engine = Matter.Engine,
 
 let game, table, ballPool, cue,
     ui, handIcon, defaultFrameRate,
-    dragonBallFont, dragon, dragonBall, gokuSprite;
+    dragonBallFont, dragon, dragonBall,
+    gokuSprite, guhanSprite, gokuPoster, guhanPoster;
 
 function preload() {
     // preload the image files and fonts
@@ -15,6 +16,9 @@ function preload() {
     dragonBallsImage = loadImage('./assets/dragonBallsSheet.png');
     dragonBallFont = loadFont('./assets/Saiyan-Sans.ttf');
     gokuSprite = loadImage('./assets/gokuSpriteSheet.png');
+    guhanSprite = loadImage('./assets/guhanSpriteSheet.png');
+    gokuPoster = loadImage('./assets/gokuPoster.png');
+    guhanPoster = loadImage('./assets/guhanPoster.png');
 }
 
 
@@ -34,7 +38,6 @@ function setup() {
     cue = new Cue();
     dragon = new Dragon();
     dragonBall = new DragonBall();
-    // character = new Character();
 }
 
 function draw() {
@@ -57,6 +60,11 @@ function draw() {
         dragon.summon();
     } else {
         frameRate(defaultFrameRate);
+    }
+    if (game.mode === 0) {
+        game.characters.forEach(cg => {
+            if (cg.currentPos) cg.draw();
+        });
     }
 
 

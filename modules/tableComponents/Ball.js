@@ -40,6 +40,7 @@ class Ball {
     draw() {
         // Check if the ball is out of bounds
         if (!this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
+            console.log(this.body.position)
             if (!this.isOutOfBounds) {
                 game.outBound(this);
                 this.isOutOfBounds = true;

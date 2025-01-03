@@ -24,6 +24,16 @@ class UI {
         // almond color bg
         background(233, 227, 206);
         noStroke();
+
+        // import character poster in dragon ball mode
+        if (game.mode === 0) {
+            image(gokuPoster,
+                this.coreX - this.areaHeight - this.margin, this.topY,
+                this.areaHeight, this.areaHeight);
+            image(guhanPoster,
+                this.coreX + this.coreWidth + this.margin, this.topY,
+                this.areaHeight, this.areaHeight);
+        }
         // change the starting position, leave left (and right) have enough spacing
         translate(this.coreX, 0);
 
@@ -124,7 +134,7 @@ class UI {
         push();
         textFont(dragonBallFont);
         // Draw "Player" text
-        text(`Player ${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
+        text(`${game.mode === 0 ? "" : "Player "}${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
 
         // Draw "Score: "
         let scoreText = `Score: `;
@@ -168,15 +178,12 @@ class UI {
         fill(135, 101, 78)
 
         text('⌨️ Keyboard Control', startingX, this.tableStartY);
-        text('1️⃣ Tranditional Positions', startingX + 20, this.tableStartY + 20);
-        text('2️⃣ Random red 🔴', startingX + 20, this.tableStartY + 40);
-        text('3️⃣ Random all 🟡🟢🔵', startingX + 20, this.tableStartY + 60);
-        text('4️⃣', startingX + 20, this.tableStartY + 80);
+        text('0️⃣ Dragon Ball Mode', startingX + 20, this.tableStartY + 20);
+        text('1️⃣ Tranditional Positions', startingX + 20, this.tableStartY + 40);
+        text('2️⃣ Random red 🔴', startingX + 20, this.tableStartY + 60);
+        text('3️⃣ Random all 🟡🟢🔵', startingX + 20, this.tableStartY + 80);
 
         push();
-        textFont(dragonBallFont);
-        fill('red')
-        text('Dragon Ball Mode', startingX + 45, this.tableStartY + 80);
         pop();
 
         text('⬆️⬇️ Control cue 🦯', startingX + 20, this.tableStartY + 100);
@@ -186,9 +193,9 @@ class UI {
         text('X: Place cue ball ⚪', startingX + 20, this.tableStartY + 180);
 
         text('🖱️ Mouse Control', startingX, this.tableStartY + 220);
-        text('Move: Move cue ball ⚪', startingX + 20, this.tableStartY + 240);
-        text('Left: Control cue 🦯', startingX + 20, this.tableStartY + 260);
-        text('Right: Shoot 💥', startingX + 20, this.tableStartY + 280);
+        text('Move: Move cue ball ⚪', startingX + 23, this.tableStartY + 240);
+        text('Left: Control cue 🦯', startingX + 23, this.tableStartY + 260);
+        text('Right: Shoot 💥', startingX + 23, this.tableStartY + 280);
 
         pop();
 
