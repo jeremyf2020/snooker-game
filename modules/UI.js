@@ -141,17 +141,21 @@ class UI {
 
         // Draw collected dragon balls
         const ballSize = 20; // Size of each dragon ball icon
-        const startX = posX - 5; // Starting x-position for the balls
-        const startY = this.topY + this.areaHeight - ballSize - 10; // y-position for the balls
-        const spacing = ballSize + 5; // Spacing between balls
+        const gap = (areaWidth - ballSize * 7) / 8;
+        const ballsToDraw = player.pottedBalls; // Number of dragon balls to draw
+        const totalWidth = ballsToDraw * ballSize + (ballsToDraw - 1) * gap; // Total width of the dragon balls including gaps
+        const centerX = posX + areaWidth / 2; // Center x-position of the area
+        const startX = centerX - totalWidth / 2; // Starting x-position for the balls
+        const startY = this.topY + areaHeight - ballSize - 10; // y-position for the balls
+        const spacing = ballSize + gap; // Spacing between balls
 
-        for (let i = 1; i < player.pottedBalls + 1; i++) {
-            const star = i; // Assume this array contains star numbers (1-7)
-            const posX = startX + i * spacing;
-            const posY = startY;
+        for (let i = 0; i < ballsToDraw; i++) {
+            const star = i + 1; // Assume this array contains star numbers (1-7)
+            const ballX = startX + i * spacing; // Position each ball horizontally
+            const ballY = startY;
 
             // Draw the dragon ball using the DragonBall class
-            dragonBall.getStarBallImage(star, ballSize, posX, posY);
+            dragonBall.getStarBallImage(star, ballSize, ballX, ballY);
         }
     }
 

@@ -13,7 +13,6 @@ class Player {
         if (this.pottedBalls === 7) {
             dragon.isSummoned = true;
             this.dragonSummoring = true;
-            this.pottedBalls = 0;
         }
     }
     changeScore(score) {

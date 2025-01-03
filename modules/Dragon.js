@@ -232,6 +232,7 @@ class Dragon {
             }
 
             summoringPlayer.dragonSummoring = false;
+            summoringPlayer.pottedBalls = 0;
         }
         //refresh the wishes
         this.generateWishes();
