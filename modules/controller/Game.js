@@ -33,6 +33,7 @@ class Game {
     }
 
     potted(ball) {
+        this.addMessage(`${ball.color === "white" ? "cue" : ball.color} ball has been potted`)
         // remove the potted ball from the ballPool
         ballPool.removeFromPool(ball);
         // check the potted ball is valid potted
@@ -86,7 +87,8 @@ class Game {
                 }
                 if (ball.color === 'white') {
                     ballPool.genCueBall();
-                    this.addMessage("cue ball has been respotted")
+                    this.addMessage("cue ball has been respotted");
+                    this.addMessage("Please place your cue ball in D-zone");
                     continue;
                 }
                 ballPool.reSpot(ball.id);
@@ -122,6 +124,7 @@ class Game {
                 ball.availableToSel = true;
             });
             this.validBall = null;
+            this.addMessage("Please select a color ball to pot");
         }
         if (this.lastPoted !== 'red') {
             // that means it must be color, white ball wouldnt be valid potted
@@ -134,8 +137,7 @@ class Game {
             // if red remainngi, next should be red
             this.validBall = 'red';
         }
-
-        this.freeBall = this.currentPlayer.everyShotFreeBall;
+        this.freeBall = this.currentPlayer.everyShotFreeBall ? true : this.freeBall;
         this.lastPoted = null;
     }
 
@@ -148,11 +150,13 @@ class Game {
         this.validBall = 'red';
         // other player's turn
         this.currentPlayer = this.currentPlayer.name === "One" ? this.players[1] : this.players[0];
-        this.freeBall = game.currentPlayer.everyRoundFreeBall;
+        this.freeBall = this.currentPlayer.everyShotFreeBall ? true : this.freeBall;
+        this.addMessage(`Player ${this.currentPlayer.name}'s turn`);
     }
 
     gameEnded() {
-
+        this.addMessage(`Game ended!`);
+        this.addMessage(`Player ${this.players[0].score > this.players[1].score ? this.players[0].name : this.players[1].name} won!`);
     }
     addMessage(str) {
         this.board.unshift(str)
@@ -173,7 +177,7 @@ class Game {
     }
 
     outBound(ball) {
-        this.addMessage(`${ball.color} out bound!`)
+        this.addMessage(`${ball.colorball.color === "white" ? "cue" : ball.color} out of bound!`)
         this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
 
         this.penalyPoint = -ball.score;
@@ -193,7 +197,7 @@ class Game {
 
     changeScore(num, targetPlayer = this.currentPlayer) {
         targetPlayer.changeScore(num);
-        this.addMessage(`Player ${targetPlayer.name} score increased by ${num}`);
+        this.addMessage(`Player ${targetPlayer.name} score ${num > 0 ? "increased" : "decreased"} by ${num}`);
     }
 
     stealBalls(summoingPlayer) {

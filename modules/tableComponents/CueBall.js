@@ -61,7 +61,7 @@ class CueBall extends Ball {
             this.onHand = false;
             this.isPotted = false;
             // cue.hide = false;
-            game.addMessage("Control Cue by keyboard/dragging mouse");
+            game.addMessage("control cue by keyboard/dragging mouse");
         }
     }
 

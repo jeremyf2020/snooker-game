@@ -142,7 +142,7 @@ class UI {
         // Draw collected dragon balls
         const ballSize = 20; // Size of each dragon ball icon
         const gap = (areaWidth - ballSize * 7) / 8;
-        const ballsToDraw = player.pottedBalls; // Number of dragon balls to draw
+        const ballsToDraw = player.pottedBalls > 7 ? 7 : player.pottedBalls; // Number of dragon balls to draw
         const totalWidth = ballsToDraw * ballSize + (ballsToDraw - 1) * gap; // Total width of the dragon balls including gaps
         const centerX = posX + areaWidth / 2; // Center x-position of the area
         const startX = centerX - totalWidth / 2; // Starting x-position for the balls

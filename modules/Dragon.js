@@ -22,7 +22,7 @@ class Dragon {
             "S": [
                 "Score +50",
                 "opponent's score -40",
-                "free ball in every turn"
+                "D-zone right in every shot"
             ],
             "A": [
                 "Score +30",
@@ -33,7 +33,7 @@ class Dragon {
                 "Score +25",
                 "opponent's score -20",
                 "take opponent's dragon ball",
-                "free ball in every round"
+                "D-zone right in every round"
             ],
             "C": [
                 "Score +20",
@@ -219,10 +219,11 @@ class Dragon {
             }
             if (this.currentWish === "take opponent's dragon ball") {
                 game.stealBalls(summoringPlayer);
+                return;
             }
-            const freeBallMatch = this.currentWish.match(/free ball in every ([a-z]+)/);
+            const freeBallMatch = this.currentWish.match(/D\-zone right in every ([a-z]+)/);
             if (freeBallMatch) {
-                if (freeBallMatch[1] === "turn") {
+                if (freeBallMatch[1] === "shot") {
                     summoringPlayer.everyRoundFreeBall = true;
                     summoringPlayer.everyShotFreeBall = true;
                 }

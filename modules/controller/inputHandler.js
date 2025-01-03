@@ -83,6 +83,7 @@ function shootController() {
     }
     ui.forceIsRunning = true;
     ui.forceIsSelected = true;
+    game.addMessage('Select the force of the shot');
     return;
 }
 
