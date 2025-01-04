@@ -29,9 +29,12 @@ class Cue {
         const predictiveLineEndX = this.cueStartX + table.tableLength * -Math.cos(this.cueAngle);
         const predictiveLineEndY = this.cueStartY + table.tableLength * -Math.sin(this.cueAngle);
 
+
         stroke(0, 255, 0, 150); // Semi-transparent green for the line
         strokeWeight(2);
-        line(this.cueStartX, this.cueStartY, predictiveLineEndX, predictiveLineEndY);
+        line((game.mode === 0 ? ballPool.cueBall.body.position.x : this.cueStartX),
+            (game.mode === 0 ? ballPool.cueBall.body.position.y : this.cueStartY),
+            predictiveLineEndX, predictiveLineEndY);
     }
 
     draw() {
@@ -49,13 +52,47 @@ class Cue {
             this.cueAngle = Math.atan2(adjustedMouse.y - ballPool.cueBall.body.position.y, adjustedMouse.x - ballPool.cueBall.body.position.x);
         }
         push();
-        stroke(0);
-        strokeWeight(5);
-        line(this.cueStartX, this.cueStartY, this.cueEndX, this.cueEndY);
-        stroke(219, 197, 146)
-        line(this.cueStartX, this.cueStartY, this.halfCueEndX, this.halfCueEndY);
-        stroke('lightblue')
-        line(this.cueStartX, this.cueStartY, this.rubberEndX, this.rubberEndY);
+        if (game.mode === 0) {
+            // dragon ball mode, draw a triangle
+            const triangleBase = table.ballDiameter * 2; // Width of the triangle's base
+            const rubberTipLength = table.ballDiameter * 2; // Length of the triangle's base center offset from cue ball
+
+            // Tip of the triangle (points to the cue ball)
+            const tipX = this.cueStartX;
+            const tipY = this.cueStartY;
+
+            // Base center (behind the cue ball, opposite to cueAngle)
+            const baseCenterX = this.cueStartX + rubberTipLength * Math.cos(this.cueAngle);
+            const baseCenterY = this.cueStartY + rubberTipLength * Math.sin(this.cueAngle);
+
+            // Base points (perpendicular to the cue direction, behind the cue ball)
+            const baseX1 = baseCenterX - (triangleBase / 2) * Math.sin(this.cueAngle);
+            const baseY1 = baseCenterY + (triangleBase / 2) * Math.cos(this.cueAngle);
+
+            const baseX2 = baseCenterX + (triangleBase / 2) * Math.sin(this.cueAngle);
+            const baseY2 = baseCenterY - (triangleBase / 2) * Math.cos(this.cueAngle);
+
+            // Draw the triangle
+            fill(0, 255, 0, 150); // Cue color
+            noStroke();
+            triangle(
+                tipX, tipY,      // Tip of the triangle (cue ball)
+                baseX1, baseY1,  // First base point
+                baseX2, baseY2   // Second base point
+            );
+
+
+        }
+        else {
+            // draw normal cue
+            stroke(0);
+            strokeWeight(5);
+            line(this.cueStartX, this.cueStartY, this.cueEndX, this.cueEndY);
+            stroke(219, 197, 146)
+            line(this.cueStartX, this.cueStartY, this.halfCueEndX, this.halfCueEndY);
+            stroke('lightblue')
+            line(this.cueStartX, this.cueStartY, this.rubberEndX, this.rubberEndY);
+        }
         pop();
         this.drawPredictiveLine();
         cueKeyIsDownHandler();

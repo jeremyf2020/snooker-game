@@ -37,6 +37,17 @@ class BallPool {
     }
 
     genCueBall() {
+        if (this.mode === 0 && game.currentCharacter.outBounded) {
+            const opponent = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
+            if (opponent.lastPos) {
+                this.cueBall = new CueBall(game.currentCharacter.lastPos.x, game.currentCharacter.lastPos.y, table.ballDiameter);
+                this.cueBall.onHand = false;
+                this.cueBall.isPotted = false;
+
+                return this.cueBall;
+            }
+        }
+
         return this.cueBall = new CueBall(table.baulkLinePoisition - table.dRadius, table.surfaceSize.y / 2, table.ballDiameter);
     }
 

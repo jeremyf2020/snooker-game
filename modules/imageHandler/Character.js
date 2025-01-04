@@ -21,6 +21,8 @@ class Character {
         this.rotationSpeed = 0.5; // Speed of rotation
         this.rolling = false; // Rolling state
         this.lastPos = null;
+        this.outBounded = false;
+
     }
 
     draw() {

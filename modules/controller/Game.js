@@ -1,6 +1,6 @@
 class Game {
     constructor() {
-        this.mode = 0;
+        this.mode = 1;
         this.players = [new Player("One"), new Player("Two")];
         this.currentPlayer = this.players[0];
         this.board = ["Please place your cue ball in D-zone"];
@@ -83,10 +83,17 @@ class Game {
         // reset the status when the ball stopped
         this.moving = false;
 
-        // game.currentCharacter.lastPos = createVector(this.body.position.x, this.body.position.y);
+        if (this.mode === 0 && !ballPool.cueBall) {
+            // const opponent = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
+            // if (opponent.lastPos) {
+            //     Matter.Body.setPosition(ballPool.cueBall.body, opponent.lastPos);
+            // }
 
-        // console.log(ballPool.cueBall.body.position)
+            this.currentCharacter.currentPos = null;
+            this.currentCharacter.lastPos = null;
+        }
         this.currentCharacter.stopRolling();
+
         ui.force = 0.5;
         // check the toRespotted balls
         if (this.toRespotted.length > 0) {
@@ -99,6 +106,14 @@ class Game {
                     ballPool.genCueBall();
                     this.addMessage("cue ball has been respotted");
                     this.addMessage("Please place your cue ball in D-zone");
+                    if (this.mode === 0) {
+                        const opponent = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
+                        if (opponent.lastPos) {
+                            Matter.Body.setPosition(ballPool.cueBall.body, opponent.lastPos);
+                            ballPool.cueBall.onHand = false;
+                            ballPool.cueBall.isPotted = false;
+                        }
+                    }
                     continue;
                 }
                 ballPool.reSpot(ball.id);
@@ -163,8 +178,12 @@ class Game {
         this.currentPlayer = this.currentPlayer.name === this.players[0].name ? this.players[1] : this.players[0];
         this.currentCharacter = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
         if (game.mode === 0) {
-            if (!this.currentCharacter.lastPos || !ballPool.cueBall.isInsideTable(this.currentCharacter.lastPos)) {
+            if (!this.currentCharacter.lastPos
+                || !ballPool.cueBall.isInsideTable(this.currentCharacter.lastPos)
+                // || this.currentCharacter.outBounded
+            ) {
                 ballPool.cueBall.onHand = true;
+                cue.hide = true;
             } else {
 
                 Matter.Body.setPosition(ballPool.cueBall.body, game.currentCharacter.lastPos);
@@ -186,14 +205,15 @@ class Game {
 
     checkAllBallsStopped() {
         // Check all balls
-        for (const ball of [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls]) {
-            if (!ball) {
+        for (const ball of [ballPool.cueBall, ...ballPool.redBalls, ...ballPool.colorBalls]) { // check all balls
+            if (!ball) { // skip if the ball is not exist
                 continue;
             }
             const speed = ball.body.speed;
-            if (speed > 0.001) {
+            if (speed > 0.005) { // check if any ball is moving
                 return false;
             }
+            ball.body.speed = 0; // when almost stop, completely stop it to make next turn faster come up
         }
         return true;
     }
@@ -202,19 +222,21 @@ class Game {
         this.addMessage(`${ball.color === "white" ? "cue" : ball.color} out of bound!`)
         this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
 
-        this.penalyPoint = -ball.score;
+        this.penalyPoint = ball.score;
         ballPool.removeFromPool(ball);
+        if (this.mode === 0) {
+            this.currentCharacter.outBounded = true;
+        }
         if (ball.color === 'white') {
             this.toRespotted.push(ball);
-            // ballPool.genCueBall();
             this.addMessage(`Place cue ball back on table`)
         } else if (ball.color !== 'red') {
             this.toRespotted.push(ball);
-            // ballPool.reSpot(ball.id);
             this.addMessage(`Place ${ball.color} back on table`);
         }
         this.freeBall = true;
         this.lastPoted = null;
+        cue.hide = true;
     }
 
     changeScore(num, targetPlayer = this.currentPlayer) {

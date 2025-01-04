@@ -7,6 +7,7 @@ function keyPressed() {
     // game controller
     if (key === '0' || key === '1' || key === '2' || key === '3') {
         game.start(parseInt(key));
+        cue.hide = true;
     }
     // cue controller
     if (key === ' ' && !ballPool.cueBall.onHand) {
