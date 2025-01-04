@@ -1,6 +1,6 @@
 class Game {
     constructor() {
-        this.mode = 0;
+        this.mode = 1;
         this.players = [new Player("One"), new Player("Two")];
         this.currentPlayer = this.players[0];
         this.board = ["Please place your cue ball in D-zone"];
@@ -88,18 +88,13 @@ class Game {
         this.moving = false;
 
         if (this.mode === 0 && !ballPool.cueBall) {
-            // const opponent = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
-            // if (opponent.lastPos) {
-            //     Matter.Body.setPosition(ballPool.cueBall.body, opponent.lastPos);
-            // }
-
             this.currentCharacter.currentPos = null;
             this.currentCharacter.lastPos = null;
         }
         this.currentCharacter.stopRolling();
 
         ui.force = 0.5;
-        // check the toRespotted balls
+        // check the toRespotted balls, see message for situation explaination
         if (this.toRespotted.length > 0) {
             let pottedColorBalls = 0;
             for (const ball of this.toRespotted) {
@@ -111,6 +106,7 @@ class Game {
                     this.addMessage("cue ball has been respotted");
                     this.addMessage("Please place your cue ball in D-zone");
                     if (this.mode === 0) {
+                        // in dragon ball mode, the cue ball will be placed at the last position of the opponent, avoid the position is out of bound
                         const opponent = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
                         if (opponent.lastPos) {
                             Matter.Body.setPosition(ballPool.cueBall.body, opponent.lastPos);
@@ -175,24 +171,21 @@ class Game {
             this.nextPlayerIsWaitingDragon = true;
             return;
         }
-        // this.currentCharacter.lastPos = createVector(ballPool.cueBall.body.position.x, ballPool.cueBall.body.position.y);
         // reset the status and array
         this.validBall = 'red';
         // other player's turn
         this.currentPlayer = this.currentPlayer.name === this.players[0].name ? this.players[1] : this.players[0];
         this.currentCharacter = this.currentCharacter.name === this.characters[0].name ? this.characters[1] : this.characters[0];
         if (game.mode === 0) {
+            // in dragon ball mode, the position of the cue ball will be stored
             if (!this.currentCharacter.lastPos
                 || !ballPool.cueBall.isInsideTable(this.currentCharacter.lastPos)
-                // || this.currentCharacter.outBounded
             ) {
                 ballPool.cueBall.onHand = true;
                 cue.hide = true;
             } else {
-
+                // apply the last position of the opponent
                 Matter.Body.setPosition(ballPool.cueBall.body, game.currentCharacter.lastPos);
-
-                // ballPool.cueBall.body.position = createVector(this.currentCharacter.lastPos.x, this.currentCharacter.lastPos.y);
             }
         }
         this.freeBall = this.currentPlayer.everyShotFreeBall ? true : this.freeBall;
@@ -223,12 +216,15 @@ class Game {
     }
 
     outBound(ball) {
+        // check if the ball is out of bound
         this.addMessage(`${ball.color === "white" ? "cue" : ball.color} out of bound!`)
         this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
 
+        // penalyPoint is now positive, excution will turn it to negative
         this.penalyPoint = ball.score;
         ballPool.removeFromPool(ball);
         if (this.mode === 0) {
+            // dragon ball mode
             this.currentCharacter.outBounded = true;
         }
         if (ball.color === 'white') {
@@ -238,12 +234,14 @@ class Game {
             this.toRespotted.push(ball);
             this.addMessage(`Place ${ball.color} back on table`);
         }
+        //reset the status
         this.freeBall = true;
         this.lastPoted = null;
         cue.hide = true;
     }
 
     changeScore(num, targetPlayer = this.currentPlayer) {
+        // change the score of the player
         targetPlayer.changeScore(num);
         this.addMessage(`Player ${targetPlayer.name} score ${num > 0 ? "increased" : "decreased"} by ${num}`);
     }
@@ -254,7 +252,6 @@ class Game {
         const targetBalls = targetPlayer.pottedBalls;
         summoingPlayer.pottedBalls = targetBalls;
         targetPlayer.pottedBalls = 0;
-
     }
 
 }

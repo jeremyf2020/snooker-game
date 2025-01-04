@@ -1,6 +1,6 @@
 /* All the engine objects will be produced by Drawer */
-
 function drawVertices(vertices) {
+    // draw all the physics objects by vertices
     beginShape();
     for (var i = 0; i < vertices.length; i++) {
         vertex(vertices[i].x, vertices[i].y);
@@ -9,9 +9,9 @@ function drawVertices(vertices) {
 }
 
 function getAdjustMousePos() {
+    // common shared function to get the mouse position (becuase of the translated matrix)
     return createVector(mouseX - ui.coreX - table.surfaceStartPoint.x, mouseY - ui.tableStartY - table.surfaceStartPoint.y);
 }
-
 
 function drawNoSign(x, y, size) {
     // Draw the outer circle (red)
@@ -32,6 +32,8 @@ function drawNoSign(x, y, size) {
 }
 
 function createBaizeTexture(w, h) {
+    // the output is not ideal, [TODO:] need to adjust the texture for appearance
+    // not used in the current version (04/01/2025)
     let graphics = createGraphics(w, h);
 
     // Base green color for the baize
@@ -63,11 +65,11 @@ function createBaizeTexture(w, h) {
         }
     }
     graphics.updatePixels();
-
     return graphics;
 }
 
 
+// calculate next colour ball if all the red balls are potted
 function nextColorBall() {
     const colorOrder = ['yellow', 'green', 'brown', 'blue', 'pink', 'black']; // Snooker color order
     const remainingColors = ballPool.colorBalls.map(ball => ball.color); // Get remaining colors on the table

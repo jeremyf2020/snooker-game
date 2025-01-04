@@ -21,7 +21,7 @@ class UI {
         this.forceIsRunning = false;
     }
     draw() {
-        // almond color bg
+        // almond colour bg
         background(233, 227, 206);
         noStroke();
 
@@ -62,18 +62,20 @@ class UI {
         // Apply the gradient as the fill style
         drawingContext.fillStyle = gradientBg;
         noStroke();
-        // Draw the rectangle using the gradient
+        // Draw the oscillation bar using the gradient
         const width = this.coreWidth / 3 * 0.8;
         const margin = this.coreWidth / 3 * 0.1;
         const oscillationHeight = this.areaHeight * 0.1;
         rect(this.coreX + margin, this.topY + this.areaHeight * 0.8, width, oscillationHeight);
 
+        // Draw the force text
         push();
         textSize(25);
         textFont(dragonBallFont);
         text('FORCE', this.coreX + margin + width / 2, this.topY + this.areaHeight * 0.6);
         pop();
 
+        // check if the force is running
         if (this.forceIsRunning) {
             // Draw the force indicator
             let oscillationSpeed = 0.08; // Speed of oscillation 
@@ -88,20 +90,16 @@ class UI {
             this.topY + this.areaHeight * 0.8 + oscillationHeight / 2,
             15, 15
         );
-
-
         pop();
-
-
-
     }
+    // reset the force control
     resetForce() {
         ui.forceIsSelected = false;
         ui.forceIsRunning = false;
     }
 
+    // draw player areas
     drawPlayer(player, areaWidth, areaHeight, posX) {
-        /* draw player areas */
         // show sharper color to tell user which player is in ctrl
         if (game.currentPlayer === player) {
             const glowSize = 15; // Glow size for the aura
@@ -124,6 +122,7 @@ class UI {
             strokeWeight(1);
             stroke(255, 215, 0); // Gold stroke
         }
+        // Emphasize the current player's area with orange color and golden stroke
         fill(game.currentPlayer === player ? "orange" : '#A8A6A7');
         rect(posX, this.topY, areaWidth, areaHeight, 10);
         noStroke();
@@ -132,13 +131,16 @@ class UI {
         textAlign(CENTER, CENTER);
         // Draw "Player 1" text
         push();
+        // ============== IMPORTANT ==============
+        // dragon ball font doesnt support number
+        // =======================================
         textFont(dragonBallFont);
         // Draw "Player" text
         text(`${game.mode === 0 ? "" : "Player "}${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
 
         // Draw "Score: "
-        let scoreText = `Score: `;
-        let scoreTextWidth = textWidth(scoreText); // Calculate width of "Score: "
+        let scoreText = `Score  `;
+        let scoreTextWidth = textWidth(scoreText); // Calculate width of "Score"
         textFont(dragonBallFont);
         text(scoreText, posX + areaWidth / 2, this.topY + this.areaHeight / 4 * 2);
 
@@ -170,44 +172,48 @@ class UI {
         }
     }
 
+    // draw instruction on the right side
     drawInstuctions() {
+        // calculate the starting position
         const startingX = this.coreWidth + this.margin;
         push();
-        textSize(14);
-        textAlign(LEFT, TOP);
-        fill(135, 101, 78)
+        textSize(14); // smaller text
+        textAlign(LEFT, TOP); // Align text to the left
+        fill(135, 101, 78) // Brown text
 
+        // keyboard instructions
         text('⌨️ Keyboard Control', startingX, this.tableStartY);
+        // game modes
         text('0️⃣ Dragon Ball Mode', startingX + 20, this.tableStartY + 20);
         text('1️⃣ Tranditional Positions', startingX + 20, this.tableStartY + 40);
         text('2️⃣ Random red 🔴', startingX + 20, this.tableStartY + 60);
         text('3️⃣ Random all 🟡🟢🔵', startingX + 20, this.tableStartY + 80);
-
-        push();
-        pop();
-
+        // cue control
         text('⬆️⬇️ Control cue 🦯', startingX + 20, this.tableStartY + 100);
         text('⬅️➡️ Adjust cue Position', startingX + 20, this.tableStartY + 120);
+        // cue ball control
         text('WASD: Move cue ball ⚪', startingX + 20, this.tableStartY + 140);
         text('Z: Move ⚪ to D-zone', startingX + 20, this.tableStartY + 160);
         text('X: Place cue ball ⚪', startingX + 20, this.tableStartY + 180);
-
+        // mouse instructions
         text('🖱️ Mouse Control', startingX, this.tableStartY + 220);
+        // cue ball control
         text('Move: Move cue ball ⚪', startingX + 23, this.tableStartY + 240);
+        // cue control
         text('Left: Control cue 🦯', startingX + 23, this.tableStartY + 260);
         text('Right: Shoot 💥', startingX + 23, this.tableStartY + 280);
-
         pop();
-
     }
 
+    // get the cue ball collision (using getter becuase ui init later than ballPool, could be improved if refactor)
     get cueBallCollision() {
         return ballPool.cueBall ? ballPool.cueBall.collision : null;
     }
 
+    // draw the bottom areas (game board messages and reaction board: target & collision)
     drawBottomAreas() {
+        // calculate the area width, max messages, and other variables
         const areaWidth = (this.coreWidth - this.margin) / 2;
-        // const this.areaHeight = this.maxAreaHeight > 90 ? 90 : this.maxAreaHeight;
         const maxMessages = Math.floor(this.areaHeight / 20) < game.board.length ? Math.floor(this.areaHeight / 20) : game.board.length;
 
         // Left area: Game board messages
@@ -216,12 +222,14 @@ class UI {
         stroke('grey');
         strokeWeight(4)
         rect(0, this.bottomStartY, areaWidth, this.areaHeight);
-        noStroke()
-        fill('palegreen'); // Green text
+        noStroke();
+        // Green text and font to simulate a computer terminal
+        fill('palegreen');
         textSize(16);
         textAlign(LEFT, TOP);
         textFont('Courier New', 12);
 
+        // Display the game board messages
         for (let i = maxMessages - 1; i >= 0; i--) {
             text(`${game.board[i]}`, 10, this.bottomStartY + 10 + i * 18);
         }
@@ -253,7 +261,7 @@ class UI {
         text('Red', rightAreaStartX + columnWidth * 2.5, this.bottomStartY + rowHeight + 5);
         text('Color', rightAreaStartX + columnWidth * 3.5, this.bottomStartY + rowHeight + 5);
         // Lines:
-        stroke(135, 101, 78);
+        stroke(135, 101, 78); // Brown stroke
         strokeWeight(3);
         line(rightAreaStartX, this.bottomStartY + rowHeight, this.coreWidth, this.bottomStartY + rowHeight); // horizontal line
         line(rightAreaStartX + columnWidth, this.bottomStartY, rightAreaStartX + columnWidth, this.bottomStartY + this.areaHeight); // vertical lines
@@ -267,24 +275,28 @@ class UI {
 
         // target ball
         if (game.validBall) {
+            // draw the target ball
             fill(game.validBall)
             ellipse(rightAreaStartX + columnWidth * 0.5, this.bottomStartY + (this.areaHeight + rowHeight) / 2, 20, 20);
         }
         if (!this.cueBallCollision) {
+            // if no cue ball/cueBallCollision, end the function
             pop();
             return
         }
-        fill(this.cueBallCollision)
+        fill(this.cueBallCollision);
         if (this.cueBallCollision == 'darkgreen') {
-            rectMode(CENTER)
+            // collised cushion
+            rectMode(CENTER);
             rect(rightAreaStartX + columnWidth * 1.5, this.bottomStartY + (this.areaHeight + padding + rowHeight * 2) / 2, 20, 20);
         } else if (this.cueBallCollision == 'red') {
+            // collised red ball
             ellipse(rightAreaStartX + columnWidth * 2.5, this.bottomStartY + (this.areaHeight + padding + rowHeight * 2) / 2, 20, 20);
         } else {
+            // collised color ball
             ellipse(rightAreaStartX + columnWidth * 3.5, this.bottomStartY + (this.areaHeight + padding + rowHeight * 2) / 2, 20, 20);
         }
         pop();
     }
-
 }
 

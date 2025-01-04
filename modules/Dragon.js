@@ -22,23 +22,23 @@ class Dragon {
             "S": [
                 "Score +50",
                 "opponent's score -40",
-                "D-zone right in every shot"
+                "D-zone rights in every shot"
             ],
             "A": [
                 "Score +30",
                 "opponent's score -25",
-                // "control the force manually"
+                // "control the force manually" //[TODO]
             ],
             "B": [
                 "Score +25",
                 "opponent's score -20",
                 "take opponent's dragon ball",
-                "D-zone right in every round"
+                "D-zone rights in every round"
             ],
             "C": [
                 "Score +20",
                 "opponent's score -15",
-                // "blind your opponent"
+                // "blind your opponent" //[TODO]
                 "reborn all balls randomly",
             ],
             "D": [
@@ -57,10 +57,9 @@ class Dragon {
 
     summon() {
         push();
+        // reset the translation 
         resetMatrix();
-
         this.drawCloud(); // Update and draw the cloud
-
         // Draw the image centered horizontally
         image(
             dragonImage,
@@ -69,20 +68,19 @@ class Dragon {
             this.scaledWidth,
             this.scaledHeight
         );
-
+        // rasing the dragon
         this.moveUp(6);
         if (!this.isMoving && this.isSummoned) {
             this.finishSummoning = false;
             this.drawWishes();
         }
-
         pop();
     }
 
+    // rasing the dragon by speed 
     moveUp(speed = 2) {
         if (this.isMoving) {
             this.y -= speed; // Move up by decreasing y-coordinate
-
             // Stop moving when the dragon reaches the top
             if (this.y - this.imageHeight * this.scale / 2 <= ui.topY) {
                 this.isMoving = false; // Stop the movement
@@ -91,7 +89,9 @@ class Dragon {
         }
     }
 
+    // generate the wishes randomly from the wish list (this.wishes)
     generateWishes() {
+        // Define the levels and corresponding weights
         const levels = Object.keys(this.wishes);
         const weights = [1, 2, 4, 8, 16, 32, 64]; // Weights for each level, higher is lower chance
         const weightedPool = [];
@@ -115,6 +115,7 @@ class Dragon {
     }
 
     drawWishes() {
+        // calculte the position of the wishes
         const rectWidth = 400;
         const rectHeight = 50;
         const startX = this.x - rectWidth / 2; // Center horizontally
@@ -122,6 +123,7 @@ class Dragon {
         const glowSize = 15; // Glow size for aura
         const ballSize = 30; // Size of the dragon ball image
 
+        // drawing dragon dialog
         push();
         textFont(dragonBallFont);
         textAlign(CENTER, CENTER);
@@ -132,6 +134,7 @@ class Dragon {
         text("Speak your wish", startX + rectWidth / 2, startY - rectHeight);
         pop();
 
+        // Draw the wishes
         push();
         textAlign(LEFT, CENTER);
         textSize(18);
@@ -194,6 +197,7 @@ class Dragon {
     }
 
     handleWishSelection() {
+        // Check if a wish is selected
         if (this.currentWish) {
             this.finishSummoning = true; // Mark summoning as complete
             this.isSummoned = false; // Disable summoning
@@ -213,15 +217,18 @@ class Dragon {
                 const targetPlayer = game.players.find(player => player.dragonSummoring === false)
                 game.changeScore(-decreaseAmount, targetPlayer);
             }
+            // Handle reborn wishes
             const rebornMatch = this.currentWish.match(/reborn (.+?) balls/);
             if (rebornMatch) {
                 ballPool.rebornBalls(rebornMatch[1]);
             }
+            // Handle Stealing opponent's dragon ball
             if (this.currentWish === "take opponent's dragon ball") {
                 game.stealBalls(summoringPlayer);
                 return;
             }
-            const freeBallMatch = this.currentWish.match(/D\-zone right in every ([a-z]+)/);
+            // Handle D-zone rights wishes
+            const freeBallMatch = this.currentWish.match(/D\-zone rights in every ([a-z]+)/);
             if (freeBallMatch) {
                 if (freeBallMatch[1] === "shot") {
                     summoringPlayer.everyRoundFreeBall = true;
@@ -231,7 +238,7 @@ class Dragon {
                     summoringPlayer.everyRoundFreeBall = true;
                 }
             }
-
+            // reset the dragon ball mode
             summoringPlayer.dragonSummoring = false;
             summoringPlayer.pottedBalls = 0;
         }

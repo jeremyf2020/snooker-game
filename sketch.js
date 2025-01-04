@@ -78,8 +78,11 @@ function draw() {
 
 //=======App Design=======
 
+//**Program hierarchy*/
+//game logic, ball pool, cueball extend ball
+//ui matrix trasnaltion,
 
-//=======Human Interaction=======
+//=======Human Interaction(UI)=======
 
 //**CUEBALL**:
 //placed by the user when start game or after a foul (including out of bounds).
@@ -140,8 +143,14 @@ function draw() {
 //1.Score+-:Although the score will not count on marks, it still essential for the game.
 //2.reborn:Regenerate selected ball set to random position.
 //3.Steal balls:Steal dragon balls from the opponent.
+//4.D-zone rights:Rights to place the cue ball in the D-zone.
 
-//__force control__:
+//**Dragon Ball**:
+//__Character Mode__:
+
+//__animation__:
+
+//**force control**:
 
 
 

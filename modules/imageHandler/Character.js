@@ -1,4 +1,6 @@
 const gokuCropPos = {
+    // different positions of goku in the sprite sheet, 
+    // will be used to crop the image depending on the motion
     'idle': [{ 'pos': { x: 320, y: 1084 }, 'size': { x: 43, y: 86 } }],
     'roll': [{ 'pos': { x: 145, y: 555 }, 'size': { x: 49, y: 38 } },],
     'attack': [
@@ -6,10 +8,6 @@ const gokuCropPos = {
         { 'pos': { x: 230, y: 780 }, 'size': { x: 58, y: 82 } },
         { 'pos': { x: 168, y: 780 }, 'size': { x: 54, y: 82 } },
         { 'pos': { x: 290, y: 780 }, 'size': { x: 62, y: 82 } },
-        // { 'pos': { x: 356, y: 780 }, 'size': { x: 49, y: 82 } },
-        // { 'pos': { x: 409, y: 780 }, 'size': { x: 55, y: 82 } },
-        // { 'pos': { x: 473, y: 780 }, 'size': { x: 54, y: 82 } },
-        // { 'pos': { x: 533, y: 780 }, 'size': { x: 49, y: 82 } },
         { 'pos': { x: 583, y: 780 }, 'size': { x: 62, y: 82 } },
         { 'pos': { x: 649, y: 780 }, 'size': { x: 57, y: 82 } },
         { 'pos': { x: 716, y: 780 }, 'size': { x: 54, y: 82 } },
@@ -17,6 +15,8 @@ const gokuCropPos = {
     ],
 }
 const guhanCropPos = {
+    //different positions of guhan in the sprite sheet, 
+    // will be used to crop the image depending on the motion
     'idle': [{ 'pos': { x: 285, y: 1362 }, 'size': { x: 31, y: 83 } }],
     'roll': [{ 'pos': { x: 218, y: 616 }, 'size': { x: 43, y: 47 } }],
     'attack': [
@@ -32,6 +32,7 @@ const guhanCropPos = {
 }
 
 class Character {
+    // initialize the character with the name
     constructor(name) {
         this.name = name;
         this.currentPos = null; // Initialize position
@@ -49,7 +50,6 @@ class Character {
         this.animationFrameCounter = 10; // Counter for frame delay
     }
 
-
     draw() {
         push();
         // Move the origin to the character's position
@@ -58,24 +58,24 @@ class Character {
             return;
         }
 
+        // translate the position of the character to the current position for drawing
         translate(this.currentPos.x, this.currentPos.y);
+        // attack motion: when the character starts moving, stop when the character collised with the other ball
+        if (this.motion === 'attack') {
+            this.attack(); // Update frame for left motion
+        }
+        // roll motion: when the character collised with the other ball, stop when it really stopped
         if (this.motion === 'roll') {
             rotate(this.angle);
             this.angle += this.speed; // Increment rotation angle
         }
-
-        if (this.motion === 'attack') {
-            this.attack(); // Update frame for left motion
-        }
-
         // Draw the image centered at the origin
-        if (!this.cropPos) {
+        if (!this.cropPos) { // enable the position
             console.error("Crop position is undefined. Check motion and sprite configuration.");
             pop();
             return;
         }
-
-        imageMode(CENTER);
+        imageMode(CENTER); //center image at the origin to draw, convinient for rotation
         image(
             this.sprite,
             0, 0, // Position relative to the new origin
@@ -87,10 +87,12 @@ class Character {
             this.cropPos.size.y  // Source height
         );
         pop();
+        // update the last position of the character for the next round 
         this.lastPos = this.currentPos;
     }
 
     getCropPos(motion) {
+        // currently only have 2 characters, so we can hard code the crop position
         const cropArray = this.name === 'Goku' ? gokuCropPos[motion] : guhanCropPos[motion];
         if (!cropArray || cropArray.length === 0) {
             console.error(`Crop array for motion '${motion}' is empty or undefined.`);
@@ -100,11 +102,13 @@ class Character {
     }
 
     stopRolling() {
+        // stop rolling when it really stopped (speed almost 0 will turn to 0)
         this.rolling = false;
         this.updateMotion('idle');
     }
 
     updateMotion(motion) {
+        // update the motion of the character (for external use)
         this.motion = motion;
         this.cropPosIndex = 0;
         const newCropPos = this.getCropPos(this.motion);
@@ -116,10 +120,13 @@ class Character {
     }
 
     setRotationSpeed(speed) {
+        // set the speed of rotation (for external use)
         this.speed = speed;
     }
 
     attack() {
+        // this function starts the animation of attack motion
+        // (attack motion: when the character starts moving, stop when the character collised with the other ball)
         this.animationFrameCounter++;
         if (this.animationFrameCounter >= this.animationFrameDelay) {
             this.animationFrameCounter = 0;

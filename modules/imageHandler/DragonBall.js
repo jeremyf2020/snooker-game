@@ -1,5 +1,6 @@
 class DragonBall {
     constructor() {
+        // The crop positions of the dragon balls in the image
         this.positions = [
             { x: 430, y: 0 },
             { x: 1500, y: 0 },

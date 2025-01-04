@@ -1,4 +1,5 @@
 class Cue {
+    // init the cue    
     constructor() {
         this.gap = 30;
         this.length = 200;
@@ -9,27 +10,27 @@ class Cue {
     }
 
     updateCuePosition() {
-        // Always calculate the cue's position relative to the cue ball
+        // calculate the cue's position relative to the cue ball
         this.cueStartX = ballPool.cueBall.body.position.x + this.gap * Math.cos(this.cueAngle);
         this.cueStartY = ballPool.cueBall.body.position.y + this.gap * Math.sin(this.cueAngle);
 
+        // calculate the cue's end position
         this.cueEndX = this.cueStartX + this.length * Math.cos(this.cueAngle);
         this.cueEndY = this.cueStartY + this.length * Math.sin(this.cueAngle);
 
+        // calculate half the cue position for the color
         this.halfCueEndX = this.cueStartX + this.length / 2 * Math.cos(this.cueAngle);
         this.halfCueEndY = this.cueStartY + this.length / 2 * Math.sin(this.cueAngle);
 
+        // calculate the cue rubber position
         this.rubberEndX = this.cueStartX + 2 * Math.cos(this.cueAngle);
         this.rubberEndY = this.cueStartY + 2 * Math.sin(this.cueAngle);
-
-
     }
 
     drawPredictiveLine() {
+        // Draw a predictive line for the cue ball
         const predictiveLineEndX = this.cueStartX + table.tableLength * -Math.cos(this.cueAngle);
         const predictiveLineEndY = this.cueStartY + table.tableLength * -Math.sin(this.cueAngle);
-
-
         stroke(0, 255, 0, 150); // Semi-transparent green for the line
         strokeWeight(2);
         line((game.mode === 0 ? ballPool.cueBall.body.position.x : this.cueStartX),
@@ -38,6 +39,7 @@ class Cue {
     }
 
     draw() {
+        // ensure the cue ball is available to shoot, othewise cue should be hidden
         if (!ballPool.cueBall) return;
         if (!game.moving && !ballPool.cueBall.onHand) {
             cue.hide = false;
@@ -48,9 +50,11 @@ class Cue {
         this.updateCuePosition();
         const adjustedMouse = getAdjustMousePos();
 
+        // change the cue angle if dragging
         if (this.isDragging) {
             this.cueAngle = Math.atan2(adjustedMouse.y - ballPool.cueBall.body.position.y, adjustedMouse.x - ballPool.cueBall.body.position.x);
         }
+        // for dragon ball mode, the cue becomes a triangle
         push();
         if (game.mode === 0) {
             // dragon ball mode, draw a triangle
@@ -80,8 +84,6 @@ class Cue {
                 baseX1, baseY1,  // First base point
                 baseX2, baseY2   // Second base point
             );
-
-
         }
         else {
             // draw normal cue
@@ -96,6 +98,7 @@ class Cue {
         pop();
         this.drawPredictiveLine();
         cueKeyIsDownHandler();
+        // end of dragon ball mode cue
     }
 
     shoot() {
@@ -117,9 +120,9 @@ class Cue {
         Body.applyForce(ballPool.cueBall.body, ballPool.cueBall.body.position, force);
 
         // const direction = force.x < 0 ? 'left' : 'right'; [TODO: add direction to the game]
+
         // tell controller shooted
         game.shooted();
-
     }
 
 }

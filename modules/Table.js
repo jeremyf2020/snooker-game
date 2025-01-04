@@ -18,8 +18,11 @@ class Table {
         this.baulkLinePoisition = this.tableLength * baulkLineRatio;
         this.dRadius = this.tableLength * dRadiusRatio;
 
-        this.baizeTexture = createBaizeTexture(this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth)
+        // not using at the moment (04/01/2025), but it is a good practice to have a baize texture
+        // [TODO:] need to adjust the texture for appearance
+        this.baizeTexture = createBaizeTexture(this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth);
 
+        // cushion default positions
         this.cushions = [
             new Cushion(this.tableLength / 4 - this.edgeWidth * 0.75, -this.edgeWidth * 0.25, [
                 { x: this.edgeWidth, y: this.edgeWidth / 2 },
@@ -59,6 +62,7 @@ class Table {
             ]),
         ];
 
+        // pocket default positions
         this.pockets = [
             new Pocket(-this.edgeWidth * 0.25, -this.edgeWidth * 0.25, this.pocketSize), // Top-Left
             new Pocket(this.tableLength / 2 - this.edgeWidth, -this.edgeWidth * 0.5, this.pocketSize), // Top-Mid
@@ -69,6 +73,7 @@ class Table {
         ];
 
     }
+    // Non-physical objects(wooden edge, pocket edge)
     drawNonPhyObj() {
         push();
         // draw the wooden edge of the table
@@ -90,23 +95,7 @@ class Table {
         rect(this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth, this.edgeWidth, this.edgeWidth, 0, 0, this.edgeWidth, 0) // Bottom-Right Corner
         pop();
     }
-    drawCushions() {
-        this.cushions.forEach(cushion => {
-            cushion.draw();
-        });
-    }
-    drawPockets() {
-        this.pockets.forEach(pocket =>
-            pocket.draw(this)
-        );
-    }
-    drawPlaySurface() {
-        push();
-        // image(this.baizeTexture, this.edgeWidth / 2, this.edgeWidth / 2);
-        fill('green');
-        rect(this.edgeWidth / 2, this.edgeWidth / 2, this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth);
-        pop();
-    }
+    // Draw the D zone and baulk line (also non-physical objects, but differnt layer)
     drawDZone(baulkLinePoisition, dRadius, surfaceSize) {
         push();
         // Draw baulk line
@@ -120,13 +109,37 @@ class Table {
         pop();
     }
 
+    // Draw the cushions
+    drawCushions() {
+        this.cushions.forEach(cushion => {
+            cushion.draw();
+        });
+    }
+    // Draw the pockets
+    drawPockets() {
+        this.pockets.forEach(pocket =>
+            pocket.draw(this)
+        );
+    }
+    // Draw the play surface
+    drawPlaySurface() {
+        push();
+        // image(this.baizeTexture, this.edgeWidth / 2, this.edgeWidth / 2); [TODO:] need to adjust the texture for appearance
+        fill('green');
+        rect(this.edgeWidth / 2, this.edgeWidth / 2, this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth);
+        pop();
+    }
+
+    // Draw the table and initialize the ball pool
     draw() {
         this.drawPlaySurface(this.surfaceStartPoint, this.surfaceSize);
         this.drawNonPhyObj();
+        // translate the matrix to the surface start point (excluding the edge)
         translate(this.surfaceStartPoint, this.surfaceStartPoint);
         this.drawCushions();
         this.drawPockets();
         this.drawDZone(this.baulkLinePoisition, this.dRadius, this.surfaceSize);
+        // initialize the ball in the ball pool
         ballPool.draw();
     }
 }

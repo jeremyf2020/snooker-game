@@ -14,12 +14,14 @@ function keyPressed() {
         shootController();
         return;
     }
+    // perfect for cue angle control becuase it can be adjusted by a small amount
     if (key === 'ArrowUp') {
         cue.cueAngle += 0.01;
     }
     if (key === 'ArrowDown') {
         cue.cueAngle -= 0.01;
     }
+    // cue ball move controller
     if (key === 'w' || key === 'W') { // keyIsDown will also invoke, +4 -> +5
         mouseY -= 4;
     }
@@ -32,12 +34,14 @@ function keyPressed() {
     if (key === 'd' || key === 'D') {
         mouseX += 4;
     }
+    // place the cue ball
     if (key === 'x' || key === 'X') {
         if (ballPool.cueBall.onHand) {
             ballPool.cueBall.placeBall()
             return;
         }
     }
+    // teleport the cue ball to the D zone
     if (key === 'z' || key === 'Z') {
         moveMousePosinDZone();
         return;
@@ -54,6 +58,7 @@ function cueKeyIsDownHandler() {
     }
 }
 function cueBallKeyIsDownHandler() {
+    // press down and not release can constansly adjust the cue angle
     if (keyIsDown(87)) {
         mouseY -= 1;
     }
@@ -69,6 +74,7 @@ function cueBallKeyIsDownHandler() {
 }
 
 function moveMousePosinDZone() {
+    // Move the mouse to the D zone (with adjust position because of translated matrix)
     if (!ballPool.cueBall.isInsideDZone(createVector(mouseX, mouseY))) {
         mouseX = table.baulkLinePoisition + ui.coreX + table.surfaceStartPoint.x - table.dRadius;
         mouseY = table.tableWidth / 2 + ui.tableStartY;
@@ -76,12 +82,14 @@ function moveMousePosinDZone() {
 }
 
 function shootController() {
+    // shoot the cue ball
     if (ui.forceIsSelected) {
         ui.forceIsRunning = false;
         ui.forceIsSelected = false;
         cue.shoot();
         return;
     }
+    // enter the force control mode
     ui.forceIsRunning = true;
     ui.forceIsSelected = true;
     game.addMessage('Select the force of the shot');
@@ -89,23 +97,27 @@ function shootController() {
 }
 
 function mousePressed() {
+    // dragon summoning controller, player can then wish to dragon
     if (dragon.isSummoned && !dragon.isMoving) {
         dragon.handleWishSelection();
         return
     }
+    // right click to force Control/shoot
     if (mouseButton === RIGHT) {
         shootController();
         return;
     }
+    // left click to control the cue/cue ball; select the colour ball
     if (mouseButton === LEFT) {
+        // place the cue ball
         if (ballPool.cueBall && ballPool.cueBall.onHand) {
             ballPool.cueBall.placeBall()
             return;
         }
-
+        // select the colour ball after a red ball is potted
         let ballSelected = false;
-        // Check if the mouse is over any ball (selection)
         ballPool.colorBalls.forEach(ball => {
+            // Check if the mouse is over any ball (selection)
             if (ball.checkMouseHovering()) {
                 game.validBall = ball.color
                 ballSelected = true;
@@ -130,6 +142,7 @@ function mousePressed() {
 }
 
 function mouseReleased() {
+    // release the cue
     cue.isDragging = false
 }
 

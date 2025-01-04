@@ -1,4 +1,5 @@
 class CueBall extends Ball {
+    // The cue ball is a special type of ball, but more functionality
     constructor(x, y, diameter) {
         super('white', x, y, diameter, 1, 4);
         this.onHand = true;
@@ -8,6 +9,7 @@ class CueBall extends Ball {
         this.lastPos = null;
     }
 
+    // Check if the cue ball is in the D zone/isCollidingWithOtherBalls (for playing the cue ball)
     isValidMove(mouseVector) {
         if (!this.isInsideDZone(mouseVector)) {
             this.readyToPlace = false;
@@ -20,6 +22,7 @@ class CueBall extends Ball {
         this.readyToPlace = true;
         return true;
     }
+    // Check if the cue ball is in the D zone
     isInsideDZone(mouseVector) {
         // Define the D zone (e.g., rectangle or semicircle at the top)
         const dZone = {
@@ -34,10 +37,10 @@ class CueBall extends Ball {
 
     // Update the cue ball's position while dragging
     updatePos() {
+        // get the mouse position (adjusted for the translated matrix)
         const adjustedMousePos = getAdjustMousePos();
-        // Hide the cue while moving the cue ball
-        // cue.hide = true;
 
+        // dragon ball mode: update the current character's position
         if (game.mode === 0) {
             game.currentCharacter.currentPos = createVector(adjustedMousePos.x, adjustedMousePos.y)
         }
@@ -46,6 +49,7 @@ class CueBall extends Ball {
         const imgSize = table.ballDiameter * 4;
         image(handIcon, adjustedMousePos.x, adjustedMousePos.y - imgSize, imgSize, imgSize);
 
+        // Update the cue ball's position
         Matter.Body.setPosition(this.body, { x: adjustedMousePos.x, y: adjustedMousePos.y });
 
         // tempoary disable the cue ball from the engine
@@ -56,7 +60,6 @@ class CueBall extends Ball {
             // this.isValidMove = true;
             drawNoSign(adjustedMousePos.x + imgSize / 2, adjustedMousePos.y - imgSize / 2, imgSize / 2);
         }
-
     }
 
     placeBall() {
@@ -65,12 +68,12 @@ class CueBall extends Ball {
             World.add(engine.world, this.body);
             this.onHand = false;
             this.isPotted = false;
-            // cue.hide = false;
             game.addMessage("control cue by keyboard/dragging mouse");
         }
     }
 
     monitorCueBallCollisions() {
+        // Monitor collisions with the cue ball in the engine
         Matter.Events.on(engine, 'collisionStart', event => {
             const pairs = event.pairs;
             pairs.forEach(pair => {
@@ -79,7 +82,10 @@ class CueBall extends Ball {
                 if (bodyA.label === this.body.label || bodyB.label === this.body.label) {
                     const otherBody = bodyA.label === this.body.label ? bodyB : bodyA;
                     this.collision = otherBody.label.replace(/(.+?)Ball$/, '$1');
-                    game.currentCharacter.updateMotion('roll');
+                    // dragon ball mode: update the current character's motion
+                    if (game.mode === 0) {
+                        game.currentCharacter.updateMotion('roll');
+                    }
                 }
             });
         });
@@ -87,9 +93,11 @@ class CueBall extends Ball {
 
     // Draw the cue ball
     draw() {
+        // if it's on hand, mouse/keyboard to move it before placing
         if (this.onHand) {
             this.updatePos();
         }
+        // if it's not on hand, check if it's out of bounds
         if (!this.onHand && !this.isInsideTable(createVector(this.body.position.x, this.body.position.y))) {
             if (!this.isOutOfBounds) {
                 game.outBound(this);
@@ -97,11 +105,10 @@ class CueBall extends Ball {
             }
             return; // Skip drawing if the ball is out of bounds
         }
-        // dragon ball mode
+        // =====dragon ball mode: draw the current character
         push();
         if (game.mode === 0) {
             game.currentCharacter.currentPos = createVector(this.body.position.x, this.body.position.y);
-            // if (!game.currentCharacter.outBounded)
             game.currentCharacter.lastPos = createVector(this.body.position.x, this.body.position.y);
             game.currentCharacter.speed = this.body.speed;
         }
@@ -110,10 +117,10 @@ class CueBall extends Ball {
             drawVertices(this.body.vertices);
         }
         pop();
-        // dragon ball mode ended
+        // dragon ball mode ended==========================
+
+        // monitoring the cue ball in every frame
         cueBallKeyIsDownHandler();
         this.monitorCueBallCollisions();
-
-
     }
 }

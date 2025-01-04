@@ -1,4 +1,6 @@
 class Player {
+
+    // init the player class with name and default values
     constructor(name) {
         this.name = name;
         this.score = 0;
@@ -8,6 +10,7 @@ class Player {
         this.everyShotFreeBall = false;
         this.everyRoundFreeBall = false;
     }
+    // dragon ball calulater
     dragonBallCollected() {
         this.pottedBalls++;
         if (this.pottedBalls === 7) {
@@ -15,6 +18,7 @@ class Player {
             this.dragonSummoring = true;
         }
     }
+    // score handling function
     changeScore(score) {
         this.score += score;
     }

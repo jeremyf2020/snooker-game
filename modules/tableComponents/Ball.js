@@ -1,4 +1,5 @@
 class Ball {
+    // initialize the ball with default values
     constructor(color, x, y, diameter, id, score) {
         this.id = id;
         this.color = color;
@@ -11,6 +12,7 @@ class Ball {
     }
 
     checkMouseHovering() {
+        // check if mouse is hoving on this ball (with the adjusted mouse position, because of transalted matrix)
         const adjustedMouse = getAdjustMousePos();
         if (adjustedMouse.x <= this.body.bounds.max.x && adjustedMouse.x >= this.body.bounds.min.x
             && adjustedMouse.y <= this.body.bounds.max.y && adjustedMouse.y >= this.body.bounds.min.y) {
@@ -20,15 +22,17 @@ class Ball {
     }
 
     addToWorld() {
+        // add to physics engine (world)
         World.add(engine.world, this.body);
     }
 
     isInsideTable(ballVector) {
+        // Check if the ball is inside the table (not out of bounds)
         const leftBound = 0;
         const rightBound = table.tableLength;
         const topBound = 0;
         const bottomBound = table.tableWidth;
-
+        // return Boolean value
         return (
             ballVector.x > leftBound &&
             ballVector.x < rightBound &&
@@ -46,7 +50,6 @@ class Ball {
             }
             return; // Skip drawing if the ball is out of bounds
         }
-
         push();
         if (this.availableToSel) {
             fill(this.color === game.validBall ? 'purple' : 'orange');
@@ -57,14 +60,12 @@ class Ball {
                 this.body.position.x + this.diameter / 2, this.body.position.y - this.diameter * 2 + (sin(TWO_PI * millis() / 1000) * 2)       // Top-right point
             );
             const isHovering = this.checkMouseHovering();
-
             // Change the cursor to HAND if hovering
             if (isHovering) {
                 cursor(HAND);
             }
-
         }
-
+        // start drawing
         fill(this.color)
         drawVertices(this.body.vertices);
         pop();
