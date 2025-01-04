@@ -116,8 +116,10 @@ class Cue {
         // **matterjs implement**: Apply the force to the cue ball
         Body.applyForce(ballPool.cueBall.body, ballPool.cueBall.body.position, force);
 
+        // const direction = force.x < 0 ? 'left' : 'right'; [TODO: add direction to the game]
         // tell controller shooted
         game.shooted();
+
     }
 
 }

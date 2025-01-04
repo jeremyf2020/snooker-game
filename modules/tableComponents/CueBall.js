@@ -79,6 +79,7 @@ class CueBall extends Ball {
                 if (bodyA.label === this.body.label || bodyB.label === this.body.label) {
                     const otherBody = bodyA.label === this.body.label ? bodyB : bodyA;
                     this.collision = otherBody.label.replace(/(.+?)Ball$/, '$1');
+                    game.currentCharacter.updateMotion('roll');
                 }
             });
         });
@@ -102,6 +103,7 @@ class CueBall extends Ball {
             game.currentCharacter.currentPos = createVector(this.body.position.x, this.body.position.y);
             // if (!game.currentCharacter.outBounded)
             game.currentCharacter.lastPos = createVector(this.body.position.x, this.body.position.y);
+            game.currentCharacter.speed = this.body.speed;
         }
         else {
             fill(this.color)

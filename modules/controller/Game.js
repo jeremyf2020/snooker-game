@@ -1,6 +1,6 @@
 class Game {
     constructor() {
-        this.mode = 1;
+        this.mode = 0;
         this.players = [new Player("One"), new Player("Two")];
         this.currentPlayer = this.players[0];
         this.board = ["Please place your cue ball in D-zone"];
@@ -28,7 +28,11 @@ class Game {
         // running in sketch.js draw, becuase of checking in every frame
         // (Cue ball Collision and pockect sensor will be implement by themselves)
         this.moving = true;
-        this.currentCharacter.rolling = true;
+        if (this.mode === 0) {
+            this.currentCharacter.motion = 'attack';
+        }
+
+        // this.currentCharacter.rolling = true;
 
         // Hide the cue after shooting
         cue.hide = true;
