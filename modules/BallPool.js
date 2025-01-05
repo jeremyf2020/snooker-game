@@ -104,7 +104,10 @@ class BallPool {
 
     randomPos() {
         // radnom position generator
-        const randomVector = createVector(random(0, table.surfaceSize.x), random(0, table.surfaceSize.y));
+        const randomVector = createVector(
+            // table.ballDiameter / 2 = Radius, preventing generated ball overlap the cushions
+            random(table.ballDiameter / 2, table.surfaceSize.x - table.ballDiameter / 2),
+            random(table.ballDiameter / 2, table.surfaceSize.y - table.ballDiameter / 2));
         // if the ball is colliding with other balls, generate a new random position
         if (this.isCollidingWithOtherBalls(randomVector)) {
             // recursive call to generate a new random position untill it is not colliding with other balls
@@ -121,7 +124,7 @@ class BallPool {
         // generate the balls based on the mode number
         // each mode random one more sets by sequence, 
         this.redBalls = this.genRedBalls(modeNum > 1);
-        this.colorBalls = this.genColorBalls(modeNum > 2);
+        this.colorBalls = this.genColorBalls(modeNum === 2);
         this.cueBall = this.genCueBall();
     }
 
@@ -193,9 +196,6 @@ class BallPool {
 
     // draw the balls
     draw() {
-        // check if the cue ball is not null (potted/out of bounds)
-        if (this.cueBall != null)
-            this.cueBall.draw();
         // draw the color balls if there are any
         if (this.colorBalls.length > 0) {
             this.colorBalls.forEach(colorBall => {
@@ -207,6 +207,10 @@ class BallPool {
             this.redBalls.forEach(redBall => {
                 redBall.draw();
             });
+        }
+        // check if the cue ball is not null (potted/out of bounds)
+        if (this.cueBall != null) {
+            this.cueBall.draw();
         }
     }
 }

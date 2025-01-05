@@ -21,5 +21,14 @@ class Player {
     // score handling function
     changeScore(score) {
         this.score += score;
+        game.addMessage(`${this.name} score ${score > 0 ? "increased" : "decreased"} by ${score}`)
+    }
+    reset() {
+        this.score = 0;
+        this.pottedBalls = 0;
+        this.anotherShot = false;
+        this.dragonSummoring = false;
+        this.everyShotFreeBall = false;
+        this.everyRoundFreeBall = false;
     }
 }

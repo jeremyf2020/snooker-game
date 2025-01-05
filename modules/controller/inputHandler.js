@@ -6,6 +6,7 @@ document.addEventListener('contextmenu', function (e) {
 function keyPressed() {
     // game controller
     if (key === '0' || key === '1' || key === '2' || key === '3') {
+        game.reset();
         game.start(parseInt(key));
         cue.hide = true;
     }
@@ -39,6 +40,9 @@ function keyPressed() {
         if (ballPool.cueBall.onHand) {
             ballPool.cueBall.placeBall()
             return;
+        } else {
+            ballPool.cueBall.onHand = true;
+            cue.hide = true;
         }
     }
     // teleport the cue ball to the D zone

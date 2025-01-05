@@ -1,7 +1,7 @@
 class Game {
     constructor() {
         this.mode = 1;
-        this.players = [new Player("One"), new Player("Two")];
+        this.players = [new Player("Player One"), new Player("Player Two")];
         this.currentPlayer = this.players[0];
         this.board = ["Please place your cue ball in D-zone"];
         // for each shot (and each round)
@@ -15,6 +15,20 @@ class Game {
         this.nextPlayerIsWaitingDragon = false;
         // for dragon ball character mode only
         this.characters = [new Character("Goku"), new Character("Guhan")];
+        this.currentCharacter = this.characters[0];
+    }
+    reset() {
+        // reset all the game status
+        this.players.forEach(player => player.reset());
+        this.currentPlayer = this.players[0];
+        this.board = ["Please place your cue ball in D-zone"];
+        this.validBall = 'red';
+        this.penalyPoint = 0;
+        this.moving = false;
+        this.toRespotted = [];
+        this.lastPoted = null;
+        this.freeBall = true;
+        this.nextPlayerIsWaitingDragon = false;
         this.currentCharacter = this.characters[0];
     }
     start(num) {
@@ -43,7 +57,7 @@ class Game {
     }
 
     potted(ball) {
-        this.addMessage(`${ball.color === "white" ? "cue" : ball.color} ball has been potted`)
+        this.addMessage(`${ball.color === "white" ? "Cue" : ball.color} ball has been potted`)
         // remove the potted ball from the ballPool
         ballPool.removeFromPool(ball);
         // check the potted ball is valid potted
@@ -103,7 +117,7 @@ class Game {
                 }
                 if (ball.color === 'white') {
                     ballPool.genCueBall();
-                    this.addMessage("cue ball has been respotted");
+                    this.addMessage("Cue ball has been respotted");
                     this.addMessage("Please place your cue ball in D-zone");
                     if (this.mode === 0) {
                         // in dragon ball mode, the cue ball will be placed at the last position of the opponent, avoid the position is out of bound
@@ -122,7 +136,7 @@ class Game {
             }
             if (pottedColorBalls > 1) {
                 this.addMessage(`FOUL: two consecutive colored balls!`)
-                this.addMessage(`Player ${this.currentPlayer.name} score -${this.penalyPoint}`)
+                this.addMessage(`${this.currentPlayer.name} score -${this.penalyPoint}`)
             }
         }
 
@@ -189,12 +203,12 @@ class Game {
             }
         }
         this.freeBall = this.currentPlayer.everyShotFreeBall ? true : this.freeBall;
-        this.addMessage(`Player ${this.currentPlayer.name}'s turn`);
+        this.addMessage(`${this.currentPlayer.name}'s turn`);
     }
 
     gameEnded() {
         this.addMessage(`Game ended!`);
-        this.addMessage(`Player ${this.players[0].score > this.players[1].score ? this.players[0].name : this.players[1].name} won!`);
+        this.addMessage(`${this.players[0].score > this.players[1].score ? this.players[0].name : this.players[1].name} won!`);
     }
     addMessage(str) {
         this.board.unshift(str)
@@ -217,8 +231,8 @@ class Game {
 
     outBound(ball) {
         // check if the ball is out of bound
-        this.addMessage(`${ball.color === "white" ? "cue" : ball.color} out of bound!`)
-        this.addMessage(`Player ${this.currentPlayer.name} score -${ball.score}`);
+        this.addMessage(`${ball.color === "white" ? "Cue" : ball.color} ball out of bound!`)
+        this.addMessage(`${this.currentPlayer.name} score -${ball.score}`);
 
         // penalyPoint is now positive, excution will turn it to negative
         this.penalyPoint = ball.score;
@@ -229,7 +243,6 @@ class Game {
         }
         if (ball.color === 'white') {
             this.toRespotted.push(ball);
-            this.addMessage(`Place cue ball back on table`)
         } else if (ball.color !== 'red') {
             this.toRespotted.push(ball);
             this.addMessage(`Place ${ball.color} back on table`);
@@ -243,7 +256,7 @@ class Game {
     changeScore(num, targetPlayer = this.currentPlayer) {
         // change the score of the player
         targetPlayer.changeScore(num);
-        this.addMessage(`Player ${targetPlayer.name} score ${num > 0 ? "increased" : "decreased"} by ${num}`);
+        this.addMessage(`${targetPlayer.name} score ${num > 0 ? "increased" : "decreased"} by ${num}`);
     }
 
     stealBalls(summoingPlayer) {

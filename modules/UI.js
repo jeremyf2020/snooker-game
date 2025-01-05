@@ -136,7 +136,7 @@ class UI {
         // =======================================
         textFont(dragonBallFont);
         // Draw "Player" text
-        text(`${game.mode === 0 ? "" : "Player "}${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
+        text(`${player.name}`, posX + areaWidth / 2, this.topY + this.areaHeight / 4);
 
         // Draw "Score: "
         let scoreText = `Score  `;
@@ -184,13 +184,13 @@ class UI {
         // keyboard instructions
         text('⌨️ Keyboard Control', startingX, this.tableStartY);
         // game modes
-        text('0️⃣ Dragon Ball Mode', startingX + 20, this.tableStartY + 20);
+        text('0️⃣ DB Character Mode', startingX + 20, this.tableStartY + 20);
         text('1️⃣ Tranditional Positions', startingX + 20, this.tableStartY + 40);
-        text('2️⃣ Random red 🔴', startingX + 20, this.tableStartY + 60);
-        text('3️⃣ Random all 🟡🟢🔵', startingX + 20, this.tableStartY + 80);
+        text('2️⃣ Random all 🟡🔴🟢', startingX + 20, this.tableStartY + 60);
+        text('3️⃣ Random red 🔴', startingX + 20, this.tableStartY + 80);
         // cue control
-        text('⬆️⬇️ Control cue 🦯', startingX + 20, this.tableStartY + 100);
-        text('⬅️➡️ Adjust cue Position', startingX + 20, this.tableStartY + 120);
+        text('⬅️➡️ Control cue 🦯', startingX + 20, this.tableStartY + 100);
+        text('⬆️⬇️ Adjust cue Position', startingX + 20, this.tableStartY + 120);
         // cue ball control
         text('WASD: Move cue ball ⚪', startingX + 20, this.tableStartY + 140);
         text('Z: Move ⚪ to D-zone', startingX + 20, this.tableStartY + 160);
@@ -214,7 +214,7 @@ class UI {
     drawBottomAreas() {
         // calculate the area width, max messages, and other variables
         const areaWidth = (this.coreWidth - this.margin) / 2;
-        const maxMessages = Math.floor(this.areaHeight / 20) < game.board.length ? Math.floor(this.areaHeight / 20) : game.board.length;
+        const maxMessages = Math.floor(this.areaHeight / 17) < game.board.length ? Math.floor(this.areaHeight / 17) : game.board.length;
 
         // Left area: Game board messages
         push();
@@ -225,13 +225,13 @@ class UI {
         noStroke();
         // Green text and font to simulate a computer terminal
         fill('palegreen');
-        textSize(16);
+        textSize(13);
         textAlign(LEFT, TOP);
         textFont('Courier New', 12);
 
         // Display the game board messages
         for (let i = maxMessages - 1; i >= 0; i--) {
-            text(`${game.board[i]}`, 10, this.bottomStartY + 10 + i * 18);
+            text(`${game.board[i]}`, 10, this.bottomStartY + 10 + i * 15);
         }
         pop();
 
