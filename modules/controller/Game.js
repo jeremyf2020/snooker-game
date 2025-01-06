@@ -34,8 +34,8 @@ class Game {
     start(num) {
         this.mode = num;
         ballPool.genAllballs(this.mode);
-        this.players[0].name = num === 0 ? "Goku" : "One";
-        this.players[1].name = num === 0 ? "Gohan" : "Two";
+        this.players[0].name = num === 0 ? "Goku" : "Player One";
+        this.players[1].name = num === 0 ? "Gohan" : "Player Two";
     }
     shooted() {
         // change game status, monitor by this.checkAllBallsStopped
@@ -45,8 +45,6 @@ class Game {
         if (this.mode === 0) {
             this.currentCharacter.motion = 'attack';
         }
-
-        // this.currentCharacter.rolling = true;
 
         // Hide the cue after shooting
         cue.hide = true;
@@ -256,7 +254,6 @@ class Game {
     changeScore(num, targetPlayer = this.currentPlayer) {
         // change the score of the player
         targetPlayer.changeScore(num);
-        this.addMessage(`${targetPlayer.name} score ${num > 0 ? "increased" : "decreased"} by ${num}`);
     }
 
     stealBalls(summoingPlayer) {

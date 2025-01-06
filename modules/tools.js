@@ -31,44 +31,6 @@ function drawNoSign(x, y, size) {
     pop();
 }
 
-function createBaizeTexture(w, h) {
-    // the output is not ideal, [TODO:] need to adjust the texture for appearance
-    // not used in the current version (04/01/2025)
-    let graphics = createGraphics(w, h);
-
-    // Base green color for the baize
-    graphics.background(0, 125, 1);
-
-    // Add subtle noise texture to each line
-    graphics.loadPixels();
-    for (let y = 0; y < h; y++) {
-        // Generate a single noise value for the entire line
-        let noiseValue = random(-3, 4);
-
-        for (let x = 0; x < w; x++) {
-            // Base color
-            let baseColor = color(0, 128, 1); // Base green
-
-            // Adjust brightness with the line's noise and constrain values to valid range
-            let brightenedColor = color(
-                constrain(red(baseColor) + noiseValue, 0, 255),
-                constrain(green(baseColor) + noiseValue, 0, 255),
-                constrain(blue(baseColor) + noiseValue, 0, 255)
-            );
-
-            // Set the pixel with the adjusted brightness
-            let index = (x + y * w) * 4;
-            graphics.pixels[index] = red(brightenedColor);
-            graphics.pixels[index + 1] = green(brightenedColor);
-            graphics.pixels[index + 2] = blue(brightenedColor);
-            graphics.pixels[index + 3] = 255; // Full opacity
-        }
-    }
-    graphics.updatePixels();
-    return graphics;
-}
-
-
 // calculate next colour ball if all the red balls are potted
 function nextColorBall() {
     const colorOrder = ['yellow', 'green', 'brown', 'blue', 'pink', 'black']; // Snooker color order

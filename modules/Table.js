@@ -18,10 +18,6 @@ class Table {
         this.baulkLinePoisition = this.tableLength * baulkLineRatio;
         this.dRadius = this.tableLength * dRadiusRatio;
 
-        // not using at the moment (04/01/2025), but it is a good practice to have a baize texture
-        // [TODO:] need to adjust the texture for appearance
-        this.baizeTexture = createBaizeTexture(this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth);
-
         // cushion default positions
         this.cushions = [
             new Cushion(this.tableLength / 4 - this.edgeWidth * 0.75, -this.edgeWidth * 0.25, [
@@ -124,7 +120,6 @@ class Table {
     // Draw the play surface
     drawPlaySurface() {
         push();
-        // image(this.baizeTexture, this.edgeWidth / 2, this.edgeWidth / 2); [TODO:] need to adjust the texture for appearance
         fill('green');
         rect(this.edgeWidth / 2, this.edgeWidth / 2, this.tableLength - this.edgeWidth, this.tableWidth - this.edgeWidth);
         pop();

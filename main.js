@@ -26,7 +26,6 @@ function setup() {
     // create a window size canvas
     createCanvas(window.innerWidth, window.innerHeight);
     defaultFrameRate = 60;
-
     // create an 2D engine with 0 gravity
     engine = Engine.create();
     engine.world.gravity.y = 0;
@@ -66,8 +65,6 @@ function draw() {
             if (cg.currentPos) cg.draw();
         });
     }
-
-
 }
 
 //======================================================
@@ -77,7 +74,7 @@ function draw() {
 //=======App Design=======
 
 //Using classes and functions to minimise repetitive code.However,in p5.js,using modules for interaction is challenging.
-//So,I used global class. But,to reduce unexpected output,all interaction logic is kept in controller folder.
+//So,I initial the class globally. But,to reduce unexpected output,all interaction logic is kept in controller folder.
 
 //For drawing,p5's`translate`separates position from the physics engine,although this doesn’t affect table interactions.
 //To align positions between the two,adjustments are made(such as mousePosition).
@@ -142,3 +139,13 @@ function draw() {
 //until colliding with another physics object.Then, it starts rotating in p5.js.
 
 //**Force Control**:Use a gradient background and oscillation to create the force indicator.
+
+//**Uniqueness*/:The game combines billiards with fantasy elements,like Dragon Ball-inspired features,
+//character animations,and special wishes,making it creative,fun, and different from traditional pool games.
+
+
+
+
+
+
+
