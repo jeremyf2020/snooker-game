@@ -6,11 +6,11 @@
 
 ## 💡 Overview & Academic Purpose
 
-Developed during my BSc Computer Science studies, this project focuses on architectural organization and engine integration. The goal was to take a commercial-grade 2D rigid-body physics engine (`matter.js`) and seamlessly bridge its mathematical models with a custom visual rendering pipeline (`p5.js`) while maintaining a clean, decoupled codebase. 
+Developed during my BSc Computer Science studies, this project focuses on architectural organization and engine integration. The goal was to take a commercial-grade 2D rigid-body physics engine (`matter.js`) and seamlessly bridge its mathematical models with a custom visual rendering pipeline (`p5.js`) while maintaining a clean, decoupled codebase.
 
 A core academic requirement for this coursework was to demonstrate strict originality and avoid plagiarism by deviating from the standard rules of classic snooker. To satisfy this creative constraint while significantly increasing the technical complexity of the physics simulation, I designed custom "Dragon Ball" gameplay elements. This involved building a character ability state machine that applies dynamic physical modifiers—such as altered mass, reduced friction, or sudden impulse forces—to the rigid bodies during gameplay.
 
-<img src="assets/demo_basic_snooker.gif" width="100%" alt="Demo" />
+<img src="assets/demo_basic_snooker.gif" width="800" alt="Demo" />
 
 ## How to Run Locally
 
@@ -19,4 +19,4 @@ A core academic requirement for this coursework was to demonstrate strict origin
 1. Clone the repository:
    ```bash
    git clone https://github.com/jeremyf2020/snooker-game.git
-
+   ```
