@@ -16,4 +16,4 @@ A core academic requirement for this coursework was to demonstrate strict origin
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/jeremyf2020/snooker-game.git](https://github.com/jeremyf2020/snooker-game.git)
+   git clone https://github.com/jeremyf2020/snooker-game.git
