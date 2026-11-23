@@ -10,6 +10,8 @@ Developed during my BSc Computer Science studies, this project focuses on archit
 
 A core academic requirement for this coursework was to demonstrate strict originality and avoid plagiarism by deviating from the standard rules of classic snooker. To satisfy this creative constraint while significantly increasing the technical complexity of the physics simulation, I designed custom "Dragon Ball" gameplay elements. This involved building a character ability state machine that applies dynamic physical modifiers—such as altered mass, reduced friction, or sudden impulse forces—to the rigid bodies during gameplay.
 
+![Demo](assets/demo_basic_snooker.gif)
+
 ## How to Run Locally
 
 **Prerequisites:** Visual Studio Code with the "Live Server" extension installed.
@@ -17,3 +19,4 @@ A core academic requirement for this coursework was to demonstrate strict origin
 1. Clone the repository:
    ```bash
    git clone https://github.com/jeremyf2020/snooker-game.git
+
