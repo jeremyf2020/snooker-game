@@ -10,7 +10,7 @@ Developed during my BSc Computer Science studies, this project focuses on archit
 
 A core academic requirement for this coursework was to demonstrate strict originality and avoid plagiarism by deviating from the standard rules of classic snooker. To satisfy this creative constraint while significantly increasing the technical complexity of the physics simulation, I designed custom "Dragon Ball" gameplay elements. This involved building a character ability state machine that applies dynamic physical modifiers—such as altered mass, reduced friction, or sudden impulse forces—to the rigid bodies during gameplay.
 
-<img src="assets/demo_basic_snooker.gif" width="800" alt="Demo" />
+![Demo](assets/demo_basic_snooker.gif)
 
 ## How to Run Locally
 
